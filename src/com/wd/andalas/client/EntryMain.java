@@ -26,7 +26,6 @@ public class EntryMain implements EntryPoint {
 		//		textButton.addSelectHandler(new SelectHandler() {
 		//			@Override
 		//			public void onSelect(SelectEvent event) {
-		//				// TODO Auto-generated method stub
 		//				MessageBox msgbox = new MessageBox("GXT Works");
 		//				msgbox.show();
 		//			}
