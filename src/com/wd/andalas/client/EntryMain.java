@@ -58,7 +58,7 @@ public class EntryMain implements EntryPoint {
 		c.setHBoxLayoutAlign(HBoxLayoutAlign.BOTTOM);
 		c.add(appLogo, new BoxLayoutData(new Margins(5, 50, 0, 5)));
 		c.add(appLabel);
-		c.setWidth("500");
+		c.setWidth("500px");
 		north.add(c);
 
 		ContentPanel west = new ContentPanel();
