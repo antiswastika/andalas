@@ -1,0 +1,32 @@
+
+.app-header {
+    color: #333;
+    font-size: 20px;
+    font-weight: bolder;
+    padding: 0 6px 6px 6px;
+    text-shadow: 0 1px 0 #fff;
+    font-family: Verdana, Tahoma;
+}
+
+.app-toolbar-default .x-toolbar .x-toolbar-default {
+    border-color: none;
+    border-width: 0;
+    background-image: none;
+    background-color: none;
+}
+
+.app-menu .x-panel-body-default {
+    border-style: none;
+}
+
+.app-td .x-grid-cell-inner {
+    font-size: 12px;
+}
+
+.app-notify-red {
+    border: 1px solid #FF0000;
+    padding: 1px 5px;
+    background: #FF0000;
+    color: #FFFFFF;
+    border-radius: 5px;
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN" "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
+<module rename-to="Home">
+	<!-- GWT Stuff -->
+	<inherits name="com.google.gwt.user.User" />
+	<source path="client" />
+	<source path="core" />
+	<source path="frontend" />
+	<source path="backend" />
+	<entry-point class="com.wd.andalas.client.EntryMain" />
+	
+    <!-- GXT Stuff -->
+    <inherits name='com.sencha.gxt.ui.GXT' />
+    <inherits name='com.sencha.gxt.theme.neptune.Theme' />
+    <inherits name='com.sencha.gxt.chart.Chart' />
+    <stylesheet src="reset.css" />
+</module>
