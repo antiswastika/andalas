@@ -55,8 +55,8 @@ public class EntryMain implements EntryPoint {
 		Label appLabel = new Label(appTitle);
 		appLabel.setStyleName("app-header", true);
 		c.setHBoxLayoutAlign(HBoxLayoutAlign.BOTTOM);
-		c.add(appLogo, new BoxLayoutData(new Margins(5, 50, 0, 5)));
-		c.add(appLabel);
+		c.add(appLogo, new BoxLayoutData(new Margins(5, 0, 0, 20)));
+		c.add(appLabel, new BoxLayoutData(new Margins(5, 0, 0, 60)));
 		c.setWidth("500px");
 		north.add(c);
 
@@ -65,7 +65,7 @@ public class EntryMain implements EntryPoint {
 		west.setHeading(judulWest);
 		west.setTitle(judulWest);
 		west.setAnimationDuration(500);
-		west.setBorders(true);
+		west.setBorders(false);
 		west.setResize(true);
 		BorderLayoutData westData = new BorderLayoutData();
 		westData.setCollapsible(true);
@@ -79,7 +79,7 @@ public class EntryMain implements EntryPoint {
 
 		ContentPanel center = new ContentPanel();
 		center.setResize(false);
-		center.setBorders(true);
+		center.setBorders(false);
 		center.setHeaderVisible(false);
 		BorderLayoutData centerData = new BorderLayoutData();
 		centerData.setMargins(new Margins(5, 5, 5, 4));
