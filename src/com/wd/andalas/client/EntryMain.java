@@ -2,6 +2,7 @@ package com.wd.andalas.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.Viewport;
 import com.wd.andalas.frontend.core.RegionCenter;
@@ -10,7 +11,24 @@ import com.wd.andalas.frontend.core.RegionSouth;
 import com.wd.andalas.frontend.core.RegionWest;
 
 public class EntryMain implements EntryPoint {
-
+	private BorderLayoutContainer mainWidget;
+	
+	public Widget theWidget() {
+		if (mainWidget == null) {
+			mainWidget = new BorderLayoutContainer();		
+			RegionNorth regionNorth = new RegionNorth();
+			RegionWest regionWest = new RegionWest();
+			RegionCenter regionCenter = new RegionCenter();
+			RegionSouth regionSouth = new RegionSouth();
+			
+			regionNorth.generateRegionNorth(mainWidget);
+			regionWest.generateRegionWest(mainWidget);
+			regionCenter.generateRegionCenter(mainWidget);
+			regionSouth.generateRegionSouth(mainWidget);
+		}
+		return mainWidget;
+	}
+	
 	@Override
 	public void onModuleLoad() {
 		/* FIRST TRY */
@@ -32,19 +50,8 @@ public class EntryMain implements EntryPoint {
 		//		container.add(new TextButton("Test Button...."), new CssFloatData(1));
 
 		/* START DEVELOP */
-		BorderLayoutContainer mainContainer = new BorderLayoutContainer();
-		RegionNorth regionNorth = new RegionNorth();
-		RegionWest regionWest = new RegionWest();
-		RegionCenter regionCenter = new RegionCenter();
-		RegionSouth regionSouth = new RegionSouth();
-		
-		regionNorth.generateRegionNorth(mainContainer);
-		regionWest.generateRegionWest(mainContainer);
-		regionCenter.generateRegionCenter(mainContainer);
-		regionSouth.generateRegionSouth(mainContainer);
-
 		Viewport viewPort = new Viewport();
-		viewPort.setWidget(mainContainer);
+		viewPort.setWidget(this.theWidget());
 		RootLayoutPanel.get().add(viewPort);
 	}
 
