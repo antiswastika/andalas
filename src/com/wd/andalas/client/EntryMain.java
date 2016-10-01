@@ -1,17 +1,13 @@
 package com.wd.andalas.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.sencha.gxt.core.client.util.Margins;
-import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
-import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
-import com.sencha.gxt.widget.core.client.container.BoxLayoutContainer.BoxLayoutData;
-import com.sencha.gxt.widget.core.client.container.HBoxLayoutContainer;
-import com.sencha.gxt.widget.core.client.container.HBoxLayoutContainer.HBoxLayoutAlign;
 import com.sencha.gxt.widget.core.client.container.Viewport;
+import com.wd.andalas.frontend.core.RegionCenter;
+import com.wd.andalas.frontend.core.RegionNorth;
+import com.wd.andalas.frontend.core.RegionSouth;
+import com.wd.andalas.frontend.core.RegionWest;
 
 public class EntryMain implements EntryPoint {
 
@@ -36,69 +32,16 @@ public class EntryMain implements EntryPoint {
 		//		container.add(new TextButton("Test Button...."), new CssFloatData(1));
 
 		/* START DEVELOP */
-		String appTitle = "THOS-Register";
-
-		ContentPanel north = new ContentPanel();
-		north.setResize(false);
-		north.setBorders(false);
-		north.setBodyStyle("background:transparent; border:0");
-		north.setHeaderVisible(false);
-		BorderLayoutData northData = new BorderLayoutData();
-		northData.setCollapsible(false);
-		northData.setSize(60);
-		northData.setMargins(new Margins(5, 5, 0, 5));
-
-		HBoxLayoutContainer c = new HBoxLayoutContainer();
-		Image appLogo = new Image();
-		appLogo.setUrl("images/logo.png");
-		appLogo.setHeight("50px");
-		Label appLabel = new Label(appTitle);
-		appLabel.setStyleName("app-header", true);
-		c.setHBoxLayoutAlign(HBoxLayoutAlign.BOTTOM);
-		c.add(appLogo, new BoxLayoutData(new Margins(5, 0, 0, 20)));
-		c.add(appLabel, new BoxLayoutData(new Margins(5, 0, 0, 60)));
-		c.setWidth("500px");
-		north.add(c);
-
-		ContentPanel west = new ContentPanel();
-		String judulWest = "My Menu";
-		west.setHeading(judulWest);
-		west.setTitle(judulWest);
-		west.setAnimationDuration(500);
-		west.setBorders(false);
-		west.setResize(true);
-		BorderLayoutData westData = new BorderLayoutData();
-		westData.setCollapsible(true);
-		westData.setSplit(true);
-		westData.setSize(200);
-		westData.setMinSize(150);
-		westData.setMaxSize(500);
-		westData.setCollapseMini(true);
-		westData.setMargins(new Margins(5, 4, 5, 5));
-		westData.setCollapseHeaderVisible(true);
-
-		ContentPanel center = new ContentPanel();
-		center.setResize(false);
-		center.setBorders(false);
-		center.setHeaderVisible(false);
-		BorderLayoutData centerData = new BorderLayoutData();
-		centerData.setMargins(new Margins(5, 5, 5, 4));
-
-		ContentPanel south = new ContentPanel();
-		south.setResize(false);
-		south.setBorders(false);
-		south.setBodyStyle("background:transparent; border:0");
-		south.setHeaderVisible(false);
-		BorderLayoutData southData = new BorderLayoutData();
-		southData.setCollapsible(false);
-		southData.setSize(30);
-		southData.setMargins(new Margins(0, 5, 5, 5));
-
 		BorderLayoutContainer mainContainer = new BorderLayoutContainer();
-		mainContainer.setNorthWidget(north, northData);
-		mainContainer.setCenterWidget(center, centerData);
-		mainContainer.setWestWidget(west, westData);
-		mainContainer.setSouthWidget(south, southData);
+		RegionNorth regionNorth = new RegionNorth();
+		RegionWest regionWest = new RegionWest();
+		RegionCenter regionCenter = new RegionCenter();
+		RegionSouth regionSouth = new RegionSouth();
+		
+		regionNorth.generateRegionNorth(mainContainer);
+		regionWest.generateRegionWest(mainContainer);
+		regionCenter.generateRegionCenter(mainContainer);
+		regionSouth.generateRegionSouth(mainContainer);
 
 		Viewport viewPort = new Viewport();
 		viewPort.setWidget(mainContainer);
