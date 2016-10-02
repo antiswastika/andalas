@@ -13,7 +13,7 @@ import com.wd.andalas.frontend.core.RegionWest;
 public class EntryMain implements EntryPoint {
 	private BorderLayoutContainer mainWidget;
 	
-	public Widget theWidget() {
+	private Widget generateWidget() {
 		if (mainWidget == null) {
 			mainWidget = new BorderLayoutContainer();		
 			RegionNorth regionNorth = new RegionNorth();
@@ -51,7 +51,7 @@ public class EntryMain implements EntryPoint {
 
 		/* START DEVELOP */
 		Viewport viewPort = new Viewport();
-		viewPort.setWidget(this.theWidget());
+		viewPort.setWidget(generateWidget());
 		RootLayoutPanel.get().add(viewPort);
 	}
 
