@@ -7,8 +7,10 @@ import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderL
 
 public class RegionSouth {
 	
+	ContentPanel south;
+	
 	public void generateRegionSouth(BorderLayoutContainer mainContainer) {
-		ContentPanel south = new ContentPanel();
+		south = new ContentPanel();
 		south.setResize(false);
 		south.setBorders(false);
 		south.setBodyStyle("background:transparent; border:0");

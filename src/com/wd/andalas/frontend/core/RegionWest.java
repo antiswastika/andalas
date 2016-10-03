@@ -1,22 +1,28 @@
 package com.wd.andalas.frontend.core;
 
-import com.google.gwt.dom.client.Element;
-import com.sencha.gxt.core.client.dom.DomQuery;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.widget.core.client.ContentPanel;
-import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
+import com.sencha.gxt.widget.core.client.container.Viewport;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 
 public class RegionWest {
+	
+	ContentPanel west;
 
 	public void generateRegionWest(BorderLayoutContainer mainContainer) {
 		String judulWest = "My Menu";
-
-		final ContentPanel west = new ContentPanel();
+		
+		west = new ContentPanel();
 		west.setHeading(judulWest);
 		west.setTitle(judulWest);
 		west.setAnimationDuration(500);
@@ -37,15 +43,12 @@ public class RegionWest {
 		buttonAlert.addSelectHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				Element regionCenter = DomQuery.select("#regionCenter").getItem(0);
-
-				// String textNya =
-				// Integer.toString(regionCenter.getChildCount());
-				String textNya = regionCenter.getChild(0).getNodeName();
-
-				AlertMessageBox messageBox = new AlertMessageBox("Test Message", textNya);
-
-				messageBox.show();
+				Viewport vp = (Viewport) RootLayoutPanel.get().getWidget(0);
+				BorderLayoutContainer borderContainer = (BorderLayoutContainer) vp.getWidget(0);
+				Widget rc = borderContainer.getCenterWidget();
+		
+				Logger logger = Logger.getLogger("DEBUG");
+				logger.log(Level.INFO, "X");
 			}
 		});
 		west.add(buttonAlert);

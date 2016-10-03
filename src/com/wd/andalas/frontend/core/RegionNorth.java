@@ -11,8 +11,10 @@ import com.sencha.gxt.widget.core.client.container.HBoxLayoutContainer.HBoxLayou
 
 public class RegionNorth {
 	
+	ContentPanel north;
+	
 	public void generateRegionNorth(BorderLayoutContainer mainContainer) {	
-		ContentPanel north = new ContentPanel();
+		north = new ContentPanel();
 		north.setResize(false);
 		north.setBorders(false);
 		north.setBodyStyle("background:transparent; border:0");
