@@ -1,5 +1,7 @@
 package com.wd.andalas.client;
 
+import java.util.HashMap;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -11,22 +13,31 @@ import com.wd.andalas.frontend.core.RegionSouth;
 import com.wd.andalas.frontend.core.RegionWest;
 
 public class EntryMain implements EntryPoint {
-	private BorderLayoutContainer mainWidget;
+	private BorderLayoutContainer blc;
+	private HashMap<String, Object> allObjects = new HashMap<String, Object>();
 
 	private Widget generateWidget() {
-		if (mainWidget == null) {
-			mainWidget = new BorderLayoutContainer();
+		if (blc == null) {
+			blc = new BorderLayoutContainer();
 			RegionNorth regionNorth = new RegionNorth();
 			RegionWest regionWest = new RegionWest();
 			RegionCenter regionCenter = new RegionCenter();
 			RegionSouth regionSouth = new RegionSouth();
 
-			regionNorth.generateRegionNorth(mainWidget);
-			regionCenter.generateRegionCenter(mainWidget);
-			regionWest.generateRegionWest(mainWidget, regionCenter);
-			regionSouth.generateRegionSouth(mainWidget);
+			//regionNorth.generateRegionNorth();
+			//allObjects.put("regionNorth", regionNorth);
+			
+			regionCenter.generateRegionCenter();
+			allObjects.put("regionCenter", regionCenter);
+			blc.setCenterWidget(regionCenter, regionCenter.getCenterData());
+			
+			//regionWest.generateRegionWest();
+			//allObjects.put("regionWest", regionWest);
+			
+			//regionSouth.generateRegionSouth();
+			//allObjects.put("regionSouth", regionSouth);
 		}
-		return mainWidget;
+		return blc;
 	}
 
 	@Override
@@ -56,6 +67,14 @@ public class EntryMain implements EntryPoint {
 
 		//Logger logger = Logger.getLogger("DEBUG");
 		//logger.log(Level.INFO, "X");
+	}
+	
+	
+	public HashMap<String, Object> getAllObjects() {
+		return allObjects;
+	}
+	public void setAllObjects(HashMap<String, Object> allObjects) {
+		this.allObjects = allObjects;
 	}
 
 }

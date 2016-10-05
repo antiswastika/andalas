@@ -1,16 +1,11 @@
 package com.wd.andalas.frontend.core;
 
-import java.util.Iterator;
-
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
-import com.sencha.gxt.widget.core.client.container.Viewport;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 
@@ -18,9 +13,8 @@ public class RegionWest {
 
 	ContentPanel west;
 
-	public Widget generateRegionWest(BorderLayoutContainer mainContainer, RegionCenter regionCenterNya) {
+	public Widget generateRegionWest(BorderLayoutContainer mainContainer) {
 		String judulWest = "My Menu";
-		final RegionCenter regionCenter = regionCenterNya;
 
 		west = new ContentPanel();
 		west.setHeading(judulWest);
@@ -44,17 +38,17 @@ public class RegionWest {
 		buttonAlert.addSelectHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				Viewport vp = (Viewport) RootLayoutPanel.get().getWidget(0);
-				BorderLayoutContainer borderContainer = (BorderLayoutContainer) vp.getWidget(0);
+				/*Viewport vp = (Viewport) RootLayoutPanel.get().getWidget(0);
+				BorderLayoutContainer borderContainer = (BorderLayoutContainer) vp.getWidget(0);*/
 
-				Iterator<Widget> arrayOfWidgets = borderContainer.iterator();
+				/*Iterator<Widget> arrayOfWidgets = borderContainer.iterator();
 				while (arrayOfWidgets.hasNext()){
 					Widget ch = arrayOfWidgets.next();
 					//Window.alert(ch.getElement().getId());
 					if (ch.getElement().getId().equalsIgnoreCase("regionCenter")) {
-						Window.alert(ch.getElement().getId());
+						//Window.alert(ch.getElement().getId());
 					}
-				}
+				}*/
 			}
 		});
 		west.add(buttonAlert);
