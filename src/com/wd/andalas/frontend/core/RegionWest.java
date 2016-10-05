@@ -1,9 +1,8 @@
 package com.wd.andalas.frontend.core;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Iterator;
 
-import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.util.Margins;
@@ -16,12 +15,13 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 
 public class RegionWest {
-	
+
 	ContentPanel west;
 
-	public void generateRegionWest(BorderLayoutContainer mainContainer) {
+	public Widget generateRegionWest(BorderLayoutContainer mainContainer, RegionCenter regionCenterNya) {
 		String judulWest = "My Menu";
-		
+		final RegionCenter regionCenter = regionCenterNya;
+
 		west = new ContentPanel();
 		west.setHeading(judulWest);
 		west.setTitle(judulWest);
@@ -39,21 +39,29 @@ public class RegionWest {
 		westData.setMargins(new Margins(5, 4, 5, 5));
 		westData.setCollapseHeaderVisible(true);
 
+
 		TextButton buttonAlert = new TextButton("Show Message");
 		buttonAlert.addSelectHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
 				Viewport vp = (Viewport) RootLayoutPanel.get().getWidget(0);
 				BorderLayoutContainer borderContainer = (BorderLayoutContainer) vp.getWidget(0);
-				Widget rc = borderContainer.getCenterWidget();
-		
-				Logger logger = Logger.getLogger("DEBUG");
-				logger.log(Level.INFO, "X");
+
+				Iterator<Widget> arrayOfWidgets = borderContainer.iterator();
+				while (arrayOfWidgets.hasNext()){
+					Widget ch = arrayOfWidgets.next();
+					//Window.alert(ch.getElement().getId());
+					if (ch.getElement().getId().equalsIgnoreCase("regionCenter")) {
+						Window.alert(ch.getElement().getId());
+					}
+				}
 			}
 		});
 		west.add(buttonAlert);
 
 		mainContainer.setWestWidget(west, westData);
+
+		return west;
 	}
 
 }

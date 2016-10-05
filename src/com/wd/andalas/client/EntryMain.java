@@ -12,23 +12,23 @@ import com.wd.andalas.frontend.core.RegionWest;
 
 public class EntryMain implements EntryPoint {
 	private BorderLayoutContainer mainWidget;
-	
+
 	private Widget generateWidget() {
 		if (mainWidget == null) {
-			mainWidget = new BorderLayoutContainer();		
+			mainWidget = new BorderLayoutContainer();
 			RegionNorth regionNorth = new RegionNorth();
 			RegionWest regionWest = new RegionWest();
 			RegionCenter regionCenter = new RegionCenter();
 			RegionSouth regionSouth = new RegionSouth();
-			
+
 			regionNorth.generateRegionNorth(mainWidget);
-			regionWest.generateRegionWest(mainWidget);
 			regionCenter.generateRegionCenter(mainWidget);
+			regionWest.generateRegionWest(mainWidget, regionCenter);
 			regionSouth.generateRegionSouth(mainWidget);
 		}
 		return mainWidget;
 	}
-	
+
 	@Override
 	public void onModuleLoad() {
 		/* FIRST TRY */
@@ -53,6 +53,9 @@ public class EntryMain implements EntryPoint {
 		Viewport viewPort = new Viewport();
 		viewPort.setWidget(generateWidget());
 		RootLayoutPanel.get().add(viewPort);
+
+		//Logger logger = Logger.getLogger("DEBUG");
+		//logger.log(Level.INFO, "X");
 	}
 
 }
