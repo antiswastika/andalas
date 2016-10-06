@@ -13,33 +13,11 @@ import com.wd.andalas.frontend.core.RegionSouth;
 import com.wd.andalas.frontend.core.RegionWest;
 
 public class EntryMain implements EntryPoint {
+	final Viewport viewPort = new Viewport();
 	private BorderLayoutContainer blc;
 	private HashMap<String, Object> allObjects = new HashMap<String, Object>();
 
-	private Widget generateWidget() {
-		if (blc == null) {
-			blc = new BorderLayoutContainer();
-			RegionNorth regionNorth = new RegionNorth();
-			RegionWest regionWest = new RegionWest();
-			RegionCenter regionCenter = new RegionCenter();
-			RegionSouth regionSouth = new RegionSouth();
-
-			//regionNorth.generateRegionNorth();
-			//allObjects.put("regionNorth", regionNorth);
-			
-			regionCenter.generateRegionCenter();
-			allObjects.put("regionCenter", regionCenter);
-			blc.setCenterWidget(regionCenter, regionCenter.getCenterData());
-			
-			//regionWest.generateRegionWest();
-			//allObjects.put("regionWest", regionWest);
-			
-			//regionSouth.generateRegionSouth();
-			//allObjects.put("regionSouth", regionSouth);
-		}
-		return blc;
-	}
-
+	/*********************************** MAIN CODE ***********************************/
 	@Override
 	public void onModuleLoad() {
 		/* FIRST TRY */
@@ -61,15 +39,43 @@ public class EntryMain implements EntryPoint {
 		//		container.add(new TextButton("Test Button...."), new CssFloatData(1));
 
 		/* START DEVELOP */
-		Viewport viewPort = new Viewport();
-		viewPort.setWidget(generateWidget());
-		RootLayoutPanel.get().add(viewPort);
+		viewPort.setWidget(startUp());
+		allObjects.put("viewPort", viewPort);
 
+		RootLayoutPanel.get().add(viewPort);
 		//Logger logger = Logger.getLogger("DEBUG");
 		//logger.log(Level.INFO, "X");
 	}
-	
-	
+
+	public Widget startUp() {
+		if (blc == null) {
+			blc = new BorderLayoutContainer();
+			RegionNorth regionNorth = new RegionNorth();
+			RegionWest regionWest = new RegionWest();
+			RegionCenter regionCenter = new RegionCenter();
+			RegionSouth regionSouth = new RegionSouth();
+
+			allObjects.put("regionNorth", regionNorth);
+			blc.setNorthWidget(regionNorth, regionNorth.getNorthData());
+
+			allObjects.put("regionCenter", regionCenter);
+			blc.setCenterWidget(regionCenter, regionCenter.getCenterData());
+
+			allObjects.put("regionWest", regionWest);
+			blc.setWestWidget(regionWest, regionWest.getWestData());
+
+			allObjects.put("regionSouth", regionSouth);
+			blc.setSouthWidget(regionSouth, regionSouth.getSouthData());
+
+			regionNorth.setOuterObjects(allObjects);
+			regionCenter.setOuterObjects(allObjects);
+			regionWest.setOuterObjects(allObjects);
+			regionSouth.setOuterObjects(allObjects);
+		}
+		return blc;
+	}
+
+	/*********************************** SETTER GETTER ***********************************/
 	public HashMap<String, Object> getAllObjects() {
 		return allObjects;
 	}
