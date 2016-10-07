@@ -10,6 +10,7 @@ import com.sencha.gxt.widget.core.client.container.Viewport;
 import com.wd.andalas.frontend.core.RegionCenter;
 import com.wd.andalas.frontend.core.RegionNorth;
 import com.wd.andalas.frontend.core.RegionSouth;
+import com.wd.andalas.frontend.core.RegionTabPanel;
 import com.wd.andalas.frontend.core.RegionWest;
 
 public class EntryMain implements EntryPoint {
@@ -54,6 +55,7 @@ public class EntryMain implements EntryPoint {
 			RegionWest regionWest = new RegionWest();
 			RegionCenter regionCenter = new RegionCenter();
 			RegionSouth regionSouth = new RegionSouth();
+			RegionTabPanel regionTabPanel = new RegionTabPanel();
 
 			allObjects.put("regionNorth", regionNorth);
 			blc.setNorthWidget(regionNorth, regionNorth.getNorthData());
@@ -66,11 +68,15 @@ public class EntryMain implements EntryPoint {
 
 			allObjects.put("regionSouth", regionSouth);
 			blc.setSouthWidget(regionSouth, regionSouth.getSouthData());
+			
+			allObjects.put("regionTabPanel", regionTabPanel);
+			regionCenter.getCenter().add(regionTabPanel);
 
 			regionNorth.setOuterObjects(allObjects);
 			regionCenter.setOuterObjects(allObjects);
 			regionWest.setOuterObjects(allObjects);
 			regionSouth.setOuterObjects(allObjects);
+			regionTabPanel.setOuterObjects(allObjects);
 		}
 		return blc;
 	}

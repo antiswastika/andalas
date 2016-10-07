@@ -50,8 +50,8 @@ public class RegionWest implements IsWidget {
 					}
 				}*/
 
-				RegionCenter rc = (RegionCenter) outerObjects.get("regionCenter");
-				rc.doCreateTab(rc.getTabPanel(), 1);
+				RegionTabPanel tabPanel = (RegionTabPanel) outerObjects.get("regionTabPanel");
+				tabPanel.doCreateTab(tabPanel.getTabPanel(), 1);
 			}
 		});
 		west.add(buttonAlert);
