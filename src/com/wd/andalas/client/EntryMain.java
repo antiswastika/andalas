@@ -5,7 +5,10 @@ import java.util.HashMap;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 import com.sencha.gxt.widget.core.client.container.Viewport;
 import com.wd.andalas.frontend.core.RegionCenter;
 import com.wd.andalas.frontend.core.RegionNorth;
@@ -70,7 +73,10 @@ public class EntryMain implements EntryPoint {
 			blc.setSouthWidget(regionSouth, regionSouth.getSouthData());
 			
 			allObjects.put("regionTabPanel", regionTabPanel);
-			regionCenter.getCenter().add(regionTabPanel);
+			VerticalLayoutContainer container = new VerticalLayoutContainer();
+			VerticalLayoutData verticalLayoutData = new VerticalLayoutData(1, 50, new Margins(0));
+			regionCenter.getCenter().add(container);
+			container.add(regionTabPanel, verticalLayoutData);
 
 			regionNorth.setOuterObjects(allObjects);
 			regionCenter.setOuterObjects(allObjects);

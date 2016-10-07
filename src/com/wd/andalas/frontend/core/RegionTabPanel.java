@@ -23,9 +23,9 @@ public class RegionTabPanel implements IsWidget {
 	/*********************************** CUSTOM METHODS ***********************************/
 	public TabPanel doCreateTab(TabPanel tabPanel, Integer tabParams) {
 		if (tabParams == null) {
+			tabPanel.clear();
 			tabPanel.setTabScroll(true);
 			tabPanel.setAnimScroll(true);
-			tabPanel.clear();
 			tabPanel.add(new Label(""), new TabItemConfig("Home", false));
 		} else {
 			int i = tabPanel.getWidgetCount() + 1;
