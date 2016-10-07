@@ -75,8 +75,8 @@ public class EntryMain implements EntryPoint {
 			allObjects.put("regionTabPanel", regionTabPanel);
 			VerticalLayoutContainer container = new VerticalLayoutContainer();
 			VerticalLayoutData verticalLayoutData = new VerticalLayoutData(1, 50, new Margins(0));
-			regionCenter.getCenter().add(container);
 			container.add(regionTabPanel, verticalLayoutData);
+			regionCenter.getCenter().add(container);
 
 			regionNorth.setOuterObjects(allObjects);
 			regionCenter.setOuterObjects(allObjects);
