@@ -16,7 +16,7 @@ public class RegionTabPanel implements IsWidget {
 	/*********************************** MAIN CODE ***********************************/
 	@Override
 	public Widget asWidget() {
-		this.doCreateTab(tabPanel, null);
+		//doCreateTab(tabPanel, null);
 		return tabPanel;
 	}
 	
