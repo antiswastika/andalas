@@ -5,21 +5,27 @@ import java.util.HashMap;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
 import com.sencha.gxt.widget.core.client.TabPanel;
+import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 
 public class RegionTabPanel implements IsWidget {
 
 	final TabPanel tabPanel = new TabPanel();
+	final BorderLayoutData tabPanelData = new BorderLayoutData();
 	private HashMap<String, Object> outerObjects = new HashMap<String, Object>();
 
 	/*********************************** MAIN CODE ***********************************/
 	@Override
 	public Widget asWidget() {
-		//doCreateTab(tabPanel, null);
+		tabPanel.setId("regionTabPanel");
+		tabPanel.setBorders(false);
+		tabPanelData.setMargins(new Margins(0, 5, 0, 4));
+
 		return tabPanel;
 	}
-	
+
 	/*********************************** CUSTOM METHODS ***********************************/
 	public TabPanel doCreateTab(TabPanel tabPanel, Integer tabParams) {
 		if (tabParams == null) {
@@ -39,6 +45,10 @@ public class RegionTabPanel implements IsWidget {
 	/*********************************** SETTER GETTER ***********************************/
 	public TabPanel getTabPanel() {
 		return tabPanel;
+	}
+
+	public BorderLayoutData getTabPanelData() {
+		return tabPanelData;
 	}
 
 	public HashMap<String, Object> getOuterObjects() {

@@ -26,7 +26,7 @@ public class RegionNorth implements IsWidget {
 		north.setBodyStyle("background:transparent; border:0");
 		north.setHeaderVisible(false);
 		northData.setCollapsible(false);
-		northData.setSize(60);
+		northData.setSize(70);
 		northData.setMargins(new Margins(5, 5, 0, 5));
 
 		HBoxLayoutContainer hContainer = new HBoxLayoutContainer();
