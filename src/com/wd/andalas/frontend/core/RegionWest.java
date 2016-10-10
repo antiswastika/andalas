@@ -2,6 +2,8 @@ package com.wd.andalas.frontend.core;
 
 import java.util.HashMap;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
@@ -22,7 +24,7 @@ public class RegionWest implements IsWidget {
 
 	final ContentPanel west = new ContentPanel();
 	final BorderLayoutData westData = new BorderLayoutData();
-	final String judulWest = "My Menu";
+	final String judulWest = "";
 	private HashMap<String, Object> outerObjects = new HashMap<String, Object>();
 
 	/*********************************** MAIN CODE ***********************************/
@@ -50,14 +52,18 @@ public class RegionWest implements IsWidget {
 		Image menu_A1 = new Image();
 		menu_A1.setUrl("images/icon/48x48/daftar_pegawai.png");
 		menu_A1.setHeight("50px");
+		menu_A1.addClickHandler(menu_A1_clickHandler());
+
 		imp_A.add(menu_A1);
-		Label lbl_A1 = new Label("Daftar Pegawai");
+		Label lbl_A1 = new Label("Pegawai THOS");
 		imp_A.add(lbl_A1);
+		/*Button btn = new Button("<a class='label-imgList'><img src='images/icon/48x48/daftar_pegawai.png'/><BR />Pegawai THOS</a>");
+		imp_A.add(btn);*/
 		ContentPanel cp_A = new ContentPanel();
 		cp_A.setHeading("Daftar");
 		cp_A.add(imp_A);
 
-		// Membuat ImageList Menu A
+		// Membuat ImageList Menu B
 		TextButton buttonAlert2 = new TextButton("Show Message");
 		ContentPanel cp_B = new ContentPanel();
 		cp_B.setHeading("Pengaturan");
@@ -72,6 +78,7 @@ public class RegionWest implements IsWidget {
 		/*Buat Accordion*/
 		AccordionLayoutContainer accdn = new AccordionLayoutContainer();
 		accdn.setExpandMode(ExpandMode.SINGLE_FILL);
+		accdn.addStyleName("label-imgList");
 		accdn.add(cp_A);
 		accdn.setActiveWidget(cp_A);
 		accdn.add(cp_B);
@@ -97,6 +104,16 @@ public class RegionWest implements IsWidget {
 					}
 				}*/
 
+				RegionTabPanel tabPanel = (RegionTabPanel) outerObjects.get("regionTabPanel");
+				tabPanel.doCreateTab(tabPanel.getTabPanel(), 1);
+			}
+		};
+	}
+
+	private ClickHandler menu_A1_clickHandler() {
+		return new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
 				RegionTabPanel tabPanel = (RegionTabPanel) outerObjects.get("regionTabPanel");
 				tabPanel.doCreateTab(tabPanel.getTabPanel(), 1);
 			}
