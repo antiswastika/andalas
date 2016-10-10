@@ -2,6 +2,7 @@ package com.wd.andalas.frontend.core;
 
 import java.util.HashMap;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.util.Margins;
@@ -33,8 +34,8 @@ public class RegionWest implements IsWidget {
 		westData.setMargins(new Margins(0, 4, 0, 5));
 		westData.setCollapseHeaderVisible(true);
 		
-		MenuLeft menuLeft = new MenuLeft();
-		menuLeft.setOuterObjects(outerObjects);
+		Window.alert(Integer.toString(outerObjects.size()));
+		MenuLeft menuLeft = (MenuLeft) outerObjects.get("menuLeft");
 		west.add(menuLeft);
 		
 		return west;

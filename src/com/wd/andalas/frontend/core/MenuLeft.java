@@ -5,7 +5,6 @@ import java.util.HashMap;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
@@ -101,9 +100,8 @@ public class MenuLeft implements IsWidget {
 		return new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				//RegionTabPanel tabPanel = (RegionTabPanel) outerObjects.get("regionTabPanel");
-				//tabPanel.doCreateTab(tabPanel.getTabPanel(), 1);
-				Window.alert(Integer.toString(outerObjects.size()));
+				RegionTabPanel tabPanel = (RegionTabPanel) outerObjects.get("regionTabPanel");
+				tabPanel.doCreateTab(tabPanel.getTabPanel(), 1);
 			}
 		};
 	}
