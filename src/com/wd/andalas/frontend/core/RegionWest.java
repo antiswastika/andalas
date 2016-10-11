@@ -4,21 +4,12 @@ import java.util.HashMap;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.util.Margins;
-import com.sencha.gxt.core.client.util.Padding;
 import com.sencha.gxt.widget.core.client.ContentPanel;
-import com.sencha.gxt.widget.core.client.button.TextButton;
-import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer;
-import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.ExpandMode;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
-import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer;
-import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer.VBoxLayoutAlign;
-import com.sencha.gxt.widget.core.client.event.SelectEvent;
-import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 
 public class RegionWest implements IsWidget {
 
@@ -86,28 +77,6 @@ public class RegionWest implements IsWidget {
 		west.add(accdn);
 
 		return west;
-	}
-
-	/*********************************** HANDLERS & LISTENERS ***********************************/
-	private SelectHandler btnAlert_clickHandler() {
-		return new SelectHandler() {
-			@Override
-			public void onSelect(SelectEvent event) {
-				/*Viewport vp = (Viewport) RootLayoutPanel.get().getWidget(0);
-				BorderLayoutContainer borderContainer = (BorderLayoutContainer) vp.getWidget(0);
-				Iterator<Widget> arrayOfWidgets = borderContainer.iterator();
-				while (arrayOfWidgets.hasNext()){
-					Widget ch = arrayOfWidgets.next();
-					//Window.alert(ch.getElement().getId());
-					if (ch.getElement().getId().equalsIgnoreCase("regionCenter")) {
-						//Window.alert(ch.getElement().getId());
-					}
-				}*/
-
-				RegionTabPanel tabPanel = (RegionTabPanel) outerObjects.get("regionTabPanel");
-				tabPanel.doCreateTab(tabPanel.getTabPanel(), 1);
-			}
-		};
 	}
 
 	private ClickHandler menu_A1_clickHandler() {
