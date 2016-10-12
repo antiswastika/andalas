@@ -2,5 +2,6 @@
 ## Eclipse
 #################
 
-gwt-unitCache
-.settings
+lib
+deploy
+classes
