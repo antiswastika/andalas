@@ -12,9 +12,8 @@
   	<set-property name="gwt.logging.consoleHandler" value="ENABLED" />
 	
 	<source path="client" />
+	<source path="server" />
 	<source path="core" />
-	<source path="frontend" />
-	<source path="backend" />
 	<entry-point class="com.wd.andalas.client.EntryMain" />
 	
     <!-- GXT Stuff -->

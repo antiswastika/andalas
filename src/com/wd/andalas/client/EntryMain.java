@@ -3,21 +3,20 @@ package com.wd.andalas.client;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.Viewport;
-import com.wd.andalas.frontend.core.MenuLeft;
-import com.wd.andalas.frontend.core.RegionNorth;
-import com.wd.andalas.frontend.core.RegionSouth;
-import com.wd.andalas.frontend.core.RegionTabPanel;
-import com.wd.andalas.frontend.core.RegionWest;
+import com.wd.andalas.client.frontend.core.RegionNorth;
+import com.wd.andalas.client.frontend.core.RegionSouth;
+import com.wd.andalas.client.frontend.core.RegionTabPanel;
+import com.wd.andalas.client.frontend.core.RegionWest;
+import com.wd.andalas.core.Singleton;
 
 public class EntryMain implements EntryPoint {
 	final Viewport viewPort = new Viewport();
-	private BorderLayoutContainer blc;
 	private HashMap<String, Object> allObjects = new HashMap<String, Object>();
+	private BorderLayoutContainer blc;
 
 	/*********************************** MAIN CODE ***********************************/
 	@Override
@@ -41,6 +40,8 @@ public class EntryMain implements EntryPoint {
 		//		container.add(new TextButton("Test Button...."), new CssFloatData(1));
 
 		/* START DEVELOP */
+		Singleton.getInstance().setSingletonId("ABCD1234");
+
 		viewPort.setWidget(startUp());
 		allObjects.put("viewPort", viewPort);
 
@@ -52,32 +53,26 @@ public class EntryMain implements EntryPoint {
 	public Widget startUp() {
 		if (blc == null) {
 			blc = new BorderLayoutContainer();
+
 			RegionNorth regionNorth = new RegionNorth();
 			RegionWest regionWest = new RegionWest();
 			RegionSouth regionSouth = new RegionSouth();
 			RegionTabPanel regionTabPanel = new RegionTabPanel();
-			MenuLeft menuLeft = new MenuLeft();
 
 			allObjects.put("regionNorth", regionNorth);
-			blc.setNorthWidget(regionNorth, regionNorth.getNorthData());
-			
 			allObjects.put("regionWest", regionWest);
-			blc.setWestWidget(regionWest, regionWest.getWestData());
-			
 			allObjects.put("regionSouth", regionSouth);
-			blc.setSouthWidget(regionSouth, regionSouth.getSouthData());
-
 			allObjects.put("regionTabPanel", regionTabPanel);
-			blc.setCenterWidget(regionTabPanel, regionTabPanel.getTabPanelData());
-			regionTabPanel.doCreateTab(regionTabPanel.getTabPanel(), null);
-			
-			allObjects.put("menuLeft", menuLeft);
 
-			regionNorth.setOuterObjects(allObjects);
-			regionWest.setOuterObjects(allObjects);
-			regionSouth.setOuterObjects(allObjects);
-			regionTabPanel.setOuterObjects(allObjects);
-			menuLeft.setOuterObjects(allObjects);
+			blc.setNorthWidget(regionNorth, regionNorth.getNorthData());
+			blc.setWestWidget(regionWest, regionWest.getWestData());
+			blc.setSouthWidget(regionSouth, regionSouth.getSouthData());
+			blc.setCenterWidget(regionTabPanel, regionTabPanel.getTabPanelData());
+
+			// Masukin semua kedalam Singleton
+			Singleton.getInstance().setAllObjects(allObjects);
+
+			regionTabPanel.doCreateTab(regionTabPanel.getTabPanel(), null);
 		}
 		return blc;
 	}
