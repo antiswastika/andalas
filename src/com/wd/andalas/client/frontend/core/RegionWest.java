@@ -11,7 +11,7 @@ public class RegionWest implements IsWidget {
 
 	final ContentPanel west = new ContentPanel();
 	final BorderLayoutData westData = new BorderLayoutData();
-	final String judulWest = "Menu User";
+	final String judulWest = "";
 
 	/*********************************** MAIN CODE ***********************************/
 	@Override
@@ -24,8 +24,8 @@ public class RegionWest implements IsWidget {
 		west.setResize(true);
 		westData.setCollapsible(false);
 		westData.setSplit(true);
-		westData.setSize(180);
-		westData.setMinSize(150);
+		westData.setSize(160);
+		westData.setMinSize(140);
 		westData.setMaxSize(300);
 		westData.setCollapseMini(false);
 		westData.setMargins(new Margins(0, 4, 0, 5));

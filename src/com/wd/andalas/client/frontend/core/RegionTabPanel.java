@@ -24,7 +24,7 @@ public class RegionTabPanel implements IsWidget {
 	}
 
 	/*********************************** CUSTOM METHODS ***********************************/
-	public TabPanel doCreateTab(TabPanel tabPanel, Integer tabParams) {
+	public TabPanel doCreateTab(TabPanel tabPanel, String[] tabParams) {
 		if (tabParams == null) {
 			tabPanel.clear();
 			tabPanel.setTabScroll(true);
@@ -32,7 +32,7 @@ public class RegionTabPanel implements IsWidget {
 			tabPanel.add(new Label(""), new TabItemConfig("Home", false));
 		} else {
 			int i = tabPanel.getWidgetCount() + 1;
-			tabPanel.add(new Label(""), new TabItemConfig("Tab_" + i, true));
+			tabPanel.add(new Label(""), new TabItemConfig(tabParams[1], true));
 			tabPanel.setActiveWidget(tabPanel.getWidget(i-1));
 		}
 

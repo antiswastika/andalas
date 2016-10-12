@@ -36,8 +36,10 @@ public class MenuLeft {
 		VBoxLayoutContainer vlc_B = new VBoxLayoutContainer();
 		vlc_B.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_B.setPadding(new Padding(10));
-		generateImageList(vlc_B, "images/icon/48x48/daftar_pegawai_thos.png", "Master Data Statis", "masterStatic");
-		generateImageList(vlc_B, "images/icon/48x48/cari_pegawai.png", "Master Daftar User", "masterUser");
+		generateImageList(vlc_B, "images/icon/48x48/daftar_varstatis.png", "Master Data Statis", "masterStatic");
+		generateImageList(vlc_B, "images/icon/48x48/daftar_user.png", "Daftar User", "masterUser");
+		generateImageList(vlc_B, "images/icon/48x48/ganti_password.png", "Ubah Password", "changePassword");
+		generateImageList(vlc_B, "images/icon/48x48/logout.png", "Logout", "logout");
 		ContentPanel cp_B = new ContentPanel();
 		cp_B.setHeading("Pengaturan");
 		cp_B.add(vlc_B);
@@ -62,12 +64,13 @@ public class MenuLeft {
 		imgNya.setAltText(teksLabelNya);
 		imgNya.addClickHandler(menu_A1_clickHandler());
 		imgNya.getElement().getStyle().setCursor(Style.Cursor.POINTER);
-		vlcNya.add(imgNya);
+		vlcNya.add(imgNya, new BoxLayoutData(new Margins(10, 0, 0, 0)));
 
 		/*Buat Teks Label*/
 		Label lblNya = new Label(teksLabelNya);
+		lblNya.addClickHandler(menu_A1_clickHandler());
 		lblNya.getElement().getStyle().setCursor(Style.Cursor.POINTER);
-		vlcNya.add(lblNya, new BoxLayoutData(new Margins(0, 0, 20, 0)));
+		vlcNya.add(lblNya, new BoxLayoutData(new Margins(0, 0, 10, 0)));
 	}
 
 	/*********************************** HANDLERS & LISTENERS ***********************************/
@@ -97,7 +100,8 @@ public class MenuLeft {
 			@Override
 			public void onClick(ClickEvent event) {
 				RegionTabPanel tabPanel = (RegionTabPanel) Singleton.getInstance().getAllObjects().get("regionTabPanel");
-				tabPanel.doCreateTab(tabPanel.getTabPanel(), 1);
+				String[] tabParams = { "id-01", "Daftar Pegawai THOS", "b", "c" };
+				tabPanel.doCreateTab(tabPanel.getTabPanel(), tabParams);
 			}
 		};
 	}
