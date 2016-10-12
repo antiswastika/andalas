@@ -18,6 +18,7 @@ public class RegionNorth implements IsWidget {
 	/*********************************** MAIN CODE ***********************************/
 	@Override
 	public Widget asWidget() {
+		north.setId("regionNorthID");
 		north.setResize(false);
 		north.setBorders(false);
 		north.setBodyStyle("background:transparent; border:0");

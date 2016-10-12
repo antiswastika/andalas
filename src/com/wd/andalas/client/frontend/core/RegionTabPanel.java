@@ -1,5 +1,7 @@
 package com.wd.andalas.client.frontend.core;
 
+import java.util.Iterator;
+
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -16,7 +18,7 @@ public class RegionTabPanel implements IsWidget {
 	/*********************************** MAIN CODE ***********************************/
 	@Override
 	public Widget asWidget() {
-		tabPanel.setId("regionTabPanel");
+		tabPanel.setId("regionTabPanelID");
 		tabPanel.setBorders(false);
 		tabPanelData.setMargins(new Margins(0, 5, 0, 4));
 
@@ -24,7 +26,7 @@ public class RegionTabPanel implements IsWidget {
 	}
 
 	/*********************************** CUSTOM METHODS ***********************************/
-	public TabPanel doCreateTab(TabPanel tabPanel, String[] tabParams) {
+	public TabPanel doCreateTab(TabPanel tabPanel, String[] tabParams, Widget objParams) {
 		if (tabParams == null) {
 			tabPanel.clear();
 			tabPanel.setTabScroll(true);
@@ -32,8 +34,27 @@ public class RegionTabPanel implements IsWidget {
 			tabPanel.add(new Label(""), new TabItemConfig("Home", false));
 		} else {
 			int i = tabPanel.getWidgetCount() + 1;
-			tabPanel.add(new Label(""), new TabItemConfig(tabParams[1], true));
-			tabPanel.setActiveWidget(tabPanel.getWidget(i-1));
+			int j = 0;
+			Iterator<Widget> arrayOfTabPanels = tabPanel.iterator();
+			boolean ada = false;
+			
+			while (arrayOfTabPanels.hasNext()){
+				Widget wgt = arrayOfTabPanels.next();
+				if (wgt.getElement().getId().equalsIgnoreCase(objParams.getElement().getId())) {
+					//Window.alert(wgt.getElement().getId());
+					ada = true;
+					break;
+				}
+				j++;
+			}
+			
+			if (ada) {
+				tabPanel.setActiveWidget(tabPanel.getWidget(j-1));
+			} else {
+				tabPanel.add(objParams, new TabItemConfig((String) tabParams[0], true));
+				tabPanel.setActiveWidget(tabPanel.getWidget(i-1));
+			}
+			
 		}
 
 		return tabPanel;

@@ -16,6 +16,7 @@ public class RegionWest implements IsWidget {
 	/*********************************** MAIN CODE ***********************************/
 	@Override
 	public Widget asWidget() {
+		west.setId("regionWestID");
 		west.setHeading(judulWest);
 		west.setTitle(judulWest);
 		west.setHeaderVisible(false);

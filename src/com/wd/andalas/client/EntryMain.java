@@ -72,7 +72,7 @@ public class EntryMain implements EntryPoint {
 			// Masukin semua kedalam Singleton
 			Singleton.getInstance().setAllObjects(allObjects);
 
-			regionTabPanel.doCreateTab(regionTabPanel.getTabPanel(), null);
+			regionTabPanel.doCreateTab(regionTabPanel.getTabPanel(), null, null);
 		}
 		return blc;
 	}

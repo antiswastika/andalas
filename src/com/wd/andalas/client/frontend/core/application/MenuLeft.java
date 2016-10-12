@@ -1,10 +1,9 @@
 package com.wd.andalas.client.frontend.core.application;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.core.client.util.Padding;
 import com.sencha.gxt.widget.core.client.ContentPanel;
@@ -13,8 +12,8 @@ import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.Expa
 import com.sencha.gxt.widget.core.client.container.BoxLayoutContainer.BoxLayoutData;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer.VBoxLayoutAlign;
-import com.wd.andalas.client.frontend.core.RegionTabPanel;
-import com.wd.andalas.core.Singleton;
+import com.wd.andalas.client.frontend.core.RegionNorth;
+import com.wd.andalas.core.MyClickHandler;
 
 public class MenuLeft {
 
@@ -26,8 +25,8 @@ public class MenuLeft {
 		VBoxLayoutContainer vlc_A = new VBoxLayoutContainer();
 		vlc_A.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_A.setPadding(new Padding(10));
-		generateImageList(vlc_A, "images/icon/48x48/daftar_pegawai_thos.png", "Pegawai THOS", "viewTHOS");
-		generateImageList(vlc_A, "images/icon/48x48/cari_pegawai.png", "Cari Pegawai THOS", "searchTHOS");
+		generateImageList(vlc_A, "images/icon/48x48/daftar_pegawai_thos.png", "Pegawai THOS", new Label());
+		generateImageList(vlc_A, "images/icon/48x48/cari_pegawai.png", "Cari Pegawai THOS", new RegionNorth().asWidget());
 		ContentPanel cp_A = new ContentPanel();
 		cp_A.setHeading("Daftar");
 		cp_A.add(vlc_A);
@@ -36,10 +35,10 @@ public class MenuLeft {
 		VBoxLayoutContainer vlc_B = new VBoxLayoutContainer();
 		vlc_B.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_B.setPadding(new Padding(10));
-		generateImageList(vlc_B, "images/icon/48x48/daftar_varstatis.png", "Master Data Statis", "masterStatic");
-		generateImageList(vlc_B, "images/icon/48x48/daftar_user.png", "Daftar User", "masterUser");
-		generateImageList(vlc_B, "images/icon/48x48/ganti_password.png", "Ubah Password", "changePassword");
-		generateImageList(vlc_B, "images/icon/48x48/logout.png", "Logout", "logout");
+		generateImageList(vlc_B, "images/icon/48x48/daftar_varstatis.png", "Master Data Statis", new Label());
+		generateImageList(vlc_B, "images/icon/48x48/daftar_user.png", "Daftar User", new Label());
+		generateImageList(vlc_B, "images/icon/48x48/ganti_password.png", "Ubah Password", new Label());
+		generateImageList(vlc_B, "images/icon/48x48/logout.png", "Logout", new Label());
 		ContentPanel cp_B = new ContentPanel();
 		cp_B.setHeading("Pengaturan");
 		cp_B.add(vlc_B);
@@ -55,20 +54,26 @@ public class MenuLeft {
 	}
 
 	/*********************************** CUSTOM METHODS ***********************************/
-	private void generateImageList(VBoxLayoutContainer vlcNya, String pathIconNya, String teksLabelNya, String actionNya) {
+	private void generateImageList(VBoxLayoutContainer vlcNya, String pathIconNya, String teksLabelNya, Widget widgetNya) {
+		String[] tabParams = { teksLabelNya };
+		Widget objParams = widgetNya;
+		MyClickHandler myClickHandler = new MyClickHandler();
+		myClickHandler.setTabParams(tabParams);
+		myClickHandler.setObjParams(objParams);
+		
 		/*Buat Menampilkan Icon*/
 		Image imgNya = new Image();
-		imgNya.setUrl(pathIconNya);
+		imgNya.setUrl(pathIconNya); 
 		imgNya.setHeight("50px");
 		imgNya.setWidth("50px");
 		imgNya.setAltText(teksLabelNya);
-		imgNya.addClickHandler(menu_A1_clickHandler());
+		imgNya.addClickHandler(myClickHandler);
 		imgNya.getElement().getStyle().setCursor(Style.Cursor.POINTER);
 		vlcNya.add(imgNya, new BoxLayoutData(new Margins(10, 0, 0, 0)));
 
 		/*Buat Teks Label*/
 		Label lblNya = new Label(teksLabelNya);
-		lblNya.addClickHandler(menu_A1_clickHandler());
+		lblNya.addClickHandler(myClickHandler);
 		lblNya.getElement().getStyle().setCursor(Style.Cursor.POINTER);
 		vlcNya.add(lblNya, new BoxLayoutData(new Margins(0, 0, 10, 0)));
 	}
@@ -94,17 +99,6 @@ public class MenuLeft {
 	//			}
 	//		};
 	//	}
-
-	private ClickHandler menu_A1_clickHandler() {
-		return new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				RegionTabPanel tabPanel = (RegionTabPanel) Singleton.getInstance().getAllObjects().get("regionTabPanel");
-				String[] tabParams = { "id-01", "Daftar Pegawai THOS", "b", "c" };
-				tabPanel.doCreateTab(tabPanel.getTabPanel(), tabParams);
-			}
-		};
-	}
 
 	/*********************************** SETTER GETTER ***********************************/
 	public AccordionLayoutContainer getAccordionPanel() {
