@@ -12,6 +12,7 @@ import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.Expa
 import com.sencha.gxt.widget.core.client.container.BoxLayoutContainer.BoxLayoutData;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer.VBoxLayoutAlign;
+import com.wd.andalas.client.frontend.views.core.mvarstatic.ListMVarStatic;
 import com.wd.andalas.others.MyClickHandler;
 
 public class MenuLeft {
@@ -24,7 +25,9 @@ public class MenuLeft {
 		VBoxLayoutContainer vlc_A = new VBoxLayoutContainer();
 		vlc_A.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_A.setPadding(new Padding(10));
-		generateImageList(vlc_A, "images/icon/48x48/daftar_pegawai_thos.png", "Pegawai THOS", new Label().asWidget());
+		ListMVarStatic listMVarStatic = new ListMVarStatic();
+		listMVarStatic.setTabHeader("Daftar Pegawai THOS");
+		generateImageList(vlc_A, "images/icon/48x48/daftar_pegawai_thos.png", "Pegawai THOS", listMVarStatic.asWidget());
 		generateImageList(vlc_A, "images/icon/48x48/cari_pegawai.png", "Cari Pegawai THOS", new Label().asWidget());
 		ContentPanel cp_A = new ContentPanel();
 		cp_A.setHeading("Daftar");
