@@ -13,8 +13,8 @@
 	
 	<source path="client" />
 	<source path="server" />
-	<source path="core" />
-	<entry-point class="com.wd.andalas.client.EntryMain" />
+	<source path="others" />
+	<entry-point class="com.wd.andalas.client.ModMain" />
 	
     <!-- GXT Stuff -->
     <inherits name='com.sencha.gxt.ui.GXT' />

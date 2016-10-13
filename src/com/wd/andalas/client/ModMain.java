@@ -4,17 +4,16 @@ import java.util.HashMap;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.Viewport;
-import com.wd.andalas.client.frontend.core.RegionNorth;
-import com.wd.andalas.client.frontend.core.RegionSouth;
-import com.wd.andalas.client.frontend.core.RegionTabPanel;
-import com.wd.andalas.client.frontend.core.RegionWest;
-import com.wd.andalas.core.Singleton;
+import com.wd.andalas.client.frontend.views.core.RegionNorth;
+import com.wd.andalas.client.frontend.views.core.RegionSouth;
+import com.wd.andalas.client.frontend.views.core.RegionTabPanel;
+import com.wd.andalas.client.frontend.views.core.RegionWest;
+import com.wd.andalas.others.Singleton;
 
-public class EntryMain implements EntryPoint {
-	final Viewport viewPort = new Viewport();
+public class ModMain implements EntryPoint {
+	private Viewport viewPort = new Viewport();
 	private HashMap<String, Object> allObjects = new HashMap<String, Object>();
 	private BorderLayoutContainer blc;
 
@@ -44,13 +43,12 @@ public class EntryMain implements EntryPoint {
 
 		viewPort.setWidget(startUp());
 		allObjects.put("viewPort", viewPort);
-
 		RootLayoutPanel.get().add(viewPort);
 		//Logger logger = Logger.getLogger("DEBUG");
 		//logger.log(Level.INFO, "X");
 	}
 
-	public Widget startUp() {
+	public BorderLayoutContainer startUp() {
 		if (blc == null) {
 			blc = new BorderLayoutContainer();
 
@@ -59,18 +57,20 @@ public class EntryMain implements EntryPoint {
 			RegionSouth regionSouth = new RegionSouth();
 			RegionTabPanel regionTabPanel = new RegionTabPanel();
 
+			allObjects.put("borderLayoutContainer", blc);
 			allObjects.put("regionNorth", regionNorth);
 			allObjects.put("regionWest", regionWest);
 			allObjects.put("regionSouth", regionSouth);
 			allObjects.put("regionTabPanel", regionTabPanel);
 
-			blc.setNorthWidget(regionNorth, regionNorth.getNorthData());
-			blc.setWestWidget(regionWest, regionWest.getWestData());
-			blc.setSouthWidget(regionSouth, regionSouth.getSouthData());
-			blc.setCenterWidget(regionTabPanel, regionTabPanel.getTabPanelData());
-
 			// Masukin semua kedalam Singleton
 			Singleton.getInstance().setAllObjects(allObjects);
+
+			//TODO: Masih Dobel Instantiate... Belom solve..!!! :((
+			blc.setNorthWidget(regionNorth);
+			blc.setWestWidget(regionWest);
+			blc.setSouthWidget(regionSouth);
+			blc.setCenterWidget(regionTabPanel);
 
 			regionTabPanel.doCreateTab(regionTabPanel.getTabPanel(), null, null);
 		}

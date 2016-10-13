@@ -1,4 +1,4 @@
-package com.wd.andalas.client.frontend.core;
+package com.wd.andalas.client.frontend.views.core;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
@@ -8,21 +8,25 @@ import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderL
 
 public class RegionSouth implements IsWidget {
 
-	final ContentPanel south = new ContentPanel();
-	final BorderLayoutData southData = new BorderLayoutData();
+	private ContentPanel south;
+	private BorderLayoutData southData = new BorderLayoutData();
 
 	/*********************************** MAIN CODE ***********************************/
 	@Override
 	public Widget asWidget() {
-		south.setId("regionSouthID");
-		south.setResize(false);
-		south.setBorders(false);
-		south.setBodyStyle("background:transparent; border:0");
-		south.setHeaderVisible(false);
-		southData.setCollapsible(false);
-		southData.setSize(30);
-		southData.setMargins(new Margins(0, 5, 5, 5));
+		if (south == null) {
+			south = new ContentPanel();
+			south.setId("regionSouthID");
+			south.setResize(false);
+			south.setBorders(false);
+			south.setBodyStyle("background:transparent; border:0");
+			south.setHeaderVisible(false);
+			southData.setCollapsible(false);
+			southData.setSize(30);
+			southData.setMargins(new Margins(0, 5, 5, 5));
 
+			south.setLayoutData(southData);
+		}
 		return south;
 	}
 

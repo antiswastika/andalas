@@ -1,4 +1,4 @@
-package com.wd.andalas.client.frontend.core;
+package com.wd.andalas.client.frontend.views.core;
 
 import java.util.Iterator;
 
@@ -12,16 +12,20 @@ import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderL
 
 public class RegionTabPanel implements IsWidget {
 
-	final TabPanel tabPanel = new TabPanel();
-	final BorderLayoutData tabPanelData = new BorderLayoutData();
+	private TabPanel tabPanel;
+	private BorderLayoutData tabPanelData = new BorderLayoutData();
 
 	/*********************************** MAIN CODE ***********************************/
 	@Override
 	public Widget asWidget() {
-		tabPanel.setId("regionTabPanelID");
-		tabPanel.setBorders(false);
-		tabPanelData.setMargins(new Margins(0, 5, 0, 4));
+		if (tabPanel == null) {
+			tabPanel = new TabPanel();
+			tabPanel.setId("regionTabPanelID");
+			tabPanel.setBorders(false);
+			tabPanelData.setMargins(new Margins(0, 5, 0, 4));
 
+			tabPanel.setLayoutData(tabPanelData);
+		}
 		return tabPanel;
 	}
 
@@ -31,34 +35,32 @@ public class RegionTabPanel implements IsWidget {
 			tabPanel.clear();
 			tabPanel.setTabScroll(true);
 			tabPanel.setAnimScroll(true);
-			tabPanel.add(new Label(""), new TabItemConfig("Home", false));
+			tabPanel.add(new Label(), new TabItemConfig("Home", false));
 		} else {
 			int i = tabPanel.getWidgetCount() + 1;
-			int j = 0;
 			Iterator<Widget> arrayOfTabPanels = tabPanel.iterator();
 			boolean ada = false;
-			
+
 			while (arrayOfTabPanels.hasNext()){
 				Widget wgt = arrayOfTabPanels.next();
 				if (wgt.getElement().getId().equalsIgnoreCase(objParams.getElement().getId())) {
-					//Window.alert(wgt.getElement().getId());
 					ada = true;
+					tabPanel.setActiveWidget(wgt);
 					break;
+				} else {
+					ada = false;
 				}
-				j++;
 			}
-			
-			if (ada) {
-				tabPanel.setActiveWidget(tabPanel.getWidget(j-1));
-			} else {
-				tabPanel.add(objParams, new TabItemConfig((String) tabParams[0], true));
-				tabPanel.setActiveWidget(tabPanel.getWidget(i-1));
+
+			if (ada == false) {
+				tabPanel.add(objParams, new TabItemConfig(tabParams[0], true));
+				tabPanel.setActiveWidget(tabPanel.getWidget(i - 1));
 			}
-			
 		}
 
 		return tabPanel;
 	}
+
 
 	/*********************************** SETTER GETTER ***********************************/
 	public TabPanel getTabPanel() {

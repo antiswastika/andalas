@@ -1,4 +1,4 @@
-package com.wd.andalas.core;
+package com.wd.andalas.others;
 
 import java.util.HashMap;
 import java.util.Map;

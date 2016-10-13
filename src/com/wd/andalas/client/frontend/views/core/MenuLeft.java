@@ -1,4 +1,4 @@
-package com.wd.andalas.client.frontend.core.application;
+package com.wd.andalas.client.frontend.views.core;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Image;
@@ -12,8 +12,7 @@ import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.Expa
 import com.sencha.gxt.widget.core.client.container.BoxLayoutContainer.BoxLayoutData;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer.VBoxLayoutAlign;
-import com.wd.andalas.client.frontend.core.RegionNorth;
-import com.wd.andalas.core.MyClickHandler;
+import com.wd.andalas.others.MyClickHandler;
 
 public class MenuLeft {
 
@@ -25,8 +24,8 @@ public class MenuLeft {
 		VBoxLayoutContainer vlc_A = new VBoxLayoutContainer();
 		vlc_A.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_A.setPadding(new Padding(10));
-		generateImageList(vlc_A, "images/icon/48x48/daftar_pegawai_thos.png", "Pegawai THOS", new Label());
-		generateImageList(vlc_A, "images/icon/48x48/cari_pegawai.png", "Cari Pegawai THOS", new RegionNorth().asWidget());
+		generateImageList(vlc_A, "images/icon/48x48/daftar_pegawai_thos.png", "Pegawai THOS", new Label().asWidget());
+		generateImageList(vlc_A, "images/icon/48x48/cari_pegawai.png", "Cari Pegawai THOS", new Label().asWidget());
 		ContentPanel cp_A = new ContentPanel();
 		cp_A.setHeading("Daftar");
 		cp_A.add(vlc_A);
@@ -35,10 +34,10 @@ public class MenuLeft {
 		VBoxLayoutContainer vlc_B = new VBoxLayoutContainer();
 		vlc_B.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_B.setPadding(new Padding(10));
-		generateImageList(vlc_B, "images/icon/48x48/daftar_varstatis.png", "Master Data Statis", new Label());
-		generateImageList(vlc_B, "images/icon/48x48/daftar_user.png", "Daftar User", new Label());
-		generateImageList(vlc_B, "images/icon/48x48/ganti_password.png", "Ubah Password", new Label());
-		generateImageList(vlc_B, "images/icon/48x48/logout.png", "Logout", new Label());
+		generateImageList(vlc_B, "images/icon/48x48/daftar_varstatis.png", "Master Data Statis", new Label().asWidget());
+		generateImageList(vlc_B, "images/icon/48x48/daftar_user.png", "Daftar User", new Label().asWidget());
+		generateImageList(vlc_B, "images/icon/48x48/ganti_password.png", "Ubah Password", new Label().asWidget());
+		generateImageList(vlc_B, "images/icon/48x48/logout.png", "Logout", new Label().asWidget());
 		ContentPanel cp_B = new ContentPanel();
 		cp_B.setHeading("Pengaturan");
 		cp_B.add(vlc_B);
@@ -60,10 +59,10 @@ public class MenuLeft {
 		MyClickHandler myClickHandler = new MyClickHandler();
 		myClickHandler.setTabParams(tabParams);
 		myClickHandler.setObjParams(objParams);
-		
+
 		/*Buat Menampilkan Icon*/
 		Image imgNya = new Image();
-		imgNya.setUrl(pathIconNya); 
+		imgNya.setUrl(pathIconNya);
 		imgNya.setHeight("50px");
 		imgNya.setWidth("50px");
 		imgNya.setAltText(teksLabelNya);

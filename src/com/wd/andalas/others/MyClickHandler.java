@@ -1,11 +1,11 @@
-package com.wd.andalas.core;
+package com.wd.andalas.others;
 
 import java.util.HashMap;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
-import com.wd.andalas.client.frontend.core.RegionTabPanel;
+import com.wd.andalas.client.frontend.views.core.RegionTabPanel;
 
 public class MyClickHandler implements ClickHandler {
 	private String[] tabParams;
