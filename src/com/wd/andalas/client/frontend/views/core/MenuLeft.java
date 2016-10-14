@@ -27,8 +27,8 @@ public class MenuLeft {
 		vlc_A.setPadding(new Padding(10));
 		ListMVarStatic listMVarStatic = new ListMVarStatic();
 		listMVarStatic.setTabHeader("Daftar Pegawai THOS");
-		generateImageList(vlc_A, "images/icon/48x48/daftar_pegawai_thos.png", "Pegawai THOS", listMVarStatic.asWidget());
-		generateImageList(vlc_A, "images/icon/48x48/cari_pegawai.png", "Cari Pegawai THOS", new Label().asWidget());
+		doCreateImageList(vlc_A, "images/icon/48x48/daftar_pegawai_thos.png", "Pegawai THOS", listMVarStatic.asWidget());
+		doCreateImageList(vlc_A, "images/icon/48x48/cari_pegawai.png", "Cari Pegawai THOS", new Label().asWidget());
 		ContentPanel cp_A = new ContentPanel();
 		cp_A.setHeading("Daftar");
 		cp_A.add(vlc_A);
@@ -37,10 +37,10 @@ public class MenuLeft {
 		VBoxLayoutContainer vlc_B = new VBoxLayoutContainer();
 		vlc_B.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_B.setPadding(new Padding(10));
-		generateImageList(vlc_B, "images/icon/48x48/daftar_varstatis.png", "Master Data Statis", new Label().asWidget());
-		generateImageList(vlc_B, "images/icon/48x48/daftar_user.png", "Daftar User", new Label().asWidget());
-		generateImageList(vlc_B, "images/icon/48x48/ganti_password.png", "Ubah Password", new Label().asWidget());
-		generateImageList(vlc_B, "images/icon/48x48/logout.png", "Logout", new Label().asWidget());
+		doCreateImageList(vlc_B, "images/icon/48x48/daftar_varstatis.png", "Master Data Statis", new Label().asWidget());
+		doCreateImageList(vlc_B, "images/icon/48x48/daftar_user.png", "Daftar User", new Label().asWidget());
+		doCreateImageList(vlc_B, "images/icon/48x48/ganti_password.png", "Ubah Password", new Label().asWidget());
+		doCreateImageList(vlc_B, "images/icon/48x48/logout.png", "Logout", new Label().asWidget());
 		ContentPanel cp_B = new ContentPanel();
 		cp_B.setHeading("Pengaturan");
 		cp_B.add(vlc_B);
@@ -56,7 +56,7 @@ public class MenuLeft {
 	}
 
 	/*********************************** CUSTOM METHODS ***********************************/
-	private void generateImageList(VBoxLayoutContainer vlcNya, String pathIconNya, String teksLabelNya, Widget widgetNya) {
+	private void doCreateImageList(VBoxLayoutContainer vlcNya, String pathIconNya, String teksLabelNya, Widget widgetNya) {
 		String[] tabParams = { teksLabelNya };
 		Widget objParams = widgetNya;
 		MyClickHandler myClickHandler = new MyClickHandler();
