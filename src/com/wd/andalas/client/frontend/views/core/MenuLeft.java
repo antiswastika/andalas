@@ -25,10 +25,8 @@ public class MenuLeft {
 		VBoxLayoutContainer vlc_A = new VBoxLayoutContainer();
 		vlc_A.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_A.setPadding(new Padding(10));
-		ListMVarStatic listMVarStatic = new ListMVarStatic();
-		listMVarStatic.setTabHeader("Daftar Pegawai THOS");
-		doCreateImageList(vlc_A, "images/icon/48x48/daftar_pegawai_thos.png", "Pegawai THOS", listMVarStatic.asWidget());
-		doCreateImageList(vlc_A, "images/icon/48x48/cari_pegawai.png", "Cari Pegawai THOS", new Label().asWidget());
+		doCreateImageList(vlc_A, "images/icon/32x32/daftar_pegawai_thos.png", "Pegawai THOS", new Label().asWidget());
+		doCreateImageList(vlc_A, "images/icon/32x32/cari_pegawai.png", "Cari Pegawai THOS", new Label().asWidget());
 		ContentPanel cp_A = new ContentPanel();
 		cp_A.setHeading("Daftar");
 		cp_A.add(vlc_A);
@@ -37,10 +35,12 @@ public class MenuLeft {
 		VBoxLayoutContainer vlc_B = new VBoxLayoutContainer();
 		vlc_B.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_B.setPadding(new Padding(10));
-		doCreateImageList(vlc_B, "images/icon/48x48/daftar_varstatis.png", "Master Data Statis", new Label().asWidget());
-		doCreateImageList(vlc_B, "images/icon/48x48/daftar_user.png", "Daftar User", new Label().asWidget());
-		doCreateImageList(vlc_B, "images/icon/48x48/ganti_password.png", "Ubah Password", new Label().asWidget());
-		doCreateImageList(vlc_B, "images/icon/48x48/logout.png", "Logout", new Label().asWidget());
+		ListMVarStatic listMVarStatic = new ListMVarStatic();
+		listMVarStatic.setTabHeader("Daftar Variabel Statis");
+		doCreateImageList(vlc_B, "images/icon/32x32/daftar_varstatis.png", "Variabel Statis", listMVarStatic.asWidget());
+		doCreateImageList(vlc_B, "images/icon/32x32/daftar_user.png", "Daftar User", new Label().asWidget());
+		doCreateImageList(vlc_B, "images/icon/32x32/ganti_password.png", "Ubah Password", new Label().asWidget());
+		doCreateImageList(vlc_B, "images/icon/32x32/logout.png", "Logout", new Label().asWidget());
 		ContentPanel cp_B = new ContentPanel();
 		cp_B.setHeading("Pengaturan");
 		cp_B.add(vlc_B);
@@ -66,8 +66,8 @@ public class MenuLeft {
 		/*Buat Menampilkan Icon*/
 		Image imgNya = new Image();
 		imgNya.setUrl(pathIconNya);
-		imgNya.setHeight("50px");
-		imgNya.setWidth("50px");
+		imgNya.setHeight("32px");
+		imgNya.setWidth("32px");
 		imgNya.setAltText(teksLabelNya);
 		imgNya.addClickHandler(myClickHandler);
 		imgNya.getElement().getStyle().setCursor(Style.Cursor.POINTER);
