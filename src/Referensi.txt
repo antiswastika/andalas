@@ -1,0 +1,8 @@
+Buat Referensi :
+================
+
+https://windupurnomo.wordpress.com/2010/12/30/tutorial-spring-dan-hibernate/
+https://madanma.wordpress.com/2013/04/26/hibernate-java/
+https://www.tutorialspoint.com/hibernate/hibernate_examples.htm
+http://aksesgratis.blogspot.co.id/2012/01/java-aplikasi-sederhana-dengan-java-dan.html
+http://jagocoding.com/tutorial/1181/CRUD_Hibernate_Java

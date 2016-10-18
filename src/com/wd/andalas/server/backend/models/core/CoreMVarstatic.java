@@ -18,60 +18,60 @@ import javax.persistence.TemporalType;
  *
  */
 @Entity
-@Table(name="core_m_varstatic")
-@NamedQuery(name="CoreMVarstatic.findAll", query="SELECT c FROM CoreMVarstatic c")
+@Table(name = "core_m_varstatic")
+@NamedQuery(name = "CoreMVarstatic.findAll", query = "SELECT c FROM CoreMVarstatic c")
 public class CoreMVarstatic implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="varstat_id", unique=true, nullable=false, length=23)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "varstat_id", unique = true, nullable = false, length = 23)
 	private String varstatId;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_at", nullable=false)
+	@Column(name = "created_at", nullable = false)
 	private Date createdAt;
 
-	@Column(name="created_by", nullable=false, length=255)
+	@Column(name = "created_by", nullable = false, length = 255)
 	private String createdBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="updated_at", nullable=false)
+	@Column(name = "updated_at", nullable = false)
 	private Date updatedAt;
 
-	@Column(name="updated_by", length=255)
+	@Column(name = "updated_by", length = 255)
 	private String updatedBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="varstat_activedate")
+	@Column(name = "varstat_activedate")
 	private Date varstatActivedate;
 
-	@Column(name="varstat_deleteable", nullable=false)
+	@Column(name = "varstat_deleteable", nullable = false)
 	private byte varstatDeleteable;
 
-	@Column(name="varstat_desc", length=255)
+	@Column(name = "varstat_desc", length = 255)
 	private String varstatDesc;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="varstat_expiredate")
+	@Column(name = "varstat_expiredate")
 	private Date varstatExpiredate;
 
-	@Column(name="varstat_group", nullable=false, length=255)
+	@Column(name = "varstat_group", nullable = false, length = 255)
 	private String varstatGroup;
 
-	@Column(name="varstat_icon", length=255)
+	@Column(name = "varstat_icon", length = 255)
 	private String varstatIcon;
 
-	@Column(name="varstat_lock", nullable=false)
+	@Column(name = "varstat_lock", nullable = false)
 	private byte varstatLock;
 
-	@Column(name="varstat_name", nullable=false, length=255)
+	@Column(name = "varstat_name", nullable = false, length = 255)
 	private String varstatName;
 
-	@Column(name="varstat_parentid", length=23)
+	@Column(name = "varstat_parentid", length = 23)
 	private String varstatParentid;
 
-	@Column(name="varstat_seq", nullable=false)
+	@Column(name = "varstat_seq", nullable = false)
 	private int varstatSeq;
 
 	public CoreMVarstatic() {
