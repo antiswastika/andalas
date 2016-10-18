@@ -2,31 +2,47 @@ package com.wd.andalas.server.backend.models.core;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "core_m_varstatic")
 public class CoreMVarstatic {
 
-	private Long varstat_id;
+	@Id
+	//@GeneratedValue(generator="increment")
+	//@GenericGenerator(name="increment", strategy = "increment")
+	@Column(name = "varstat_id")
+	private String varstat_id;
+	@Column(name = "created_at")
 	private Date created_at;
+	@Column(name = "created_by")
 	private String created_by;
+	@Column(name = "updated_at")
 	private Date updated_at;
+	@Column(name = "updated_by")
 	private String updated_by;
+	@Column(name = "varstat_desc")
 	private String varstat_desc;
+	@Column(name = "varstat_name")
 	private String varstat_name;
+	@Column(name = "varstat_seq")
 	private int varstat_seq;
+	@Column(name = "varstat_group")
 	private String varstat_group;
+	@Column(name = "varstat_parentid")
 	private String varstat_parentid;
+	@Column(name = "varstat_icon")
 	private String varstat_icon;
+	@Column(name = "varstat_lock")
 	private int varstat_lock;
+	@Column(name = "varstat_deleteable")
 	private int varstat_deleteable;
+	@Column(name = "varstat_activedate")
 	private Date varstat_activedate;
+	@Column(name = "varstat_expiredate")
 	private Date varstat_expiredate;
 
 	/*********************************** CONSTRUCTORS ***********************************/
@@ -34,24 +50,10 @@ public class CoreMVarstatic {
 		// this form used by Hibernate
 	}
 
-	//	public CoreMVarstatic(String title, Date date) {
-	//		// for application use, to create new events
-	//		this.title = title;
-	//		this.date = date;
-	//	}
-	//
-	//	public CoreMVarstatic(String user) {
-	//		this.title = user.getTitle();
-	//		this.date = user.getDate();
-	//	}
-
-	@Id
-	@GeneratedValue(generator="increment")
-	@GenericGenerator(name="increment", strategy = "increment")
-	public Long getVarstat_id() {
+	public String getVarstat_id() {
 		return varstat_id;
 	}
-	public void setVarstat_id(Long varstat_id) {
+	public void setVarstat_id(String varstat_id) {
 		this.varstat_id = varstat_id;
 	}
 
