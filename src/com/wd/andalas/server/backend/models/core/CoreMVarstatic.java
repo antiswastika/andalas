@@ -1,158 +1,200 @@
 package com.wd.andalas.server.backend.models.core;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+/**
+ * The persistent class for the core_m_varstatic database table.
+ *
+ */
 @Entity
-@Table(name = "core_m_varstatic")
-public class CoreMVarstatic {
+@Table(name="core_m_varstatic")
+@NamedQuery(name="CoreMVarstatic.findAll", query="SELECT c FROM CoreMVarstatic c")
+public class CoreMVarstatic implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	//@GeneratedValue(generator="increment")
-	//@GenericGenerator(name="increment", strategy = "increment")
-	@Column(name = "varstat_id")
-	private String varstat_id;
-	@Column(name = "created_at")
-	private Date created_at;
-	@Column(name = "created_by")
-	private String created_by;
-	@Column(name = "updated_at")
-	private Date updated_at;
-	@Column(name = "updated_by")
-	private String updated_by;
-	@Column(name = "varstat_desc")
-	private String varstat_desc;
-	@Column(name = "varstat_name")
-	private String varstat_name;
-	@Column(name = "varstat_seq")
-	private int varstat_seq;
-	@Column(name = "varstat_group")
-	private String varstat_group;
-	@Column(name = "varstat_parentid")
-	private String varstat_parentid;
-	@Column(name = "varstat_icon")
-	private String varstat_icon;
-	@Column(name = "varstat_lock")
-	private int varstat_lock;
-	@Column(name = "varstat_deleteable")
-	private int varstat_deleteable;
-	@Column(name = "varstat_activedate")
-	private Date varstat_activedate;
-	@Column(name = "varstat_expiredate")
-	private Date varstat_expiredate;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="varstat_id", unique=true, nullable=false, length=23)
+	private String varstatId;
 
-	/*********************************** CONSTRUCTORS ***********************************/
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="created_at", nullable=false)
+	private Date createdAt;
+
+	@Column(name="created_by", nullable=false, length=255)
+	private String createdBy;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="updated_at", nullable=false)
+	private Date updatedAt;
+
+	@Column(name="updated_by", length=255)
+	private String updatedBy;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="varstat_activedate")
+	private Date varstatActivedate;
+
+	@Column(name="varstat_deleteable", nullable=false)
+	private byte varstatDeleteable;
+
+	@Column(name="varstat_desc", length=255)
+	private String varstatDesc;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="varstat_expiredate")
+	private Date varstatExpiredate;
+
+	@Column(name="varstat_group", nullable=false, length=255)
+	private String varstatGroup;
+
+	@Column(name="varstat_icon", length=255)
+	private String varstatIcon;
+
+	@Column(name="varstat_lock", nullable=false)
+	private byte varstatLock;
+
+	@Column(name="varstat_name", nullable=false, length=255)
+	private String varstatName;
+
+	@Column(name="varstat_parentid", length=23)
+	private String varstatParentid;
+
+	@Column(name="varstat_seq", nullable=false)
+	private int varstatSeq;
+
 	public CoreMVarstatic() {
-		// this form used by Hibernate
 	}
 
-	public String getVarstat_id() {
-		return varstat_id;
-	}
-	public void setVarstat_id(String varstat_id) {
-		this.varstat_id = varstat_id;
+	public String getVarstatId() {
+		return this.varstatId;
 	}
 
-	public Date getCreated_at() {
-		return created_at;
-	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setVarstatId(String varstatId) {
+		this.varstatId = varstatId;
 	}
 
-	public String getCreated_by() {
-		return created_by;
-	}
-	public void setCreated_by(String created_by) {
-		this.created_by = created_by;
+	public Date getCreatedAt() {
+		return this.createdAt;
 	}
 
-	public Date getUpdated_at() {
-		return updated_at;
-	}
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public String getUpdated_by() {
-		return updated_by;
-	}
-	public void setUpdated_by(String updated_by) {
-		this.updated_by = updated_by;
+	public String getCreatedBy() {
+		return this.createdBy;
 	}
 
-	public String getVarstat_desc() {
-		return varstat_desc;
-	}
-	public void setVarstat_desc(String varstat_desc) {
-		this.varstat_desc = varstat_desc;
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 
-	public String getVarstat_name() {
-		return varstat_name;
-	}
-	public void setVarstat_name(String varstat_name) {
-		this.varstat_name = varstat_name;
+	public Date getUpdatedAt() {
+		return this.updatedAt;
 	}
 
-	public int getVarstat_seq() {
-		return varstat_seq;
-	}
-	public void setVarstat_seq(int varstat_seq) {
-		this.varstat_seq = varstat_seq;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
-	public String getVarstat_group() {
-		return varstat_group;
-	}
-	public void setVarstat_group(String varstat_group) {
-		this.varstat_group = varstat_group;
+	public String getUpdatedBy() {
+		return this.updatedBy;
 	}
 
-	public String getVarstat_parentid() {
-		return varstat_parentid;
-	}
-	public void setVarstat_parentid(String varstat_parentid) {
-		this.varstat_parentid = varstat_parentid;
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 
-	public String getVarstat_icon() {
-		return varstat_icon;
-	}
-	public void setVarstat_icon(String varstat_icon) {
-		this.varstat_icon = varstat_icon;
+	public Date getVarstatActivedate() {
+		return this.varstatActivedate;
 	}
 
-	public int getVarstat_lock() {
-		return varstat_lock;
-	}
-	public void setVarstat_lock(int varstat_lock) {
-		this.varstat_lock = varstat_lock;
+	public void setVarstatActivedate(Date varstatActivedate) {
+		this.varstatActivedate = varstatActivedate;
 	}
 
-	public int getVarstat_deleteable() {
-		return varstat_deleteable;
-	}
-	public void setVarstat_deleteable(int varstat_deleteable) {
-		this.varstat_deleteable = varstat_deleteable;
+	public byte getVarstatDeleteable() {
+		return this.varstatDeleteable;
 	}
 
-	public Date getVarstat_activedate() {
-		return varstat_activedate;
-	}
-	public void setVarstat_activedate(Date varstat_activedate) {
-		this.varstat_activedate = varstat_activedate;
+	public void setVarstatDeleteable(byte varstatDeleteable) {
+		this.varstatDeleteable = varstatDeleteable;
 	}
 
-	public Date getVarstat_expiredate() {
-		return varstat_expiredate;
+	public String getVarstatDesc() {
+		return this.varstatDesc;
 	}
-	public void setVarstat_expiredate(Date varstat_expiredate) {
-		this.varstat_expiredate = varstat_expiredate;
+
+	public void setVarstatDesc(String varstatDesc) {
+		this.varstatDesc = varstatDesc;
+	}
+
+	public Date getVarstatExpiredate() {
+		return this.varstatExpiredate;
+	}
+
+	public void setVarstatExpiredate(Date varstatExpiredate) {
+		this.varstatExpiredate = varstatExpiredate;
+	}
+
+	public String getVarstatGroup() {
+		return this.varstatGroup;
+	}
+
+	public void setVarstatGroup(String varstatGroup) {
+		this.varstatGroup = varstatGroup;
+	}
+
+	public String getVarstatIcon() {
+		return this.varstatIcon;
+	}
+
+	public void setVarstatIcon(String varstatIcon) {
+		this.varstatIcon = varstatIcon;
+	}
+
+	public byte getVarstatLock() {
+		return this.varstatLock;
+	}
+
+	public void setVarstatLock(byte varstatLock) {
+		this.varstatLock = varstatLock;
+	}
+
+	public String getVarstatName() {
+		return this.varstatName;
+	}
+
+	public void setVarstatName(String varstatName) {
+		this.varstatName = varstatName;
+	}
+
+	public String getVarstatParentid() {
+		return this.varstatParentid;
+	}
+
+	public void setVarstatParentid(String varstatParentid) {
+		this.varstatParentid = varstatParentid;
+	}
+
+	public int getVarstatSeq() {
+		return this.varstatSeq;
+	}
+
+	public void setVarstatSeq(int varstatSeq) {
+		this.varstatSeq = varstatSeq;
 	}
 
 }
