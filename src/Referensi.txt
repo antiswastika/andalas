@@ -8,3 +8,4 @@ http://aksesgratis.blogspot.co.id/2012/01/java-aplikasi-sederhana-dengan-java-da
 http://jagocoding.com/tutorial/1181/CRUD_Hibernate_Java
 
 http://www.dineshonjava.com/2012/03/hibernate-3-on-baby-steps.html#.WAc6fIN96Hs
+https://singularityprogramming.wordpress.com/2012/04/06/gwt-2-4-0-hibernate-3-6-10-final/
