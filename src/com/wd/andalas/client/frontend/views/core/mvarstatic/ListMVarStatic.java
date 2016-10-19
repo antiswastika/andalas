@@ -98,8 +98,12 @@ public class ListMVarStatic implements IsWidget {
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_name = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_name(), 250, "Nilai Statis");
 		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_seq = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_seq(), 80, "Urutan");
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_group = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_group(), 200, "Grup");
-		//ColumnConfig<CoreMVarstaticDTO, String> varstat_parentid = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, "Id Parent");
-		//ColumnConfig<CoreMVarstaticDTO, String> varstat_parentname = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, "Nama Parent");
+		// ColumnConfig<CoreMVarstaticDTO, String> varstat_parentid = new
+		// ColumnConfig<CoreMVarstaticDTO,
+		// String>(properties.varstat_parentid(), 150, "Id Parent");
+		// ColumnConfig<CoreMVarstaticDTO, String> varstat_parentname = new
+		// ColumnConfig<CoreMVarstaticDTO,
+		// String>(properties.varstat_parentid(), 150, "Nama Parent");
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_icon = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_icon(), 250, "Icon");
 		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_lock(), 100, "ReadOnly");
 		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_deleteable(), 100, "Deleteable");
@@ -116,8 +120,8 @@ public class ListMVarStatic implements IsWidget {
 		columns.add(varstat_name);
 		columns.add(varstat_group);
 		columns.add(varstat_seq);
-		//columns.add(varstat_parentid);
-		//columns.add(varstat_parentname);
+		// columns.add(varstat_parentid);
+		// columns.add(varstat_parentname);
 		columns.add(varstat_lock);
 		columns.add(varstat_deleteable);
 		columns.add(varstat_activedate);
@@ -130,7 +134,7 @@ public class ListMVarStatic implements IsWidget {
 
 		/* Step 7 : Buat Store */
 		ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
-		//store.addAll(TestData.getStocks());
+		// store.addAll(TestData.getStocks());
 
 		/* Step 8 : Buat Grid */
 		Grid<CoreMVarstaticDTO> grid = new Grid<CoreMVarstaticDTO>(getTestStore(), cm);
@@ -146,7 +150,7 @@ public class ListMVarStatic implements IsWidget {
 		return grid;
 	}
 
-	private ListStore<CoreMVarstaticDTO> getTestStore(){
+	private ListStore<CoreMVarstaticDTO> getTestStore() {
 		ListStore<CoreMVarstaticDTO> testStore = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
 		CoreMVarstaticDTO obj = new CoreMVarstaticDTO();
 		obj.setVarstat_name("Test nama");

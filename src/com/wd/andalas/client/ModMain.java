@@ -2,6 +2,8 @@ package com.wd.andalas.client;
 
 import java.util.HashMap;
 
+import org.hibernate.Session;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
@@ -11,32 +13,36 @@ import com.wd.andalas.client.frontend.views.core.RegionSouth;
 import com.wd.andalas.client.frontend.views.core.RegionTabPanel;
 import com.wd.andalas.client.frontend.views.core.RegionWest;
 import com.wd.andalas.global.Singleton;
+import com.wd.andalas.server.backend.HibernateUtil;
 
 public class ModMain implements EntryPoint {
 	private Viewport viewPort = new Viewport();
 	private HashMap<String, Object> allObjects = new HashMap<String, Object>();
 	private BorderLayoutContainer blc;
 
-	/*********************************** MAIN CODE ***********************************/
+	/***********************************
+	 * MAIN CODE
+	 ***********************************/
 	@Override
 	public void onModuleLoad() {
 		/* FIRST TRY */
-		//		RootPanel.get().add(lbl);
+		// RootPanel.get().add(lbl);
 
 		/* SECOND TRY */
-		//		TextButton textButton = new TextButton("Verify GXT Works");
-		//		RootPanel.get().add(textButton);
-		//		textButton.addSelectHandler(new SelectHandler() {
-		//			@Override
-		//			public void onSelect(SelectEvent event) {
-		//				MessageBox msgbox = new MessageBox("GXT Works");
-		//				msgbox.show();
-		//			}
-		//		});
+		// TextButton textButton = new TextButton("Verify GXT Works");
+		// RootPanel.get().add(textButton);
+		// textButton.addSelectHandler(new SelectHandler() {
+		// @Override
+		// public void onSelect(SelectEvent event) {
+		// MessageBox msgbox = new MessageBox("GXT Works");
+		// msgbox.show();
+		// }
+		// });
 
 		/* THIRD TRY */
-		//		CssFloatLayoutContainer container = new CssFloatLayoutContainer();
-		//		container.add(new TextButton("Test Button...."), new CssFloatData(1));
+		// CssFloatLayoutContainer container = new CssFloatLayoutContainer();
+		// container.add(new TextButton("Test Button...."), new
+		// CssFloatData(1));
 
 		/* START DEVELOP */
 		Singleton.getInstance().setSingletonId("ABCD1234");
@@ -44,8 +50,8 @@ public class ModMain implements EntryPoint {
 		viewPort.setWidget(startUp());
 		allObjects.put("viewPort", viewPort);
 		RootLayoutPanel.get().add(viewPort);
-		//Logger logger = Logger.getLogger("DEBUG");
-		//logger.log(Level.INFO, "X");
+		// Logger logger = Logger.getLogger("DEBUG");
+		// logger.log(Level.INFO, "X");
 	}
 
 	public BorderLayoutContainer startUp() {
@@ -66,21 +72,27 @@ public class ModMain implements EntryPoint {
 			// Masukin semua kedalam Singleton
 			Singleton.getInstance().setAllObjects(allObjects);
 
-			//TODO: Masih Dobel Instantiate... Belom solve..!!! :((
+			// TODO: Masih Dobel Instantiate... Belom solve..!!! :((
 			blc.setNorthWidget(regionNorth);
 			blc.setWestWidget(regionWest);
 			blc.setSouthWidget(regionSouth);
 			blc.setCenterWidget(regionTabPanel);
 
 			regionTabPanel.doCreateTab(regionTabPanel.getTabPanel(), null, null);
+
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.close();
 		}
 		return blc;
 	}
 
-	/*********************************** SETTER GETTER ***********************************/
+	/***********************************
+	 * SETTER GETTER
+	 ***********************************/
 	public HashMap<String, Object> getAllObjects() {
 		return allObjects;
 	}
+
 	public void setAllObjects(HashMap<String, Object> allObjects) {
 		this.allObjects = allObjects;
 	}
