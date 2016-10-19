@@ -10,7 +10,7 @@ import com.wd.andalas.client.frontend.views.core.RegionNorth;
 import com.wd.andalas.client.frontend.views.core.RegionSouth;
 import com.wd.andalas.client.frontend.views.core.RegionTabPanel;
 import com.wd.andalas.client.frontend.views.core.RegionWest;
-import com.wd.andalas.others.Singleton;
+import com.wd.andalas.global.Singleton;
 
 public class ModMain implements EntryPoint {
 	private Viewport viewPort = new Viewport();

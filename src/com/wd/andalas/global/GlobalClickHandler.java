@@ -1,4 +1,4 @@
-package com.wd.andalas.others;
+package com.wd.andalas.global;
 
 import java.util.HashMap;
 
@@ -7,7 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.wd.andalas.client.frontend.views.core.RegionTabPanel;
 
-public class MyClickHandler implements ClickHandler {
+public class GlobalClickHandler implements ClickHandler {
 	private String[] tabParams;
 	private Widget objParams;
 	private HashMap<String, Object> allObjects = null;

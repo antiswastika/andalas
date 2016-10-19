@@ -75,7 +75,7 @@ public class ListMVarStatic implements IsWidget {
 
 	@SuppressWarnings("unused")
 	private Grid<CoreMVarstaticDTO> doCreateGrid() {
-		/* Step 1 : Buat Indentity Model */
+		/* Step 1 : Buat Identity Model */
 		IdentityValueProvider<CoreMVarstaticDTO> identity = new IdentityValueProvider<CoreMVarstaticDTO>();
 
 		/* Step 2 : Buat Selection Model */
@@ -133,7 +133,7 @@ public class ListMVarStatic implements IsWidget {
 		//store.addAll(TestData.getStocks());
 
 		/* Step 8 : Buat Grid */
-		Grid<CoreMVarstaticDTO> grid = new Grid<CoreMVarstaticDTO>(store, cm);
+		Grid<CoreMVarstaticDTO> grid = new Grid<CoreMVarstaticDTO>(getTestStore(), cm);
 		grid.setSelectionModel(selectionModel);
 		grid.setColumnReordering(true);
 		grid.setAllowTextSelection(true);
@@ -144,6 +144,15 @@ public class ListMVarStatic implements IsWidget {
 		grid.getView().setColumnLines(true);
 
 		return grid;
+	}
+
+	private ListStore<CoreMVarstaticDTO> getTestStore(){
+		ListStore<CoreMVarstaticDTO> testStore = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
+		CoreMVarstaticDTO obj = new CoreMVarstaticDTO();
+		obj.setVarstat_name("Test nama");
+		obj.setVarstat_group("Test group");
+		testStore.add(obj);
+		return testStore;
 	}
 
 	/***********************************

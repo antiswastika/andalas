@@ -24,7 +24,7 @@ public class CoreMVarstatic implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "varstat_id", unique = true, nullable = false, length = 23)
 	private String varstatId;
 

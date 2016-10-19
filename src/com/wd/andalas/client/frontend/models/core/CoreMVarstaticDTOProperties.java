@@ -9,7 +9,7 @@ import com.sencha.gxt.data.shared.PropertyAccess;
 
 public interface CoreMVarstaticDTOProperties extends PropertyAccess<CoreMVarstaticDTO> {
 
-	@Path("varstat_id")
+	@Path("id")
 	ModelKeyProvider<CoreMVarstaticDTO> varstat_id();
 
 	ValueProvider<CoreMVarstaticDTO, Date> created_at();
@@ -17,10 +17,7 @@ public interface CoreMVarstaticDTOProperties extends PropertyAccess<CoreMVarstat
 	ValueProvider<CoreMVarstaticDTO, Date> updated_at();
 	ValueProvider<CoreMVarstaticDTO, String> updated_by();
 	ValueProvider<CoreMVarstaticDTO, String> varstat_desc();
-
-	@Path("varstat_name")
 	ValueProvider<CoreMVarstaticDTO, String> varstat_name();
-
 	ValueProvider<CoreMVarstaticDTO, Integer> varstat_seq();
 	ValueProvider<CoreMVarstaticDTO, String> varstat_group();
 	ValueProvider<CoreMVarstaticDTO, String> varstat_parentid();

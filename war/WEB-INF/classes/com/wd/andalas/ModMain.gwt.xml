@@ -13,7 +13,7 @@
 	
 	<source path="client" />
 	<source path="server" />
-	<source path="others" />
+	<source path="global" />
 	<entry-point class="com.wd.andalas.client.ModMain" />
 	
     <!-- GXT Stuff -->

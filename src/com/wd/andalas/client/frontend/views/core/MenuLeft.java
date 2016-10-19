@@ -13,7 +13,7 @@ import com.sencha.gxt.widget.core.client.container.BoxLayoutContainer.BoxLayoutD
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer.VBoxLayoutAlign;
 import com.wd.andalas.client.frontend.views.core.mvarstatic.ListMVarStatic;
-import com.wd.andalas.others.MyClickHandler;
+import com.wd.andalas.global.GlobalClickHandler;
 
 public class MenuLeft {
 
@@ -59,7 +59,7 @@ public class MenuLeft {
 	private void doCreateImageList(VBoxLayoutContainer vlcNya, String pathIconNya, String teksLabelNya, Widget widgetNya) {
 		String[] tabParams = { teksLabelNya };
 		Widget objParams = widgetNya;
-		MyClickHandler myClickHandler = new MyClickHandler();
+		GlobalClickHandler myClickHandler = new GlobalClickHandler();
 		myClickHandler.setTabParams(tabParams);
 		myClickHandler.setObjParams(objParams);
 
