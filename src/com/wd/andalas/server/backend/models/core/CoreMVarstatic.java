@@ -26,7 +26,11 @@ public class CoreMVarstatic implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// Just copy the fields from EventDTO (client side) to this server side class
+	/*********************************** CONSTRUCTORS ***********************************/
+	public CoreMVarstatic() {
+	}
+	
+	// Just copy the fields from CoreMVarstaticDTO (client side) to this server side class
 	public CoreMVarstatic(CoreMVarstaticDTO obj) {
 		this.varstatId = obj.getVarstat_id();
 		this.createdAt = obj.getCreated_at();
@@ -95,9 +99,6 @@ public class CoreMVarstatic implements Serializable {
 
 	@Column(name = "varstat_seq", nullable = false)
 	private int varstatSeq;
-
-	public CoreMVarstatic() {
-	}
 
 	public String getVarstatId() {
 		return this.varstatId;

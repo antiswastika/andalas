@@ -3,6 +3,8 @@ package com.wd.andalas.client.frontend.models.core;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.wd.andalas.server.backend.models.core.CoreMVarstatic;
+
 public class CoreMVarstaticDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +27,25 @@ public class CoreMVarstaticDTO implements Serializable {
 
 	/*********************************** CONSTRUCTORS ***********************************/
 	public CoreMVarstaticDTO() {
+	}
+	
+	// Just copy the fields from server side class to CoreMVarstaticDTO (client side) 
+	public CoreMVarstaticDTO(CoreMVarstatic obj) {
+		this.varstat_id = obj.getVarstatId();
+		this.created_at = obj.getCreatedAt();
+		this.created_by = obj.getCreatedBy();
+		this.updated_at = obj.getUpdatedAt();
+		this.updated_by = obj.getUpdatedBy();
+//		this.varstatActivedate = obj.getVarstat_activedate();
+//		this.varstatDeleteable = obj.getVarstat_deleteable();
+//		this.varstatDesc = obj.getVarstat_id();
+//		this.varstatExpiredate = obj.getVarstat_expiredate();
+//		this.varstatGroup = obj.getVarstat_desc();
+//		this.varstatIcon = obj.getVarstat_icon();
+//		this.varstatLock = obj.getVarstat_lock();
+//		this.varstatName = obj.getVarstat_name();
+//		this.varstatParentid = obj.getVarstat_id();
+//		this.varstatSeq = obj.getVarstat_seq();
 	}
 
 	/*********************************** SETTER GETTER ***********************************/
