@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
+
 /**
  * The persistent class for the core_m_varstatic database table.
  *
@@ -21,7 +23,27 @@ import javax.persistence.TemporalType;
 @Table(name = "core_m_varstatic")
 @NamedQuery(name = "CoreMVarstatic.findAll", query = "SELECT c FROM CoreMVarstatic c")
 public class CoreMVarstatic implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
+	// Just copy the fields from EventDTO (client side) to this server side class
+	public CoreMVarstatic(CoreMVarstaticDTO obj) {
+		this.varstatId = obj.getVarstat_id();
+		this.createdAt = obj.getCreated_at();
+		this.createdBy = obj.getCreated_by();
+		this.updatedAt = obj.getUpdated_at();
+		this.updatedBy = obj.getUpdated_by();
+		this.varstatActivedate = obj.getVarstat_activedate();
+		this.varstatDeleteable = obj.getVarstat_deleteable();
+		this.varstatDesc = obj.getVarstat_id();
+		this.varstatExpiredate = obj.getVarstat_expiredate();
+		this.varstatGroup = obj.getVarstat_desc();
+		this.varstatIcon = obj.getVarstat_icon();
+		this.varstatLock = obj.getVarstat_lock();
+		this.varstatName = obj.getVarstat_name();
+		this.varstatParentid = obj.getVarstat_id();
+		this.varstatSeq = obj.getVarstat_seq();
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

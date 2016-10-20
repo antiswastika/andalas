@@ -6,19 +6,20 @@ import java.util.Date;
 public class CoreMVarstaticDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Long varstat_id;
+
+	private String varstat_id;
 	private Date created_at;
 	private String created_by;
 	private Date updated_at;
 	private String updated_by;
 	private String varstat_desc;
 	private String varstat_name;
-	private int varstat_seq;
+	private Integer varstat_seq;
 	private String varstat_group;
 	private String varstat_parentid;
 	private String varstat_icon;
-	private int varstat_lock;
-	private int varstat_deleteable;
+	private Byte varstat_lock;
+	private Byte varstat_deleteable;
 	private Date varstat_activedate;
 	private Date varstat_expiredate;
 
@@ -26,16 +27,11 @@ public class CoreMVarstaticDTO implements Serializable {
 	public CoreMVarstaticDTO() {
 	}
 
-	//	public CoreMVarstaticDTO(String title, Date date) {
-	//		this.title = title;
-	//		this.date = date;
-	//	}
-
 	/*********************************** SETTER GETTER ***********************************/
-	public Long getVarstat_id() {
+	public String getVarstat_id() {
 		return varstat_id;
 	}
-	public void setVarstat_id(Long varstat_id) {
+	public void setVarstat_id(String varstat_id) {
 		this.varstat_id = varstat_id;
 	}
 
@@ -81,10 +77,10 @@ public class CoreMVarstaticDTO implements Serializable {
 		this.varstat_name = varstat_name;
 	}
 
-	public int getVarstat_seq() {
+	public Integer getVarstat_seq() {
 		return varstat_seq;
 	}
-	public void setVarstat_seq(int varstat_seq) {
+	public void setVarstat_seq(Integer varstat_seq) {
 		this.varstat_seq = varstat_seq;
 	}
 
@@ -109,17 +105,17 @@ public class CoreMVarstaticDTO implements Serializable {
 		this.varstat_icon = varstat_icon;
 	}
 
-	public int getVarstat_lock() {
+	public Byte getVarstat_lock() {
 		return varstat_lock;
 	}
-	public void setVarstat_lock(int varstat_lock) {
+	public void setVarstat_lock(Byte varstat_lock) {
 		this.varstat_lock = varstat_lock;
 	}
 
-	public int getVarstat_deleteable() {
+	public Byte getVarstat_deleteable() {
 		return varstat_deleteable;
 	}
-	public void setVarstat_deleteable(int varstat_deleteable) {
+	public void setVarstat_deleteable(Byte varstat_deleteable) {
 		this.varstat_deleteable = varstat_deleteable;
 	}
 

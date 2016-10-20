@@ -105,8 +105,8 @@ public class ListMVarStatic implements IsWidget {
 		// ColumnConfig<CoreMVarstaticDTO,
 		// String>(properties.varstat_parentid(), 150, "Nama Parent");
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_icon = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_icon(), 250, "Icon");
-		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_lock(), 100, "ReadOnly");
-		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_deleteable(), 100, "Deleteable");
+		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_lock(), 100, "ReadOnly");
+		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_deleteable(), 100, "Deleteable");
 		ColumnConfig<CoreMVarstaticDTO, Date> varstat_activedate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_activedate(), 120, "Tgl Mulai");
 		ColumnConfig<CoreMVarstaticDTO, Date> varstat_expiredate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_expiredate(), 120, "Tgl Berakhir");
 		created_at.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
@@ -133,11 +133,10 @@ public class ListMVarStatic implements IsWidget {
 		ColumnModel<CoreMVarstaticDTO> cm = new ColumnModel<CoreMVarstaticDTO>(columns);
 
 		/* Step 7 : Buat Store */
-		ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
-		// store.addAll(TestData.getStocks());
+		ListStore<CoreMVarstaticDTO> store = doCreateStore();
 
 		/* Step 8 : Buat Grid */
-		Grid<CoreMVarstaticDTO> grid = new Grid<CoreMVarstaticDTO>(getTestStore(), cm);
+		Grid<CoreMVarstaticDTO> grid = new Grid<CoreMVarstaticDTO>(store, cm);
 		grid.setSelectionModel(selectionModel);
 		grid.setColumnReordering(true);
 		grid.setAllowTextSelection(true);
@@ -150,13 +149,15 @@ public class ListMVarStatic implements IsWidget {
 		return grid;
 	}
 
-	private ListStore<CoreMVarstaticDTO> getTestStore() {
-		ListStore<CoreMVarstaticDTO> testStore = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
+	private ListStore<CoreMVarstaticDTO> doCreateStore() {
+		ListStore<CoreMVarstaticDTO> theStore = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
 		CoreMVarstaticDTO obj = new CoreMVarstaticDTO();
 		obj.setVarstat_name("Test nama");
 		obj.setVarstat_group("Test group");
-		testStore.add(obj);
-		return testStore;
+		theStore.add(obj);
+		// theStore.addAll(TestData.getStocks());
+
+		return theStore;
 	}
 
 	/***********************************

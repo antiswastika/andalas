@@ -22,8 +22,8 @@ public interface CoreMVarstaticDTOProperties extends PropertyAccess<CoreMVarstat
 	ValueProvider<CoreMVarstaticDTO, String> varstat_group();
 	ValueProvider<CoreMVarstaticDTO, String> varstat_parentid();
 	ValueProvider<CoreMVarstaticDTO, String> varstat_icon();
-	ValueProvider<CoreMVarstaticDTO, Integer> varstat_lock();
-	ValueProvider<CoreMVarstaticDTO, Integer> varstat_deleteable();
+	ValueProvider<CoreMVarstaticDTO, Byte> varstat_lock();
+	ValueProvider<CoreMVarstaticDTO, Byte> varstat_deleteable();
 	ValueProvider<CoreMVarstaticDTO, Date> varstat_activedate();
 	ValueProvider<CoreMVarstaticDTO, Date> varstat_expiredate();
 

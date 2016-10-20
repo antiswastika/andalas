@@ -2,23 +2,28 @@ package com.wd.andalas.client;
 
 import java.util.HashMap;
 
-import org.hibernate.Session;
-
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.Viewport;
+import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
+import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
+import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.client.frontend.views.core.RegionNorth;
 import com.wd.andalas.client.frontend.views.core.RegionSouth;
 import com.wd.andalas.client.frontend.views.core.RegionTabPanel;
 import com.wd.andalas.client.frontend.views.core.RegionWest;
 import com.wd.andalas.global.Singleton;
-import com.wd.andalas.server.backend.HibernateUtil;
 
 public class ModMain implements EntryPoint {
 	private Viewport viewPort = new Viewport();
 	private HashMap<String, Object> allObjects = new HashMap<String, Object>();
 	private BorderLayoutContainer blc;
+
+	private CoreMVarstaticServiceAsync testService = GWT.create(CoreMVarstaticService.class);
 
 	/***********************************
 	 * MAIN CODE
@@ -52,6 +57,8 @@ public class ModMain implements EntryPoint {
 		RootLayoutPanel.get().add(viewPort);
 		// Logger logger = Logger.getLogger("DEBUG");
 		// logger.log(Level.INFO, "X");
+
+		testService.selectById("XXXXXX", new CoreMVarstaticDTOCallBack());
 	}
 
 	public BorderLayoutContainer startUp() {
@@ -79,11 +86,21 @@ public class ModMain implements EntryPoint {
 			blc.setCenterWidget(regionTabPanel);
 
 			regionTabPanel.doCreateTab(regionTabPanel.getTabPanel(), null, null);
-
-			Session session = HibernateUtil.getSessionFactory().openSession();
-			session.close();
 		}
 		return blc;
+	}
+
+	private class CoreMVarstaticDTOCallBack implements AsyncCallback<CoreMVarstaticDTO> {
+		@Override
+		public void onFailure(Throwable caught) {
+			/* server side error occured */
+			Window.alert("Unable to obtain server response: " + caught.getMessage());
+		}
+		@Override
+		public void onSuccess(CoreMVarstaticDTO result) {
+			/* server returned result, show user the message */
+			Window.alert(result.getVarstat_id());
+		}
 	}
 
 	/***********************************

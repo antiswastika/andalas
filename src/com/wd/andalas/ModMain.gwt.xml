@@ -3,8 +3,8 @@
 <module rename-to="Home">
 	<!-- GWT Stuff -->
 	<inherits name="com.google.gwt.user.User" />
-	
 	<inherits name="com.google.gwt.logging.Logging"/>
+	
 	<set-property name="gwt.logging.enabled" value="TRUE" />
 	<set-property name="gwt.logging.systemHandler" value="ENABLED" />
   	<set-property name="gwt.logging.developmentModeHandler" value="ENABLED" />
