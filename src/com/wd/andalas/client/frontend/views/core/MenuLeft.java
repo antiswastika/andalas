@@ -36,7 +36,7 @@ public class MenuLeft {
 		vlc_B.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_B.setPadding(new Padding(10));
 		ListMVarStatic listMVarStatic = new ListMVarStatic();
-		listMVarStatic.setTabHeader("Daftar Variabel Statis");
+		//listMVarStatic.setTabHeader("Daftar Variabel Statis");
 		doCreateImageList(vlc_B, "images/icon/32x32/daftar_varstatis.png", "Variabel Statis", listMVarStatic.asWidget());
 		doCreateImageList(vlc_B, "images/icon/32x32/daftar_user.png", "Daftar User", new Label().asWidget());
 		doCreateImageList(vlc_B, "images/icon/32x32/ganti_password.png", "Ubah Password", new Label().asWidget());
