@@ -8,6 +8,8 @@ import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.IdentityValueProvider;
@@ -23,6 +25,8 @@ import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
+import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
+import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTOProperties;
 
@@ -32,6 +36,7 @@ public class ListMVarStatic implements IsWidget {
 	private BorderLayoutData listData = new BorderLayoutData();
 	private String tabHeader = "";
 	private CoreMVarstaticDTOProperties properties = GWT.create(CoreMVarstaticDTOProperties.class);
+	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
 	private VerticalLayoutContainer vlc;
 	private PagingToolBar toolbar;
 
@@ -47,10 +52,18 @@ public class ListMVarStatic implements IsWidget {
 			list.setHeaderVisible(true);
 			list.setHeading(tabHeader);
 			listData.setMargins(new Margins(0, 0, 0, 0));
-
 			list.setLayoutData(listData);
-			doCreateVerticalLayoutContainer();
+
+			VerticalLayoutContainer vlc = doCreateVerticalLayoutContainer();
+			Grid<CoreMVarstaticDTO> grid = doCreateGrid();
+			PagingToolBar toolbar = doCreatePagingToolBar();
+			ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(null);
+
+			vlc.add(grid, new VerticalLayoutData(1, 1));
+			vlc.add(toolbar, new VerticalLayoutData(1, -1));
 			list.add(vlc);
+
+			doLoadData(store);
 		}
 		return list;
 	}
@@ -60,10 +73,6 @@ public class ListMVarStatic implements IsWidget {
 	 ***********************************/
 	private VerticalLayoutContainer doCreateVerticalLayoutContainer() {
 		vlc = new VerticalLayoutContainer();
-		Grid<CoreMVarstaticDTO> grid = doCreateGrid();
-		PagingToolBar toolbar = doCreatePagingToolBar();
-		vlc.add(grid, new VerticalLayoutData(1, 1));
-		vlc.add(toolbar, new VerticalLayoutData(1, -1));
 		return vlc;
 	}
 
@@ -133,7 +142,7 @@ public class ListMVarStatic implements IsWidget {
 		ColumnModel<CoreMVarstaticDTO> cm = new ColumnModel<CoreMVarstaticDTO>(columns);
 
 		/* Step 7 : Buat Store */
-		ListStore<CoreMVarstaticDTO> store = doCreateStore();
+		ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
 
 		/* Step 8 : Buat Grid */
 		Grid<CoreMVarstaticDTO> grid = new Grid<CoreMVarstaticDTO>(store, cm);
@@ -149,15 +158,23 @@ public class ListMVarStatic implements IsWidget {
 		return grid;
 	}
 
-	private ListStore<CoreMVarstaticDTO> doCreateStore() {
-		ListStore<CoreMVarstaticDTO> theStore = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
-		CoreMVarstaticDTO obj = new CoreMVarstaticDTO();
-		obj.setVarstat_name("Test nama");
-		obj.setVarstat_group("Test group");
-		theStore.add(obj);
-		// theStore.addAll(TestData.getStocks());
+	private void doLoadData(ListStore<CoreMVarstaticDTO> store) {
+		service.getById("TESTIDNYA-001", new AsyncCallback<CoreMVarstaticDTO>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Gagal");
+			}
+			@Override
+			public void onSuccess(CoreMVarstaticDTO result) {
+				Window.alert(result.getVarstat_name());
+			}
+		});
 
-		return theStore;
+		/*MOCKUP DATA*/
+		//		CoreMVarstaticDTO obj = new CoreMVarstaticDTO();
+		//		obj.setVarstat_name("Test nama");
+		//		obj.setVarstat_group("Test group");
+		//		store.add(obj);
 	}
 
 	/***********************************

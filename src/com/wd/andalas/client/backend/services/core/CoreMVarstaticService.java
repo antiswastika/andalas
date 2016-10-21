@@ -7,6 +7,6 @@ import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 @RemoteServiceRelativePath("coremvarstatic")
 public interface CoreMVarstaticService extends RemoteService {
 
-	CoreMVarstaticDTO selectById(String id);
+	public CoreMVarstaticDTO getById(String id);
 
 }

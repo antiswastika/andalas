@@ -28,24 +28,25 @@ public class CoreMVarstaticDTO implements Serializable {
 	/*********************************** CONSTRUCTORS ***********************************/
 	public CoreMVarstaticDTO() {
 	}
-	
-	// Just copy the fields from server side class to CoreMVarstaticDTO (client side) 
+
+	// Just copy the fields from server side class to CoreMVarstaticDTO (client side)
 	public CoreMVarstaticDTO(CoreMVarstatic obj) {
+		super();
 		this.varstat_id = obj.getVarstatId();
 		this.created_at = obj.getCreatedAt();
 		this.created_by = obj.getCreatedBy();
 		this.updated_at = obj.getUpdatedAt();
 		this.updated_by = obj.getUpdatedBy();
-//		this.varstatActivedate = obj.getVarstat_activedate();
-//		this.varstatDeleteable = obj.getVarstat_deleteable();
-//		this.varstatDesc = obj.getVarstat_id();
-//		this.varstatExpiredate = obj.getVarstat_expiredate();
-//		this.varstatGroup = obj.getVarstat_desc();
-//		this.varstatIcon = obj.getVarstat_icon();
-//		this.varstatLock = obj.getVarstat_lock();
-//		this.varstatName = obj.getVarstat_name();
-//		this.varstatParentid = obj.getVarstat_id();
-//		this.varstatSeq = obj.getVarstat_seq();
+		this.varstat_activedate = obj.getVarstatActivedate();
+		this.varstat_deleteable = obj.getVarstatDeleteable();
+		this.varstat_desc = obj.getVarstatId();
+		this.varstat_expiredate = obj.getVarstatExpiredate();
+		this.varstat_group = obj.getVarstatDesc();
+		this.varstat_icon = obj.getVarstatIcon();
+		this.varstat_lock = obj.getVarstatLock();
+		this.varstat_name = obj.getVarstatName();
+		this.varstat_parentid = obj.getVarstatId();
+		this.varstat_seq = obj.getVarstatSeq();
 	}
 
 	/*********************************** SETTER GETTER ***********************************/

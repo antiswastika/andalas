@@ -9,3 +9,8 @@ http://jagocoding.com/tutorial/1181/CRUD_Hibernate_Java
 
 http://www.dineshonjava.com/2012/03/hibernate-3-on-baby-steps.html#.WAc6fIN96Hs
 https://singularityprogramming.wordpress.com/2012/04/06/gwt-2-4-0-hibernate-3-6-10-final/
+
+http://www.vogella.com/tutorials/GWT/article.html
+http://www.developerfusion.com/article/84332/simple-rpc-with-gwt/
+
+http://www.gwtproject.org/doc/latest/DevGuideServerCommunication.html#DevGuideMakingACall
