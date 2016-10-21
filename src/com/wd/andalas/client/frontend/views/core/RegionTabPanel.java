@@ -29,7 +29,10 @@ public class RegionTabPanel implements IsWidget {
 		return tabPanel;
 	}
 
-	/*********************************** CUSTOM METHODS ***********************************/
+	/*********************************** CUSTOM METHODS
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException ***********************************/
 	public TabPanel doCreateTab(TabPanel tabPanel, String[] tabParams, Widget objParams) {
 		if (tabParams == null) {
 			tabPanel.clear();
