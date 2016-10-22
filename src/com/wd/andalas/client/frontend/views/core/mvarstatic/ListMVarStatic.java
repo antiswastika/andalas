@@ -29,20 +29,21 @@ import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTOProperties;
+import com.wd.andalas.server.backend.models.core.CoreMVarstatic;
 
 public class ListMVarStatic implements IsWidget {
-
+	
+	/********** Inisiasi **********/
 	private ContentPanel list;
 	private BorderLayoutData listData = new BorderLayoutData();
 	private String tabHeader = "";
 	private CoreMVarstaticDTOProperties properties = GWT.create(CoreMVarstaticDTOProperties.class);
 	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
 	private VerticalLayoutContainer vlc;
+	private Grid<CoreMVarstaticDTO> grid;
 	private PagingToolBar toolbar;
 
-	/***********************************
-	 * MAIN CODE
-	 ***********************************/
+	/********** Main Methods **********/
 	@Override
 	public Widget asWidget() {
 		if (list == null) {
@@ -54,23 +55,21 @@ public class ListMVarStatic implements IsWidget {
 			listData.setMargins(new Margins(0, 0, 0, 0));
 			list.setLayoutData(listData);
 
-			VerticalLayoutContainer vlc = doCreateVerticalLayoutContainer();
-			Grid<CoreMVarstaticDTO> grid = doCreateGrid();
-			PagingToolBar toolbar = doCreatePagingToolBar();
-			ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(null);
+			vlc = doCreateVerticalLayoutContainer();
+			grid = doCreateGrid();
+			toolbar = doCreatePagingToolBar();
 
 			vlc.add(grid, new VerticalLayoutData(1, 1));
 			vlc.add(toolbar, new VerticalLayoutData(1, -1));
 			list.add(vlc);
 
-			doLoadData(store);
+			//doLoadDataById("VAR20150115095841947680");
+			doLoadDataAll();
 		}
 		return list;
 	}
 
-	/***********************************
-	 * CUSTOM METHODS
-	 ***********************************/
+	/********** Custom Methods **********/
 	private VerticalLayoutContainer doCreateVerticalLayoutContainer() {
 		vlc = new VerticalLayoutContainer();
 		return vlc;
@@ -107,12 +106,8 @@ public class ListMVarStatic implements IsWidget {
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_name = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_name(), 250, "Nilai Statis");
 		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_seq = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_seq(), 80, "Urutan");
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_group = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_group(), 200, "Grup");
-		// ColumnConfig<CoreMVarstaticDTO, String> varstat_parentid = new
-		// ColumnConfig<CoreMVarstaticDTO,
-		// String>(properties.varstat_parentid(), 150, "Id Parent");
-		// ColumnConfig<CoreMVarstaticDTO, String> varstat_parentname = new
-		// ColumnConfig<CoreMVarstaticDTO,
-		// String>(properties.varstat_parentid(), 150, "Nama Parent");
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_parentid = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, "Id Parent");
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_parentname = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, "Nama Parent");
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_icon = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_icon(), 250, "Icon");
 		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_lock(), 100, "ReadOnly");
 		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_deleteable(), 100, "Deleteable");
@@ -129,8 +124,8 @@ public class ListMVarStatic implements IsWidget {
 		columns.add(varstat_name);
 		columns.add(varstat_group);
 		columns.add(varstat_seq);
-		// columns.add(varstat_parentid);
-		// columns.add(varstat_parentname);
+		columns.add(varstat_parentid);
+		columns.add(varstat_parentname);
 		columns.add(varstat_lock);
 		columns.add(varstat_deleteable);
 		columns.add(varstat_activedate);
@@ -141,11 +136,11 @@ public class ListMVarStatic implements IsWidget {
 		/* Step 6 : Buat Column Model */
 		ColumnModel<CoreMVarstaticDTO> cm = new ColumnModel<CoreMVarstaticDTO>(columns);
 
-		/* Step 7 : Buat Store */
+		/* Step 7 : Buat Store*/
 		ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
-
+		
 		/* Step 8 : Buat Grid */
-		Grid<CoreMVarstaticDTO> grid = new Grid<CoreMVarstaticDTO>(store, cm);
+		grid = new Grid<CoreMVarstaticDTO>(store, cm);
 		grid.setSelectionModel(selectionModel);
 		grid.setColumnReordering(true);
 		grid.setAllowTextSelection(true);
@@ -154,32 +149,51 @@ public class ListMVarStatic implements IsWidget {
 		grid.setColumnReordering(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
-
+		
 		return grid;
 	}
 
-	private void doLoadData(ListStore<CoreMVarstaticDTO> store) {
-		service.getById("TESTIDNYA-001", new AsyncCallback<CoreMVarstaticDTO>() {
+	@SuppressWarnings("unused")
+	private void doLoadDataById(String id) {
+		service.getById(id, new AsyncCallback<CoreMVarstaticDTO>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Gagal");
+				Window.alert("Fetch Data Gagal.....");
 			}
 			@Override
 			public void onSuccess(CoreMVarstaticDTO result) {
-				Window.alert(result.getVarstat_name());
+				//Window.alert(result.getVarstat_name());
+				grid.getStore().add(result);
 			}
 		});
-
-		/*MOCKUP DATA*/
-		//		CoreMVarstaticDTO obj = new CoreMVarstaticDTO();
-		//		obj.setVarstat_name("Test nama");
-		//		obj.setVarstat_group("Test group");
-		//		store.add(obj);
+	}
+	
+	private void doLoadDataAll() {
+		service.getAll(new AsyncCallback<List<CoreMVarstatic>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Fetch Data Gagal.....");
+			}
+			@Override
+			public void onSuccess(List<CoreMVarstatic> result) {
+				//Window.alert(Integer.toString(result.size()));
+				ListStore<CoreMVarstaticDTO> store = grid.getStore();
+				/*int i = 0;
+				for (CoreMVarstatic obj : result) {
+					store.add(new CoreMVarstaticDTO(obj));
+					i++;
+				}*/
+				
+				store.add(0, new CoreMVarstaticDTO(result.get(6)));
+				store.add(1, new CoreMVarstaticDTO(result.get(1)));
+				store.add(2, new CoreMVarstaticDTO(result.get(2)));
+				store.add(3, new CoreMVarstaticDTO(result.get(3)));
+				store.add(4, new CoreMVarstaticDTO(result.get(4)));
+			}
+		});
 	}
 
-	/***********************************
-	 * SETTER GETTER
-	 ***********************************/
+	/********** Setter Getter **********/
 	public ContentPanel getList() {
 		return list;
 	}

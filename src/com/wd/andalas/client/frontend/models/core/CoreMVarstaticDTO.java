@@ -28,7 +28,6 @@ public class CoreMVarstaticDTO implements Serializable {
 	/********** Main Methods **********/
 	public CoreMVarstaticDTO() { }
 
-	// Just copy the fields from server side class to CoreMVarstaticDTO (client side)
 	public CoreMVarstaticDTO(CoreMVarstatic obj) {
 		super();
 		this.varstat_id = obj.getVarstatId();
@@ -38,13 +37,13 @@ public class CoreMVarstaticDTO implements Serializable {
 		this.updated_by = obj.getUpdatedBy();
 		this.varstat_activedate = obj.getVarstatActivedate();
 		this.varstat_deleteable = obj.getVarstatDeleteable();
-		this.varstat_desc = obj.getVarstatId();
+		this.varstat_desc = obj.getVarstatDesc();
 		this.varstat_expiredate = obj.getVarstatExpiredate();
-		this.varstat_group = obj.getVarstatDesc();
+		this.varstat_group = obj.getVarstatGroup();
 		this.varstat_icon = obj.getVarstatIcon();
 		this.varstat_lock = obj.getVarstatLock();
 		this.varstat_name = obj.getVarstatName();
-		this.varstat_parentid = obj.getVarstatId();
+		this.varstat_parentid = obj.getVarstatParentid();
 		this.varstat_seq = obj.getVarstatSeq();
 	}
 

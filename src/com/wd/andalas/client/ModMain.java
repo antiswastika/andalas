@@ -39,7 +39,7 @@ public class ModMain implements EntryPoint {
 		
 		Logger logger = Logger.getLogger("DEBUG");
 		logger.log(Level.INFO, "Application Started.....");
-		
+				
 		allObjects.put("viewPort", viewPort);
 		allObjects.put("mainWidget", mainWidget);
 		Singleton.getInstance().setAllObjects(allObjects);
