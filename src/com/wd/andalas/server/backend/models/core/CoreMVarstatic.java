@@ -23,12 +23,12 @@ import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 @Table(name = "core_m_varstatic")
 @NamedQuery(name = "CoreMVarstatic.findAll", query = "SELECT c FROM CoreMVarstatic c")
 public class CoreMVarstatic implements Serializable {
-
+	
+	/********** Inisiasi **********/
 	private static final long serialVersionUID = 1L;
 
-	/*********************************** CONSTRUCTORS ***********************************/
-	public CoreMVarstatic() {
-	}
+	/********** Main Methods **********/
+	public CoreMVarstatic() { }
 	
 	// Just copy the fields from CoreMVarstaticDTO (client side) to this server side class
 	public CoreMVarstatic(CoreMVarstaticDTO obj) {
@@ -99,11 +99,11 @@ public class CoreMVarstatic implements Serializable {
 
 	@Column(name = "varstat_seq", nullable = false)
 	private int varstatSeq;
-
+	
+	/********** Setter Getter **********/
 	public String getVarstatId() {
 		return this.varstatId;
 	}
-
 	public void setVarstatId(String varstatId) {
 		this.varstatId = varstatId;
 	}
@@ -111,7 +111,6 @@ public class CoreMVarstatic implements Serializable {
 	public Date getCreatedAt() {
 		return this.createdAt;
 	}
-
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
@@ -119,7 +118,6 @@ public class CoreMVarstatic implements Serializable {
 	public String getCreatedBy() {
 		return this.createdBy;
 	}
-
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
@@ -127,7 +125,6 @@ public class CoreMVarstatic implements Serializable {
 	public Date getUpdatedAt() {
 		return this.updatedAt;
 	}
-
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
@@ -135,7 +132,6 @@ public class CoreMVarstatic implements Serializable {
 	public String getUpdatedBy() {
 		return this.updatedBy;
 	}
-
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
@@ -143,7 +139,6 @@ public class CoreMVarstatic implements Serializable {
 	public Date getVarstatActivedate() {
 		return this.varstatActivedate;
 	}
-
 	public void setVarstatActivedate(Date varstatActivedate) {
 		this.varstatActivedate = varstatActivedate;
 	}
@@ -151,7 +146,6 @@ public class CoreMVarstatic implements Serializable {
 	public byte getVarstatDeleteable() {
 		return this.varstatDeleteable;
 	}
-
 	public void setVarstatDeleteable(byte varstatDeleteable) {
 		this.varstatDeleteable = varstatDeleteable;
 	}
@@ -159,7 +153,6 @@ public class CoreMVarstatic implements Serializable {
 	public String getVarstatDesc() {
 		return this.varstatDesc;
 	}
-
 	public void setVarstatDesc(String varstatDesc) {
 		this.varstatDesc = varstatDesc;
 	}
@@ -167,7 +160,6 @@ public class CoreMVarstatic implements Serializable {
 	public Date getVarstatExpiredate() {
 		return this.varstatExpiredate;
 	}
-
 	public void setVarstatExpiredate(Date varstatExpiredate) {
 		this.varstatExpiredate = varstatExpiredate;
 	}
@@ -175,7 +167,6 @@ public class CoreMVarstatic implements Serializable {
 	public String getVarstatGroup() {
 		return this.varstatGroup;
 	}
-
 	public void setVarstatGroup(String varstatGroup) {
 		this.varstatGroup = varstatGroup;
 	}
@@ -183,7 +174,6 @@ public class CoreMVarstatic implements Serializable {
 	public String getVarstatIcon() {
 		return this.varstatIcon;
 	}
-
 	public void setVarstatIcon(String varstatIcon) {
 		this.varstatIcon = varstatIcon;
 	}
@@ -191,7 +181,6 @@ public class CoreMVarstatic implements Serializable {
 	public byte getVarstatLock() {
 		return this.varstatLock;
 	}
-
 	public void setVarstatLock(byte varstatLock) {
 		this.varstatLock = varstatLock;
 	}
@@ -199,7 +188,6 @@ public class CoreMVarstatic implements Serializable {
 	public String getVarstatName() {
 		return this.varstatName;
 	}
-
 	public void setVarstatName(String varstatName) {
 		this.varstatName = varstatName;
 	}
@@ -207,7 +195,6 @@ public class CoreMVarstatic implements Serializable {
 	public String getVarstatParentid() {
 		return this.varstatParentid;
 	}
-
 	public void setVarstatParentid(String varstatParentid) {
 		this.varstatParentid = varstatParentid;
 	}
@@ -215,7 +202,6 @@ public class CoreMVarstatic implements Serializable {
 	public int getVarstatSeq() {
 		return this.varstatSeq;
 	}
-
 	public void setVarstatSeq(int varstatSeq) {
 		this.varstatSeq = varstatSeq;
 	}

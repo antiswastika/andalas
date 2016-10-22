@@ -5,6 +5,7 @@ import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 
 public interface CoreMVarstaticServiceAsync {
 
+	/********** Main Methods **********/
 	public void getById(String id, AsyncCallback<CoreMVarstaticDTO> callback);
 
 }

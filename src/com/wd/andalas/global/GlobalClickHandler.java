@@ -1,27 +1,27 @@
 package com.wd.andalas.global;
 
-import java.util.HashMap;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Widget;
-import com.wd.andalas.client.frontend.views.core.RegionTabPanel;
+import com.sencha.gxt.widget.core.client.TabPanel;
+import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 
 public class GlobalClickHandler implements ClickHandler {
-	private String[] tabParams;
-	private Widget objParams;
-	private HashMap<String, Object> allObjects = null;
 	
-	/*********************************** MAIN CODE ***********************************/
+	/********** Inisiasi **********/
+	private String[] tabParams;
+	private String widgetParams;
+	
+	/********** Main Methods **********/
 	@Override
 	public void onClick(ClickEvent event) {
-		RegionTabPanel tabPanel = (RegionTabPanel) Singleton.getInstance().getAllObjects().get("regionTabPanel");
-		tabPanel.doCreateTab(tabPanel.getTabPanel(), tabParams, objParams);
-		allObjects.put(objParams.getElement().getId(), objParams);
-		Singleton.getInstance().setAllObjects(allObjects);
+		BorderLayoutContainer blc = (BorderLayoutContainer) Singleton.getInstance().getAllObjects().get("mainWidget");
+		TabPanel tabPanel = (TabPanel) blc.getCenterWidget(); 
+		
+		GlobalFunctions globalF = new GlobalFunctions();
+		globalF.doCreateTab(tabPanel, tabParams, widgetParams);
 	}
 	
-	/*********************************** SETTER GETTER ***********************************/
+	/********** Setter Getter **********/
 	public String[] getTabParams() {
 		return tabParams;
 	}
@@ -29,11 +29,11 @@ public class GlobalClickHandler implements ClickHandler {
 		this.tabParams = tabParams;
 	}
 
-	public Widget getObjParams() {
-		return objParams;
+	public String getWdigetParams() {
+		return widgetParams;
 	}
-	public void setObjParams(Widget objParams) {
-		this.objParams = objParams;
+	public void setWidgetParams(String widgetParams) {
+		this.widgetParams = widgetParams;
 	}
 
 }

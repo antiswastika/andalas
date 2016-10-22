@@ -4,24 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Singleton {
+	
+	/********** Inisiasi **********/
 	private static Singleton instance;
 	private Map<String, Object> allObjects = new HashMap<String, Object>();
 	private String singletonId = "";
 
-	/*********************************** MAIN CODE ***********************************/
-	/* A private Constructor prevents any other class from instantiating. */
-	private Singleton() {
-		// Exists only to defeat instantiation.
-	}
-
-	/*********************************** CUSTOM METHODS ***********************************/
-	/* Other methods protected by singleton-ness */
-	public static String showMessage( ) {
-		String msg = "Halo, ini dari singleton!";
-		return msg;
-	}
-
-	/*********************************** SETTER GETTER ***********************************/
+	/********** Main Methods **********/
+	private Singleton() { }
+	
 	/* Static 'instance' method */
 	public static synchronized Singleton getInstance( ) {
 		synchronized (Singleton.class) {
@@ -32,6 +23,13 @@ public class Singleton {
 		return instance;
 	}
 
+	/********** Custom Methods **********/
+	public static String showMessage( ) {
+		String msg = "Halo, ini dari singleton!";
+		return msg;
+	}
+	
+	/********** Setter Getter **********/
 	public String getSingletonId() {
 		return singletonId;
 	}

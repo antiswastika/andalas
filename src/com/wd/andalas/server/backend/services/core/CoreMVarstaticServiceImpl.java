@@ -6,8 +6,11 @@ import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.server.backend.models.core.CoreMVarstatic;
 
 public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements CoreMVarstaticService {
+	
+	/********** Inisiasi **********/
 	private static final long serialVersionUID = 1L;
-
+	
+	/********** Main Methods **********/
 	@Override
 	public CoreMVarstaticDTO getById(String id) {
 		CoreMVarstatic jObj = new CoreMVarstatic();

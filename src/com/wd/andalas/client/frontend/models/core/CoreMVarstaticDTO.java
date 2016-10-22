@@ -7,8 +7,8 @@ import com.wd.andalas.server.backend.models.core.CoreMVarstatic;
 
 public class CoreMVarstaticDTO implements Serializable {
 
+	/********** Inisiasi **********/
 	private static final long serialVersionUID = 1L;
-
 	private String varstat_id;
 	private Date created_at;
 	private String created_by;
@@ -25,9 +25,8 @@ public class CoreMVarstaticDTO implements Serializable {
 	private Date varstat_activedate;
 	private Date varstat_expiredate;
 
-	/*********************************** CONSTRUCTORS ***********************************/
-	public CoreMVarstaticDTO() {
-	}
+	/********** Main Methods **********/
+	public CoreMVarstaticDTO() { }
 
 	// Just copy the fields from server side class to CoreMVarstaticDTO (client side)
 	public CoreMVarstaticDTO(CoreMVarstatic obj) {
@@ -49,7 +48,7 @@ public class CoreMVarstaticDTO implements Serializable {
 		this.varstat_seq = obj.getVarstatSeq();
 	}
 
-	/*********************************** SETTER GETTER ***********************************/
+	/********** Setter Getter **********/
 	public String getVarstat_id() {
 		return varstat_id;
 	}
