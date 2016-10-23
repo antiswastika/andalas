@@ -29,7 +29,6 @@ import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTOProperties;
-import com.wd.andalas.server.backend.models.core.CoreMVarstatic;
 
 public class ListMVarStatic implements IsWidget {
 	
@@ -39,6 +38,7 @@ public class ListMVarStatic implements IsWidget {
 	private String tabHeader = "";
 	private CoreMVarstaticDTOProperties properties = GWT.create(CoreMVarstaticDTOProperties.class);
 	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
+	ColumnModel<CoreMVarstaticDTO> cm;
 	private VerticalLayoutContainer vlc;
 	private Grid<CoreMVarstaticDTO> grid;
 	private PagingToolBar toolbar;
@@ -134,7 +134,7 @@ public class ListMVarStatic implements IsWidget {
 		columns.add(varstat_icon);
 
 		/* Step 6 : Buat Column Model */
-		ColumnModel<CoreMVarstaticDTO> cm = new ColumnModel<CoreMVarstaticDTO>(columns);
+		cm = new ColumnModel<CoreMVarstaticDTO>(columns);
 
 		/* Step 7 : Buat Store*/
 		ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
@@ -169,26 +169,17 @@ public class ListMVarStatic implements IsWidget {
 	}
 	
 	private void doLoadDataAll() {
-		service.getAll(new AsyncCallback<List<CoreMVarstatic>>() {
+		service.getAll(new AsyncCallback<List<CoreMVarstaticDTO>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Fetch Data Gagal.....");
+				//Window.alert("Fetch Data Gagal.....");
 			}
 			@Override
-			public void onSuccess(List<CoreMVarstatic> result) {
-				//Window.alert(Integer.toString(result.size()));
-				ListStore<CoreMVarstaticDTO> store = grid.getStore();
-				/*int i = 0;
-				for (CoreMVarstatic obj : result) {
-					store.add(new CoreMVarstaticDTO(obj));
-					i++;
-				}*/
-				
-				store.add(0, new CoreMVarstaticDTO(result.get(6)));
-				store.add(1, new CoreMVarstaticDTO(result.get(1)));
-				store.add(2, new CoreMVarstaticDTO(result.get(2)));
-				store.add(3, new CoreMVarstaticDTO(result.get(3)));
-				store.add(4, new CoreMVarstaticDTO(result.get(4)));
+			public void onSuccess(List<CoreMVarstaticDTO> result) {				
+				ListStore<CoreMVarstaticDTO> store = grid.getStore();				
+				for (int i=0; i<result.size(); i++) {
+					store.add(result.get(i));
+				}
 			}
 		});
 	}

@@ -10,7 +10,7 @@ import com.sencha.gxt.data.shared.PropertyAccess;
 public interface CoreMVarstaticDTOProperties extends PropertyAccess<CoreMVarstaticDTO> {
 	
 	/********** Main Methods **********/
-	@Path("id")
+	@Path("varstat_id")
 	ModelKeyProvider<CoreMVarstaticDTO> varstat_id();
 	ValueProvider<CoreMVarstaticDTO, Date> created_at();
 	ValueProvider<CoreMVarstaticDTO, String> created_by();

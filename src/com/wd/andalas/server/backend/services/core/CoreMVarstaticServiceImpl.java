@@ -1,5 +1,6 @@
 package com.wd.andalas.server.backend.services.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -39,7 +40,7 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
-	public List<CoreMVarstatic> getAll() {
+	public List<CoreMVarstaticDTO> getAll() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -48,10 +49,17 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		Query query = session.createQuery(queryText);
 		List<CoreMVarstatic> result = query.list();
 		
+		List<CoreMVarstaticDTO> resultDTO = new ArrayList<CoreMVarstaticDTO>(result != null ? result.size() : 0);
+		if (result != null) {
+			for (CoreMVarstatic obj : result) {
+				resultDTO.add(new CoreMVarstaticDTO(obj));
+			}
+	    }
+		
 		session.getTransaction().commit();
 		session.close();
 		
-		return result;
+		return resultDTO;
 	}
 
 }
