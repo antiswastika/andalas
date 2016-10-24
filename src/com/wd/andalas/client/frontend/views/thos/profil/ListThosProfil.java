@@ -1,4 +1,4 @@
-package com.wd.andalas.client.frontend.views.core.mvarstatic;
+package com.wd.andalas.client.frontend.views.thos.profil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.client.Window;
@@ -38,7 +40,7 @@ import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTOProperties;
 
-public class ListMVarStatic implements IsWidget {
+public class ListThosProfil implements IsWidget {
 
 	/********** Inisiasi **********/
 	private ContentPanel list;
@@ -56,7 +58,7 @@ public class ListMVarStatic implements IsWidget {
 	public Widget asWidget() {
 		if (list == null) {
 			list = new ContentPanel();
-			list.setId("ListMVarStaticID");
+			list.setId("ListThosProfilID");
 			list.setBodyStyle("background:transparent; border:0");
 			list.setHeaderVisible(true);
 			list.setHeading(tabHeader);
@@ -65,14 +67,12 @@ public class ListMVarStatic implements IsWidget {
 
 			vlc = doCreateVerticalLayoutContainer();
 			grid = doCreateGrid();
-			toolbar = doCreatePagingToolBar();
 
 			vlc.add(grid, new VerticalLayoutData(1, 1));
-			vlc.add(toolbar, new VerticalLayoutData(1, -1));
 			list.add(vlc);
 
 			//doLoadDataById("VAR20150115095841947680");
-			doLoadDataAll();
+			//doLoadDataAll();
 		}
 		return list;
 	}
@@ -81,12 +81,6 @@ public class ListMVarStatic implements IsWidget {
 	private VerticalLayoutContainer doCreateVerticalLayoutContainer() {
 		vlc = new VerticalLayoutContainer();
 		return vlc;
-	}
-
-	private PagingToolBar doCreatePagingToolBar() {
-		toolbar = new PagingToolBar(20);
-		toolbar.setBorders(false);
-		return toolbar;
 	}
 
 	@SuppressWarnings("unused")
@@ -164,11 +158,30 @@ public class ListMVarStatic implements IsWidget {
 
 		final PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
 		pagingLoader.setRemoteSort(true);
+		pagingLoader.setLimit(4);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
+
+		toolbar = new PagingToolBar(20);
+		toolbar.bind(pagingLoader);
+		toolbar.setBorders(false);
+
+		grid = new Grid<CoreMVarstaticDTO>(store, cm) {
+			@Override
+			protected void onAfterFirstAttach() {
+				super.onAfterFirstAttach();
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+					@Override
+					public void execute() {
+						pagingLoader.load();
+					}
+				});
+			}
+		};
+
 		/*******************************************************/
 
 		/* Step 8 : Buat Grid */
-		grid = new Grid<CoreMVarstaticDTO>(store, cm);
+		//grid = new Grid<CoreMVarstaticDTO>(store, cm);
 		grid.setSelectionModel(selectionModel);
 		grid.setColumnReordering(true);
 		grid.setAllowTextSelection(true);
@@ -196,8 +209,8 @@ public class ListMVarStatic implements IsWidget {
 		});
 	}
 
-	private void doLoadDataAll() {
-		/*service.getAll(new AsyncCallback<List<CoreMVarstaticDTO>>() {
+	private void doLoadDataAll(PagingLoadConfig loadConfig) {
+		service.getAll(loadConfig, new AsyncCallback<List<CoreMVarstaticDTO>>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				//Window.alert("Fetch Data Gagal.....");
@@ -209,7 +222,7 @@ public class ListMVarStatic implements IsWidget {
 					store.add(result.get(i));
 				}
 			}
-		});*/
+		});
 	}
 
 	/********** Setter Getter **********/

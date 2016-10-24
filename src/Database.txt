@@ -1,0 +1,89 @@
+/* DATABASE ANDALAS */
+
+CREATE TABLE `core_m_varstatic` (
+  `varstat_id` varchar(23) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_by` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `varstat_desc` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `varstat_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `varstat_seq` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `varstat_group` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `varstat_parentid` varchar(23) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `varstat_icon` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `varstat_lock` tinyint(1) NOT NULL DEFAULT '0',
+  `varstat_deleteable` tinyint(1) NOT NULL DEFAULT '1',
+  `varstat_activedate` date DEFAULT NULL,
+  `varstat_expiredate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci; 
+
+ALTER TABLE `core_m_varstatic`
+  ADD PRIMARY KEY (`varstat_id`),
+  ADD UNIQUE KEY `core_m_varstatic_varstat_name_varstat_group_unique` (`varstat_name`,`varstat_group`);
+
+CREATE TABLE `thos_profil` (
+  `profil_id` varchar(23) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `profil_desc` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `profil_nip` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_nama` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_nama_panggilan` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `profil_tgl_lahir` datetime NOT NULL,
+  `profil_tmp_lahir` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_jenis_kelamin` tinyint(1) NOT NULL DEFAULT '1',
+  `profil_agama` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_no_ktp` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_no_npwp` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_nama_bank` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `profil_no_rek` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `profil_status_menikah` tinyint(1) NOT NULL DEFAULT '0',
+  `profil_alamat` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_no_telp` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_jabatan` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_formasi` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_nama_kdarurat` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_no_telp_kdarurat` varchar(50) COLLATE utf8_unicode_ci NOT NULL,  
+  `profil_alamat_kdarurat` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `profil_lock` tinyint(1) NOT NULL DEFAULT '0',
+  `profil_deleteable` tinyint(1) NOT NULL DEFAULT '1',
+  `profil_activedate` date DEFAULT NULL,
+  `profil_expiredate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `thos_profil`
+  ADD PRIMARY KEY (`profil_id`);
+
+CREATE TABLE `thos_keluarga` (
+  `keluarga_id` varchar(23) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `keluarga_desc` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `profil_id` varchar(23) COLLATE utf8_unicode_ci NOT NULL,
+  `keluarga_nama` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `keluarga_tgl_lahir` datetime DEFAULT NULL,
+  `keluarga_tmp_lahir` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `keluarga_jenis_kelamin` tinyint(1) NOT NULL DEFAULT '1',
+  `keluarga_hubungan` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `keluarga_urutan` tinyint(1) NOT NULL DEFAULT '1',
+  `keluarga_agama` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `keluarga_status_menikah` tinyint(1) NOT NULL DEFAULT '0',
+  `keluarga_tgl_menikah` date DEFAULT NULL,
+  `keluarga_status_tanggungan` tinyint(1) NOT NULL DEFAULT '0',
+  `keluarga_alamat` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `keluarga_no_telp` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `keluarga_lock` tinyint(1) NOT NULL DEFAULT '0',
+  `keluarga_deleteable` tinyint(1) NOT NULL DEFAULT '1',
+  `keluarga_activedate` date DEFAULT NULL,
+  `keluarga_expiredate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `thos_keluarga`
+  ADD PRIMARY KEY (`keluarga_id`),
+  ADD CONSTRAINT `thos_keluarga_profil_id` FOREIGN KEY (`profil_id`) REFERENCES `andalas`.`thos_profil`(`profil_id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+  
