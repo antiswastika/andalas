@@ -14,7 +14,7 @@ import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer.VBoxLayou
 import com.wd.andalas.global.GlobalClickHandler;
 
 public class CustomMenuLeft {
-	
+
 	/********** Inisiasi **********/
 	final AccordionLayoutContainer accordionPanel = new AccordionLayoutContainer();
 
@@ -24,8 +24,8 @@ public class CustomMenuLeft {
 		VBoxLayoutContainer vlc_A = new VBoxLayoutContainer();
 		vlc_A.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_A.setPadding(new Padding(10));
-		String[] tabParamsA1 = { "Pegawai THOS" };
-		doCreateImageList(vlc_A, "images/icon/32x32/daftar_pegawai_thos.png", tabParamsA1, "");
+		String[] tabParamsA1 = { "Pegawai THOS", "Daftar Pegawai THOS" };
+		doCreateImageList(vlc_A, "images/icon/32x32/daftar_pegawai_thos.png", tabParamsA1, "ListThosProfilID");
 		String[] tabParamsA2 = { "Cari Pegawai THOS" };
 		doCreateImageList(vlc_A, "images/icon/32x32/cari_pegawai.png", tabParamsA2, "");
 		ContentPanel cp_A = new ContentPanel();
@@ -40,10 +40,8 @@ public class CustomMenuLeft {
 		doCreateImageList(vlc_B, "images/icon/32x32/daftar_varstatis.png", tabParamsB1, "ListMVarStaticID");
 		String[] tabParamsB2 = { "Daftar User" };
 		doCreateImageList(vlc_B, "images/icon/32x32/daftar_user.png", tabParamsB2, "");
-		String[] tabParamsB3 = { "Ubah Password" };
-		doCreateImageList(vlc_B, "images/icon/32x32/ganti_password.png", tabParamsB3, "");
-		String[] tabParamsB4 = { "Logout" };
-		doCreateImageList(vlc_B, "images/icon/32x32/logout.png", tabParamsB4, "");
+		String[] tabParamsB3 = { "Logout" };
+		doCreateImageList(vlc_B, "images/icon/32x32/logout.png", tabParamsB3, "");
 		ContentPanel cp_B = new ContentPanel();
 		cp_B.setHeading("Pengaturan");
 		cp_B.add(vlc_B);

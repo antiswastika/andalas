@@ -14,7 +14,14 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.IdentityValueProvider;
 import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.SortInfo;
+import com.sencha.gxt.data.shared.loader.DataProxy;
+import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
+import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
+import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -24,6 +31,7 @@ import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
+import com.sencha.gxt.widget.core.client.grid.RowNumberer;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
@@ -31,11 +39,11 @@ import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTOProperties;
 
 public class ListMVarStatic implements IsWidget {
-	
+
 	/********** Inisiasi **********/
 	private ContentPanel list;
 	private BorderLayoutData listData = new BorderLayoutData();
-	private String tabHeader = "";
+	private String tabHeader = "XXXXX";
 	private CoreMVarstaticDTOProperties properties = GWT.create(CoreMVarstaticDTOProperties.class);
 	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
 	ColumnModel<CoreMVarstaticDTO> cm;
@@ -76,7 +84,7 @@ public class ListMVarStatic implements IsWidget {
 	}
 
 	private PagingToolBar doCreatePagingToolBar() {
-		toolbar = new PagingToolBar(50);
+		toolbar = new PagingToolBar(20);
 		toolbar.setBorders(false);
 		return toolbar;
 	}
@@ -119,8 +127,11 @@ public class ListMVarStatic implements IsWidget {
 		varstat_expiredate.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
 
 		/* Step 5 : Buat View Column */
+		// The row numberer for the first column
+		RowNumberer<CoreMVarstaticDTO> numbererColumn = new RowNumberer<CoreMVarstaticDTO>();
 		List<ColumnConfig<CoreMVarstaticDTO, ?>> columns = new ArrayList<ColumnConfig<CoreMVarstaticDTO, ?>>();
 		columns.add(selectionModel.getColumn());
+		columns.add(numbererColumn);
 		columns.add(varstat_name);
 		columns.add(varstat_group);
 		columns.add(varstat_seq);
@@ -138,7 +149,24 @@ public class ListMVarStatic implements IsWidget {
 
 		/* Step 7 : Buat Store*/
 		ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
-		
+
+		/*******************************************************/
+		DataProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
+			@Override
+			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
+				// Example of the loadConfig sending SortInfo for the RPC request.
+				List<? extends SortInfo> sortInfo = loadConfig.getSortInfo();
+
+				// RPC data request which contains the paging info and sort info.
+				//rpcService.getPosts(loadConfig, callback);
+			}
+		};
+
+		final PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
+		pagingLoader.setRemoteSort(true);
+		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
+		/*******************************************************/
+
 		/* Step 8 : Buat Grid */
 		grid = new Grid<CoreMVarstaticDTO>(store, cm);
 		grid.setSelectionModel(selectionModel);
@@ -149,7 +177,7 @@ public class ListMVarStatic implements IsWidget {
 		grid.setColumnReordering(true);
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
-		
+
 		return grid;
 	}
 
@@ -167,7 +195,7 @@ public class ListMVarStatic implements IsWidget {
 			}
 		});
 	}
-	
+
 	private void doLoadDataAll() {
 		service.getAll(new AsyncCallback<List<CoreMVarstaticDTO>>() {
 			@Override
@@ -175,8 +203,8 @@ public class ListMVarStatic implements IsWidget {
 				//Window.alert("Fetch Data Gagal.....");
 			}
 			@Override
-			public void onSuccess(List<CoreMVarstaticDTO> result) {				
-				ListStore<CoreMVarstaticDTO> store = grid.getStore();				
+			public void onSuccess(List<CoreMVarstaticDTO> result) {
+				ListStore<CoreMVarstaticDTO> store = grid.getStore();
 				for (int i=0; i<result.size(); i++) {
 					store.add(result.get(i));
 				}

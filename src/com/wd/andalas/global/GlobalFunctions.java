@@ -7,12 +7,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.widget.core.client.TabItemConfig;
 import com.sencha.gxt.widget.core.client.TabPanel;
 import com.wd.andalas.client.frontend.views.core.mvarstatic.ListMVarStatic;
+import com.wd.andalas.client.frontend.views.thos.profil.ListThosProfil;
 
 public class GlobalFunctions {
-	
+
 	/********** Main Methods **********/
 	public GlobalFunctions() { }
-	
+
 	/********** Custom Methods **********/
 	public TabPanel doCreateTab(TabPanel tabPanel, String[] tabParams, String widgetParams) {
 		if (tabParams == null) {
@@ -24,7 +25,7 @@ public class GlobalFunctions {
 			int i = tabPanel.getWidgetCount() + 1;
 			Iterator<Widget> arrayOfTabPanels = tabPanel.iterator();
 			boolean ada = false;
-			
+
 			//Instansiasi Dynamic Class To Object
 			//------------------------------------
 			/*Class<?> objClass;
@@ -39,7 +40,7 @@ public class GlobalFunctions {
 				logger.log(Level.WARNING, e.toString());
 			}*/
 			//------------------------------------
-			
+
 			while (arrayOfTabPanels.hasNext()){
 				Widget wgt = arrayOfTabPanels.next();
 				if (wgt.getElement().getId().equalsIgnoreCase(widgetParams)) {
@@ -55,7 +56,14 @@ public class GlobalFunctions {
 			if (ada == false) {
 				switch (widgetParams) {
 				case "ListMVarStaticID":
-					theWidget = new ListMVarStatic().asWidget();
+					ListMVarStatic widgetListMVarStatic = new ListMVarStatic();
+					widgetListMVarStatic.setTabHeader(tabParams[1]);
+					theWidget = widgetListMVarStatic.asWidget();
+					break;
+				case "ListThosProfilID":
+					ListThosProfil widgetListThosProfil = new ListThosProfil();
+					widgetListThosProfil.setTabHeader(tabParams[1]);
+					theWidget = widgetListThosProfil.asWidget();
 					break;
 				default:
 					theWidget = new Label().asWidget();
