@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.sencha.gxt.data.shared.loader.ListLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
@@ -69,7 +68,7 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 	@Override
 	public PagingLoadResult<CoreMVarstaticDTO> getAllPaged(PagingLoadConfig loadConfig) {
 
-		ListLoadResult<CoreMVarstaticDTO> resultFinal = new ListLoadResult<CoreMVarstaticDTO>() {
+		PagingLoadResult<CoreMVarstaticDTO> resultFinal = new PagingLoadResult<CoreMVarstaticDTO>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -91,13 +90,20 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 
 				session.getTransaction().commit();
 				session.close();
-
 				return resultDTO;
 			}
 
+			@Override
+			public int getOffset() { return 0; }
+			@Override
+			public int getTotalLength() { return 0; }
+			@Override
+			public void setOffset(int offset) { }
+			@Override
+			public void setTotalLength(int totalLength) { }
 		};
 
-		return (PagingLoadResult<CoreMVarstaticDTO>) resultFinal;
+		return resultFinal;
 	}
 
 }

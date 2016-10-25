@@ -162,7 +162,7 @@ public class ListThosProfil implements IsWidget {
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
 
 		/* Step 10 : Buat Definisi PagingToolbar */
-		toolbar = new PagingToolBar(6);
+		toolbar = new PagingToolBar(20);
 		toolbar.bind(pagingLoader);
 		toolbar.setBorders(false);
 
