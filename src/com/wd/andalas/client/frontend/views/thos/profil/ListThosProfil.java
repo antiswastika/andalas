@@ -149,8 +149,32 @@ public class ListThosProfil implements IsWidget {
 				// RPC data request which contains the paging info and sort info.
 				//Window.alert(Integer.toString(loadConfig.getLimit()));
 				//Window.alert(Integer.toString(loadConfig.getOffset()));
-
+				//service.getAllPaged(loadConfig, callback);
 				service.getAllPaged(loadConfig, callback);
+
+
+
+
+
+				List<CoreMVarstaticDTO> allRec = new ArrayList<CoreMVarstaticDTO>();
+				CoreMVarstaticDTO rec = new CoreMVarstaticDTO();
+				rec.setVarstat_id("TESTIDNYA-001");
+				rec.setVarstat_name("TEST NAMA SAJA");
+				allRec.add(rec);
+				CoreMVarstaticDTO rec2 = new CoreMVarstaticDTO();
+				rec2.setVarstat_id("TESTIDNYA-002");
+				rec2.setVarstat_name("TEST NAMA DOANG 002");
+				allRec.add(rec2);
+				ListStore<CoreMVarstaticDTO> store = grid.getStore();
+				for (int i=0; i<allRec.size(); i++) {
+					store.add(allRec.get(i));
+				}
+
+
+
+
+
+
 			}
 		};
 

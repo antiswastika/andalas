@@ -68,39 +68,48 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 	@Override
 	public PagingLoadResult<CoreMVarstaticDTO> getAllPaged(PagingLoadConfig loadConfig) {
 
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		String queryText = "FROM CoreMVarstatic";
+		Query query = session.createQuery(queryText);
+		List<CoreMVarstatic> result = query.list();
+
+		List<CoreMVarstaticDTO> resultDTO = new ArrayList<CoreMVarstaticDTO>(result != null ? result.size() : 0);
+		if (result != null) {
+			for (CoreMVarstatic obj : result) {
+				resultDTO.add(new CoreMVarstaticDTO(obj));
+			}
+		}
+
+		session.getTransaction().commit();
+		session.close();
+
 		PagingLoadResult<CoreMVarstaticDTO> resultFinal = new PagingLoadResult<CoreMVarstaticDTO>() {
 			private static final long serialVersionUID = 1L;
-
 			@Override
 			public List<CoreMVarstaticDTO> getData() {
-				SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-				Session session = sessionFactory.openSession();
-				session.beginTransaction();
-
-				String queryText = "FROM CoreMVarstatic";
-				Query query = session.createQuery(queryText);
-				List<CoreMVarstatic> result = query.list();
-
-				List<CoreMVarstaticDTO> resultDTO = new ArrayList<CoreMVarstaticDTO>(result != null ? result.size() : 0);
-				if (result != null) {
-					for (CoreMVarstatic obj : result) {
-						resultDTO.add(new CoreMVarstaticDTO(obj));
-					}
-				}
-
-				session.getTransaction().commit();
-				session.close();
 				return resultDTO;
 			}
-
 			@Override
-			public int getOffset() { return 0; }
+			public void setTotalLength(int totalLength) {
+				// TODO Auto-generated method stub
+			}
 			@Override
-			public int getTotalLength() { return 0; }
+			public void setOffset(int offset) {
+				// TODO Auto-generated method stub
+			}
 			@Override
-			public void setOffset(int offset) { }
+			public int getTotalLength() {
+				// TODO Auto-generated method stub
+				return resultDTO.size();
+			}
 			@Override
-			public void setTotalLength(int totalLength) { }
+			public int getOffset() {
+				// TODO Auto-generated method stub
+				return 5;
+			}
 		};
 
 		return resultFinal;
