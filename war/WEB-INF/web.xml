@@ -14,7 +14,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <servlet-mapping>
         <servlet-name>coreMVarstaticServiceImpl</servlet-name>
         <url-pattern>
-            /Home/coremvarstatic
+            Home/coremvarstatic
         </url-pattern>
     </servlet-mapping>
 

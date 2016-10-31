@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
+import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.server.backend.HibernateUtil;
@@ -67,7 +68,6 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 	@SuppressWarnings({ "unchecked" })
 	@Override
 	public PagingLoadResult<CoreMVarstaticDTO> getAllPaged(PagingLoadConfig loadConfig) {
-
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -85,32 +85,9 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 
 		session.getTransaction().commit();
 		session.close();
-
-		PagingLoadResult<CoreMVarstaticDTO> resultFinal = new PagingLoadResult<CoreMVarstaticDTO>() {
-			private static final long serialVersionUID = 1L;
-			@Override
-			public List<CoreMVarstaticDTO> getData() {
-				return resultDTO;
-			}
-			@Override
-			public void setTotalLength(int totalLength) {
-				// TODO Auto-generated method stub
-			}
-			@Override
-			public void setOffset(int offset) {
-				// TODO Auto-generated method stub
-			}
-			@Override
-			public int getTotalLength() {
-				// TODO Auto-generated method stub
-				return resultDTO.size();
-			}
-			@Override
-			public int getOffset() {
-				// TODO Auto-generated method stub
-				return 5;
-			}
-		};
+		
+		PagingLoadResultBean<CoreMVarstaticDTO> resultFinal = new PagingLoadResultBean<CoreMVarstaticDTO>();
+		resultFinal.setData(resultDTO);
 
 		return resultFinal;
 	}

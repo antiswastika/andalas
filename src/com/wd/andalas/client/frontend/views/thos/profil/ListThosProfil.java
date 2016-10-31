@@ -144,49 +144,17 @@ public class ListThosProfil implements IsWidget {
 		DataProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
 			@Override
 			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
-				// Example of the loadConfig sending SortInfo for the RPC request.
-				//List<? extends SortInfo> sortInfo = loadConfig.getSortInfo();
-				// RPC data request which contains the paging info and sort info.
-				//Window.alert(Integer.toString(loadConfig.getLimit()));
-				//Window.alert(Integer.toString(loadConfig.getOffset()));
-				//service.getAllPaged(loadConfig, callback);
 				service.getAllPaged(loadConfig, callback);
-
-
-
-
-
-				List<CoreMVarstaticDTO> allRec = new ArrayList<CoreMVarstaticDTO>();
-				CoreMVarstaticDTO rec = new CoreMVarstaticDTO();
-				rec.setVarstat_id("TESTIDNYA-001");
-				rec.setVarstat_name("TEST NAMA SAJA");
-				allRec.add(rec);
-				CoreMVarstaticDTO rec2 = new CoreMVarstaticDTO();
-				rec2.setVarstat_id("TESTIDNYA-002");
-				rec2.setVarstat_name("TEST NAMA DOANG 002");
-				allRec.add(rec2);
-				ListStore<CoreMVarstaticDTO> store = grid.getStore();
-				for (int i=0; i<allRec.size(); i++) {
-					store.add(allRec.get(i));
-				}
-
-
-
-
-
-
 			}
 		};
 
 		/* Step 9 : Buat pagingLoader */
 		final PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
 		pagingLoader.setRemoteSort(true);
-		pagingLoader.setLimit(3);
-		pagingLoader.setOffset(6);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
-
+		
 		/* Step 10 : Buat Definisi PagingToolbar */
-		toolbar = new PagingToolBar(20);
+		toolbar = new PagingToolBar(10);
 		toolbar.bind(pagingLoader);
 		toolbar.setBorders(false);
 
