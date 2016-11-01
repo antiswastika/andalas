@@ -74,6 +74,8 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 
 		String queryText = "FROM CoreMVarstatic";
 		Query query = session.createQuery(queryText);
+		query.setFirstResult((loadConfig.getLimit() - 1) * loadConfig.getOffset());
+		query.setMaxResults(loadConfig.getLimit());
 		List<CoreMVarstatic> result = query.list();
 
 		List<CoreMVarstaticDTO> resultDTO = new ArrayList<CoreMVarstaticDTO>(result != null ? result.size() : 0);
@@ -85,11 +87,8 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 
 		session.getTransaction().commit();
 		session.close();
-		
-		PagingLoadResultBean<CoreMVarstaticDTO> resultFinal = new PagingLoadResultBean<CoreMVarstaticDTO>();
-		resultFinal.setData(resultDTO);
 
-		return resultFinal;
+		return new PagingLoadResultBean<CoreMVarstaticDTO>(resultDTO, 44, loadConfig.getOffset());
 	}
 
 }
