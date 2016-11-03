@@ -66,6 +66,22 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 	}
 
 	@SuppressWarnings({ "unchecked" })
+	private int getAllRecord() {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		String queryText = "FROM CoreMVarstatic";
+		Query query = session.createQuery(queryText);
+		List<CoreMVarstatic> result = query.list();
+
+		session.getTransaction().commit();
+		session.close();
+
+		return result.size();
+	}
+
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public PagingLoadResult<CoreMVarstaticDTO> getAllPaged(PagingLoadConfig loadConfig) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -74,8 +90,10 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 
 		String queryText = "FROM CoreMVarstatic";
 		Query query = session.createQuery(queryText);
-		query.setFirstResult((loadConfig.getLimit() - 1) * loadConfig.getOffset());
+
+		query.setFirstResult(loadConfig.getOffset());
 		query.setMaxResults(loadConfig.getLimit());
+
 		List<CoreMVarstatic> result = query.list();
 
 		List<CoreMVarstaticDTO> resultDTO = new ArrayList<CoreMVarstaticDTO>(result != null ? result.size() : 0);
@@ -88,7 +106,9 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		session.getTransaction().commit();
 		session.close();
 
-		return new PagingLoadResultBean<CoreMVarstaticDTO>(resultDTO, 44, loadConfig.getOffset());
+		int allRecordSize = getAllRecord();
+
+		return new PagingLoadResultBean<CoreMVarstaticDTO>(resultDTO, allRecordSize, loadConfig.getOffset());
 	}
 
 }

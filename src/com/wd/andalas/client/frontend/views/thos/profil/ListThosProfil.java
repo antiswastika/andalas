@@ -151,6 +151,7 @@ public class ListThosProfil implements IsWidget {
 		/* Step 9 : Buat pagingLoader */
 		final PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
 		pagingLoader.setRemoteSort(true);
+		pagingLoader.setLimit(10);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
 
 		/* Step 10 : Buat Definisi PagingToolbar */
@@ -164,11 +165,11 @@ public class ListThosProfil implements IsWidget {
 			protected void onAfterFirstAttach() {
 				super.onAfterFirstAttach();
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			        @Override
-			        public void execute() {
-				        pagingLoader.load();
-			        }
-		        });
+					@Override
+					public void execute() {
+						pagingLoader.load(0, 0);
+					}
+				});
 			}
 		};
 
