@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
@@ -50,6 +52,10 @@ public class ListThosProfil implements IsWidget {
 	private VerticalLayoutContainer vlc;
 	private Grid<CoreMVarstaticDTO> grid;
 	private PagingToolBar toolbar;
+	private int pageLimit = 15;
+	private int prevPage = 0;
+	private int nowPage = 0;
+	private int urutan = 1;
 
 	/********** Main Methods **********/
 	@Override
@@ -95,7 +101,9 @@ public class ListThosProfil implements IsWidget {
 		};
 
 		/* Step 3 : Buat Definisi Semua Column */
+		//RowNumberer<CoreMVarstaticDTO> numbererColumn = new RowNumberer<CoreMVarstaticDTO>();
 		RowNumberer<CoreMVarstaticDTO> numbererColumn = new RowNumberer<CoreMVarstaticDTO>();
+
 		ColumnConfig<CoreMVarstaticDTO, Date> created_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.created_at(), 100, "Tgl Input");
 		ColumnConfig<CoreMVarstaticDTO, String> created_by = new ColumnConfig<CoreMVarstaticDTO, String>(properties.created_by(), 150, "Input Oleh");
 		ColumnConfig<CoreMVarstaticDTO, Date> updated_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.updated_at(), 100, "Tgl Update");
@@ -113,6 +121,18 @@ public class ListThosProfil implements IsWidget {
 		ColumnConfig<CoreMVarstaticDTO, Date> varstat_expiredate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_expiredate(), 120, "Tgl Berakhir");
 
 		/* Step 4 : Buat Format Semua Column */
+		numbererColumn.setHeader("No");
+		numbererColumn.setWidth(100);
+		numbererColumn.setCell(new AbstractCell<CoreMVarstaticDTO>() {
+			@Override
+			public void render(Context context, CoreMVarstaticDTO value, SafeHtmlBuilder sb) {
+				urutan = context.getIndex() + 1;
+				nowPage = toolbar.getActivePage() + 1;
+
+				sb.appendHtmlConstant("<center>" + urutan + ", Page: " + nowPage + "</center>");
+				prevPage = toolbar.getActivePage();
+			}
+		});
 		created_at.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
 		updated_at.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
 		varstat_activedate.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
@@ -151,11 +171,11 @@ public class ListThosProfil implements IsWidget {
 		/* Step 9 : Buat pagingLoader */
 		final PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
 		pagingLoader.setRemoteSort(true);
-		pagingLoader.setLimit(10);
+		pagingLoader.setLimit(pageLimit);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
 
 		/* Step 10 : Buat Definisi PagingToolbar */
-		toolbar = new PagingToolBar(10);
+		toolbar = new PagingToolBar(pageLimit);
 		toolbar.bind(pagingLoader);
 		toolbar.setBorders(false);
 
@@ -167,7 +187,8 @@ public class ListThosProfil implements IsWidget {
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 					@Override
 					public void execute() {
-						pagingLoader.load(0, 0);
+						//Begitu di-attach langsung tampilkan page pertama.
+						pagingLoader.load(0, pageLimit);
 					}
 				});
 			}
