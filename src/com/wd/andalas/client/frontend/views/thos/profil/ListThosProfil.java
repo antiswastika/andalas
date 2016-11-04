@@ -127,7 +127,16 @@ public class ListThosProfil implements IsWidget {
 			@Override
 			public void render(Context context, CoreMVarstaticDTO value, SafeHtmlBuilder sb) {
 				urutan = context.getIndex() + 1;
-				nowPage = toolbar.getActivePage() + 1;
+
+				if (toolbar.getActivePage() == -1) {
+					nowPage = 1;
+				} else {
+					nowPage = toolbar.getActivePage() + 1;
+					//if (nowPage > prevPage) {
+					//	nowPage = prevPage - (nowPage - prevPage);
+					//}
+				}
+
 
 				sb.appendHtmlConstant("<center>" + urutan + ", Page: " + nowPage + "</center>");
 				prevPage = toolbar.getActivePage();
