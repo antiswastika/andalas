@@ -39,3 +39,8 @@
     word-wrap: break-word;
     text-align: center;
 }
+
+.customTextCell {
+	vertical-align: middle;
+	text-align: center;
+}

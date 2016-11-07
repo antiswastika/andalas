@@ -8,7 +8,7 @@ import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
 
 public interface CoreMVarstaticDTOProperties extends PropertyAccess<CoreMVarstaticDTO> {
-	
+
 	/********** Main Methods **********/
 	@Path("varstat_id")
 	ModelKeyProvider<CoreMVarstaticDTO> varstat_id();

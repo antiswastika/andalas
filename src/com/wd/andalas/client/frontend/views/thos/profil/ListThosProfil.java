@@ -52,10 +52,7 @@ public class ListThosProfil implements IsWidget {
 	private VerticalLayoutContainer vlc;
 	private Grid<CoreMVarstaticDTO> grid;
 	private PagingToolBar toolbar;
-	private int pageLimit = 15;
-	private int prevPage = 0;
-	private int nowPage = 0;
-	private int urutan = 1;
+	private int pageLimit = 30;
 
 	/********** Main Methods **********/
 	@Override
@@ -101,7 +98,6 @@ public class ListThosProfil implements IsWidget {
 		};
 
 		/* Step 3 : Buat Definisi Semua Column */
-		//RowNumberer<CoreMVarstaticDTO> numbererColumn = new RowNumberer<CoreMVarstaticDTO>();
 		RowNumberer<CoreMVarstaticDTO> numbererColumn = new RowNumberer<CoreMVarstaticDTO>();
 
 		ColumnConfig<CoreMVarstaticDTO, Date> created_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.created_at(), 100, "Tgl Input");
@@ -122,26 +118,7 @@ public class ListThosProfil implements IsWidget {
 
 		/* Step 4 : Buat Format Semua Column */
 		numbererColumn.setHeader("No");
-		numbererColumn.setWidth(100);
-		numbererColumn.setCell(new AbstractCell<CoreMVarstaticDTO>() {
-			@Override
-			public void render(Context context, CoreMVarstaticDTO value, SafeHtmlBuilder sb) {
-				urutan = context.getIndex() + 1;
-
-				if (toolbar.getActivePage() == -1) {
-					nowPage = 1;
-				} else {
-					nowPage = toolbar.getActivePage() + 1;
-					//if (nowPage > prevPage) {
-					//	nowPage = prevPage - (nowPage - prevPage);
-					//}
-				}
-
-
-				sb.appendHtmlConstant("<center>" + urutan + ", Page: " + nowPage + "</center>");
-				prevPage = toolbar.getActivePage();
-			}
-		});
+		numbererColumn.setWidth(40);
 		created_at.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
 		updated_at.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
 		varstat_activedate.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
@@ -182,6 +159,14 @@ public class ListThosProfil implements IsWidget {
 		pagingLoader.setRemoteSort(true);
 		pagingLoader.setLimit(pageLimit);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
+		numbererColumn.setCell(new AbstractCell<CoreMVarstaticDTO>() {
+			@Override
+			public void render(Context context, CoreMVarstaticDTO value, SafeHtmlBuilder sb) {
+				Integer urutan = pagingLoader.getOffset() + context.getIndex() + 1;
+				sb.appendHtmlConstant(Integer.toString(urutan));
+			}
+		});
+		numbererColumn.setCellClassName("customTextCell");
 
 		/* Step 10 : Buat Definisi PagingToolbar */
 		toolbar = new PagingToolBar(pageLimit);
@@ -204,6 +189,7 @@ public class ListThosProfil implements IsWidget {
 		};
 
 		/* Step 12 : Buat set Parameter Grid */
+		numbererColumn.initPlugin(grid);
 		grid.setSelectionModel(selectionModel);
 		grid.setColumnReordering(true);
 		grid.setAllowTextSelection(true);
