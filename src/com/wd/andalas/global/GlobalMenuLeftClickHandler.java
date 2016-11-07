@@ -5,22 +5,22 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.sencha.gxt.widget.core.client.TabPanel;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 
-public class GlobalClickHandler implements ClickHandler {
-	
+public class GlobalMenuLeftClickHandler implements ClickHandler {
+
 	/********** Inisiasi **********/
 	private String[] tabParams;
 	private String widgetParams;
-	
+
 	/********** Main Methods **********/
 	@Override
 	public void onClick(ClickEvent event) {
 		BorderLayoutContainer blc = (BorderLayoutContainer) Singleton.getInstance().getAllObjects().get("mainWidget");
-		TabPanel tabPanel = (TabPanel) blc.getCenterWidget(); 
-		
+		TabPanel tabPanel = (TabPanel) blc.getCenterWidget();
+
 		GlobalFunctions globalF = new GlobalFunctions();
 		globalF.doCreateTab(tabPanel, tabParams, widgetParams);
 	}
-	
+
 	/********** Setter Getter **********/
 	public String[] getTabParams() {
 		return tabParams;
@@ -29,7 +29,7 @@ public class GlobalClickHandler implements ClickHandler {
 		this.tabParams = tabParams;
 	}
 
-	public String getWdigetParams() {
+	public String getWidgetParams() {
 		return widgetParams;
 	}
 	public void setWidgetParams(String widgetParams) {

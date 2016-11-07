@@ -6,11 +6,10 @@ https://madanma.wordpress.com/2013/04/26/hibernate-java/
 https://www.tutorialspoint.com/hibernate/hibernate_examples.htm
 http://aksesgratis.blogspot.co.id/2012/01/java-aplikasi-sederhana-dengan-java-dan.html
 http://jagocoding.com/tutorial/1181/CRUD_Hibernate_Java
-
 http://www.dineshonjava.com/2012/03/hibernate-3-on-baby-steps.html#.WAc6fIN96Hs
 https://singularityprogramming.wordpress.com/2012/04/06/gwt-2-4-0-hibernate-3-6-10-final/
-
 http://www.vogella.com/tutorials/GWT/article.html
 http://www.developerfusion.com/article/84332/simple-rpc-with-gwt/
-
 http://www.gwtproject.org/doc/latest/DevGuideServerCommunication.html#DevGuideMakingACall
+http://peyotest.blogspot.co.id/2013/10/gxt3-grid-cell-with-clickable-image-and.html
+

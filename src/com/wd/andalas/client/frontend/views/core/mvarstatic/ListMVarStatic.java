@@ -2,16 +2,23 @@ package com.wd.andalas.client.frontend.views.core.mvarstatic;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.DateCell;
+import com.google.gwt.cell.client.ImageCell;
+import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
@@ -101,7 +108,8 @@ public class ListMVarStatic implements IsWidget {
 		RowNumberer<CoreMVarstaticDTO> numbererColumn = new RowNumberer<CoreMVarstaticDTO>();
 		numbererColumn.setHeader("No");
 		numbererColumn.setWidth(40);
-		ColumnConfig<CoreMVarstaticDTO, String> imageEditColumn = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_name(), 40, "Edit");
+		ColumnConfig<CoreMVarstaticDTO, String> imageEditColumn = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_name(), 40, "");
+		imageEditColumn.setResizable(false);
 		ColumnConfig<CoreMVarstaticDTO, Date> created_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.created_at(), 100, "Tgl Input");
 		ColumnConfig<CoreMVarstaticDTO, String> created_by = new ColumnConfig<CoreMVarstaticDTO, String>(properties.created_by(), 150, "Input Oleh");
 		ColumnConfig<CoreMVarstaticDTO, Date> updated_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.updated_at(), 100, "Tgl Update");
@@ -168,11 +176,24 @@ public class ListMVarStatic implements IsWidget {
 			}
 		});
 		numbererColumn.setCellClassName("customTextCell");
-		imageEditColumn.setCell(new AbstractCell<String>() {
-			@Override
-			public void render(Context context, String valueIsUrl, SafeHtmlBuilder sb) {
-				sb.appendHtmlConstant("<center><img style=\"border: 0px;\" src=\"images\\icon\\16x16\\edit.png\"></center>");
-			}
+		imageEditColumn.setCell(new ImageCell() {
+		    @Override
+		    public void render(Context context, String value, SafeHtmlBuilder sb) {
+		        sb.appendHtmlConstant("<img src='images\\icon\\16x16\\edit.png' style='cursor: pointer'/> ");
+		    }
+		    @Override
+		    public Set<String> getConsumedEvents() {
+		        Set<String> events = new HashSet<String>();
+		        events.add("click");
+		        return events;
+		    }
+		    @Override
+		    public void onBrowserEvent(com.google.gwt.cell.client.Cell.Context context, Element parent, String value, NativeEvent event, ValueUpdater<String> valueUpdater) {
+		        super.onBrowserEvent(context, parent, value, event, valueUpdater);
+		        if (parent.getFirstChildElement().isOrHasChild(Element.as(event.getEventTarget()))) {
+		        	doCreateForm("SSSSSSSSSSS");
+		        }
+		    }
 		});
 		imageEditColumn.setCellClassName("customTextCell");
 
@@ -187,12 +208,12 @@ public class ListMVarStatic implements IsWidget {
 			protected void onAfterFirstAttach() {
 				super.onAfterFirstAttach();
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-					@Override
-					public void execute() {
-						//Begitu di-attach langsung tampilkan page pertama.
-						pagingLoader.load(0, pageLimit);
-					}
-				});
+			        @Override
+			        public void execute() {
+				        // Begitu di-attach langsung tampilkan page pertama.
+				        pagingLoader.load(0, pageLimit);
+			        }
+		        });
 			}
 		};
 
@@ -211,6 +232,10 @@ public class ListMVarStatic implements IsWidget {
 		/* Step 13 : Gabungkan VLC, GRID, dan PAGINGTOOLBAR */
 		vlc.add(grid, new VerticalLayoutData(1, 1));
 		vlc.add(toolbar);
+	}
+	
+	private void doCreateForm(String idNya) {
+		Window.alert(idNya);
 	}
 
 	/********** Setter Getter **********/
