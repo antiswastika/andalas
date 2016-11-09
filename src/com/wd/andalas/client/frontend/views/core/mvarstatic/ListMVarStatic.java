@@ -32,6 +32,7 @@ import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
@@ -42,6 +43,7 @@ import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.grid.RowNumberer;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
+import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
@@ -57,8 +59,10 @@ public class ListMVarStatic implements IsWidget {
 	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
 	ColumnModel<CoreMVarstaticDTO> cm;
 	private VerticalLayoutContainer vlc;
+	private ToolBar topToolbar;
 	private Grid<CoreMVarstaticDTO> grid;
-	private PagingToolBar toolbar;
+	private PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader;
+	private PagingToolBar pagingToolbar;
 	private int pageLimit = 30;
 
 	/********** Main Methods **********/
@@ -74,8 +78,13 @@ public class ListMVarStatic implements IsWidget {
 			list.setLayoutData(listData);
 
 			vlc = doCreateVerticalLayoutContainer();
+			topToolbar = doCreateTopToolbar();
+			grid = doCreateGrid();
+			pagingToolbar = doCreatePagingToolbar(pageLimit, pagingLoader);
 
-			doCreateGrid();
+			vlc.add(topToolbar);
+			vlc.add(grid, new VerticalLayoutData(1, 1));
+			vlc.add(pagingToolbar);
 
 			list.add(vlc);
 		}
@@ -88,8 +97,30 @@ public class ListMVarStatic implements IsWidget {
 		return vlc;
 	}
 
+	private ToolBar doCreateTopToolbar() {
+		topToolbar = new ToolBar();
+
+		TextButton btn1 = new TextButton();
+		btn1.setText("Insert");
+		topToolbar.add(btn1);
+		TextButton btn2 = new TextButton();
+		btn2.setText("Delete");
+		topToolbar.add(btn2);
+		TextButton btn3 = new TextButton();
+		btn3.setText("Refresh");
+		topToolbar.add(btn3);
+		TextButton btn4 = new TextButton();
+		btn4.setText("Print");
+		topToolbar.add(btn4);
+		TextButton btn5 = new TextButton();
+		btn5.setText("Export");
+		topToolbar.add(btn5);
+
+		return topToolbar;
+	}
+
 	@SuppressWarnings("unused")
-	private void doCreateGrid() {
+	private Grid<CoreMVarstaticDTO> doCreateGrid() {
 		/* Step 1 : Buat Identity Model */
 		IdentityValueProvider<CoreMVarstaticDTO> identity = new IdentityValueProvider<CoreMVarstaticDTO>();
 
@@ -128,8 +159,8 @@ public class ListMVarStatic implements IsWidget {
 
 		/* Step 4 : Buat View Urutan Column */
 		List<ColumnConfig<CoreMVarstaticDTO, ?>> columns = new ArrayList<ColumnConfig<CoreMVarstaticDTO, ?>>();
-		columns.add(selectionModel.getColumn());
 		columns.add(numbererColumn);
+		columns.add(selectionModel.getColumn());
 		columns.add(imageEditColumn);
 		columns.add(varstat_name);
 		columns.add(varstat_group);
@@ -158,7 +189,7 @@ public class ListMVarStatic implements IsWidget {
 		};
 
 		/* Step 8 : Buat pagingLoader */
-		final PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
+		pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
 		pagingLoader.setRemoteSort(true);
 		pagingLoader.setLimit(pageLimit);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
@@ -177,30 +208,28 @@ public class ListMVarStatic implements IsWidget {
 		});
 		numbererColumn.setCellClassName("customTextCell");
 		imageEditColumn.setCell(new ImageCell() {
-		    @Override
-		    public void render(Context context, String value, SafeHtmlBuilder sb) {
-		        sb.appendHtmlConstant("<img src='images\\icon\\16x16\\edit.png' style='cursor: pointer'/> ");
-		    }
-		    @Override
-		    public Set<String> getConsumedEvents() {
-		        Set<String> events = new HashSet<String>();
-		        events.add("click");
-		        return events;
-		    }
-		    @Override
-		    public void onBrowserEvent(com.google.gwt.cell.client.Cell.Context context, Element parent, String value, NativeEvent event, ValueUpdater<String> valueUpdater) {
-		        super.onBrowserEvent(context, parent, value, event, valueUpdater);
-		        if (parent.getFirstChildElement().isOrHasChild(Element.as(event.getEventTarget()))) {
-		        	doCreateForm("SSSSSSSSSSS");
-		        }
-		    }
+			@Override
+			public void render(Context context, String value, SafeHtmlBuilder sb) {
+				sb.appendHtmlConstant("<img src='images\\icon\\16x16\\edit.png' style='cursor: pointer'/> ");
+			}
+			@Override
+			public Set<String> getConsumedEvents() {
+				Set<String> events = new HashSet<String>();
+				events.add("click");
+				return events;
+			}
+			@Override
+			public void onBrowserEvent(com.google.gwt.cell.client.Cell.Context context, Element parent, String value, NativeEvent event, ValueUpdater<String> valueUpdater) {
+				super.onBrowserEvent(context, parent, value, event, valueUpdater);
+				if (parent.getFirstChildElement().isOrHasChild(Element.as(event.getEventTarget()))) {
+					doCreateForm(grid.getSelectionModel().getSelectedItem().getVarstat_id());
+				}
+			}
 		});
 		imageEditColumn.setCellClassName("customTextCell");
 
 		/* Step 10 : Buat Definisi PagingToolbar */
-		toolbar = new PagingToolBar(pageLimit);
-		toolbar.bind(pagingLoader);
-		toolbar.setBorders(false);
+
 
 		/* Step 11 : Buat Generate Grid */
 		grid = new Grid<CoreMVarstaticDTO>(store, cm) {
@@ -208,12 +237,12 @@ public class ListMVarStatic implements IsWidget {
 			protected void onAfterFirstAttach() {
 				super.onAfterFirstAttach();
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			        @Override
-			        public void execute() {
-				        // Begitu di-attach langsung tampilkan page pertama.
-				        pagingLoader.load(0, pageLimit);
-			        }
-		        });
+					@Override
+					public void execute() {
+						// Begitu di-attach langsung tampilkan page pertama.
+						pagingLoader.load(0, pageLimit);
+					}
+				});
 			}
 		};
 
@@ -229,11 +258,18 @@ public class ListMVarStatic implements IsWidget {
 		grid.getView().setColumnLines(true);
 		grid.setLoader(pagingLoader);
 
-		/* Step 13 : Gabungkan VLC, GRID, dan PAGINGTOOLBAR */
-		vlc.add(grid, new VerticalLayoutData(1, 1));
-		vlc.add(toolbar);
+		return grid;
 	}
-	
+
+	private PagingToolBar doCreatePagingToolbar(int pageLimit, PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader) {
+		pagingToolbar = new PagingToolBar(pageLimit);
+
+		pagingToolbar.bind(pagingLoader);
+		pagingToolbar.setBorders(false);
+
+		return pagingToolbar;
+	}
+
 	private void doCreateForm(String idNya) {
 		Window.alert(idNya);
 	}
