@@ -34,6 +34,9 @@ import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
+import com.sencha.gxt.widget.core.client.container.BoxLayoutContainer.BoxLayoutPack;
+import com.sencha.gxt.widget.core.client.container.HBoxLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 import com.sencha.gxt.widget.core.client.event.RefreshEvent;
@@ -48,6 +51,7 @@ import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTOProperties;
+import com.wd.andalas.resources.Resources;
 
 public class ListMVarStatic implements IsWidget {
 
@@ -59,7 +63,7 @@ public class ListMVarStatic implements IsWidget {
 	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
 	ColumnModel<CoreMVarstaticDTO> cm;
 	private VerticalLayoutContainer vlc;
-	private ToolBar topToolbar;
+	private HBoxLayoutContainer upToolbar;
 	private Grid<CoreMVarstaticDTO> grid;
 	private PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader;
 	private PagingToolBar pagingToolbar;
@@ -78,11 +82,11 @@ public class ListMVarStatic implements IsWidget {
 			list.setLayoutData(listData);
 
 			vlc = doCreateVerticalLayoutContainer();
-			topToolbar = doCreateTopToolbar();
+			upToolbar = doCreateUpToolbar();
 			grid = doCreateGrid();
 			pagingToolbar = doCreatePagingToolbar(pageLimit, pagingLoader);
 
-			vlc.add(topToolbar);
+			vlc.add(upToolbar);
 			vlc.add(grid, new VerticalLayoutData(1, 1));
 			vlc.add(pagingToolbar);
 
@@ -97,26 +101,53 @@ public class ListMVarStatic implements IsWidget {
 		return vlc;
 	}
 
-	private ToolBar doCreateTopToolbar() {
-		topToolbar = new ToolBar();
-
-		TextButton btn1 = new TextButton();
-		btn1.setText("Insert");
-		topToolbar.add(btn1);
-		TextButton btn2 = new TextButton();
-		btn2.setText("Delete");
-		topToolbar.add(btn2);
-		TextButton btn3 = new TextButton();
-		btn3.setText("Refresh");
-		topToolbar.add(btn3);
-		TextButton btn4 = new TextButton();
-		btn4.setText("Print");
-		topToolbar.add(btn4);
-		TextButton btn5 = new TextButton();
-		btn5.setText("Export");
-		topToolbar.add(btn5);
-
-		return topToolbar;
+	private HBoxLayoutContainer doCreateUpToolbar() {
+		final Resources imageResource = GWT.create(Resources.class);
+		upToolbar = new HBoxLayoutContainer();
+		
+		ContentPanel cpLeft = new ContentPanel();
+		cpLeft.setHeaderVisible(false);
+		cpLeft.setButtonAlign(BoxLayoutPack.START);
+			
+		TextButton btn11 = new TextButton();
+		btn11.setText("Insert");
+		btn11.setIcon(imageResource.btnAdd());
+		cpLeft.addButton(btn11);
+		TextButton btn12 = new TextButton();
+		btn12.setText("Delete");
+		btn12.setIcon(imageResource.btnDelete());
+		cpLeft.addButton(btn12);
+		TextButton btn13 = new TextButton();
+		btn13.setText("Refresh");
+		btn13.setIcon(imageResource.btnRefresh());
+		cpLeft.addButton(btn13);
+		TextButton btn14 = new TextButton();
+		btn14.setText("Print");
+		btn14.setIcon(imageResource.btnPrinter());
+		cpLeft.addButton(btn14);
+		TextButton btn15 = new TextButton();
+		btn15.setText("Export");
+		btn15.setIcon(imageResource.btnExport());
+		cpLeft.addButton(btn15);
+		
+		upToolbar.add(cpLeft);
+		
+		ContentPanel cpRight = new ContentPanel();
+		cpRight.setHeaderVisible(false);
+		cpRight.setButtonAlign(BoxLayoutPack.END);
+		
+		TextButton btn21 = new TextButton();
+		btn21.setText("Search");
+		btn21.setIcon(imageResource.btnSearch());
+		cpRight.addButton(btn21);
+		TextButton btn22 = new TextButton();
+		btn22.setText("Window");
+		btn22.setIcon(imageResource.btnWindow());
+		cpRight.addButton(btn22);
+		
+		upToolbar.add(cpRight);		
+		
+		return upToolbar;
 	}
 
 	@SuppressWarnings("unused")
