@@ -1,11 +1,11 @@
 package com.wd.andalas.global;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.sencha.gxt.widget.core.client.TabPanel;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 
-public class GlobalMenuLeftClickHandler implements ClickHandler {
+public class GlobalSelectHandler implements SelectHandler {
 
 	/********** Inisiasi **********/
 	private String[] tabParams;
@@ -13,7 +13,7 @@ public class GlobalMenuLeftClickHandler implements ClickHandler {
 
 	/********** Main Methods **********/
 	@Override
-	public void onClick(ClickEvent event) {
+	public void onSelect(SelectEvent event) {
 		BorderLayoutContainer blc = (BorderLayoutContainer) Singleton.getInstance().getAllObjects().get("mainWidget");
 		TabPanel tabPanel = (TabPanel) blc.getCenterWidget();
 

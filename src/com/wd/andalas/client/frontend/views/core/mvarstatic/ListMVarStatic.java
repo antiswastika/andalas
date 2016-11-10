@@ -34,17 +34,18 @@ import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
-import com.sencha.gxt.widget.core.client.container.BoxLayoutContainer.BoxLayoutPack;
-import com.sencha.gxt.widget.core.client.container.HBoxLayoutContainer;
-import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 import com.sencha.gxt.widget.core.client.event.RefreshEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.form.CheckBox;
 import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.grid.RowNumberer;
+import com.sencha.gxt.widget.core.client.toolbar.FillToolItem;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
@@ -61,9 +62,9 @@ public class ListMVarStatic implements IsWidget {
 	private String tabHeader = "XXXXX";
 	private CoreMVarstaticDTOProperties properties = GWT.create(CoreMVarstaticDTOProperties.class);
 	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
-	ColumnModel<CoreMVarstaticDTO> cm;
+	private ColumnModel<CoreMVarstaticDTO> cm;
 	private VerticalLayoutContainer vlc;
-	private HBoxLayoutContainer upToolbar;
+	private ToolBar upToolbar;
 	private Grid<CoreMVarstaticDTO> grid;
 	private PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader;
 	private PagingToolBar pagingToolbar;
@@ -101,52 +102,40 @@ public class ListMVarStatic implements IsWidget {
 		return vlc;
 	}
 
-	private HBoxLayoutContainer doCreateUpToolbar() {
+	private ToolBar doCreateUpToolbar() {
 		final Resources imageResource = GWT.create(Resources.class);
-		upToolbar = new HBoxLayoutContainer();
-		
-		ContentPanel cpLeft = new ContentPanel();
-		cpLeft.setHeaderVisible(false);
-		cpLeft.setButtonAlign(BoxLayoutPack.START);
-			
-		TextButton btn11 = new TextButton();
-		btn11.setText("Insert");
+		upToolbar = new ToolBar();
+		upToolbar.setBorders(false);
+		upToolbar.setLayoutData(new VerticalLayoutData(1, -1));
+
+		TextButton btn11 = new TextButton("Insert", doInsert());
 		btn11.setIcon(imageResource.btnAdd());
-		cpLeft.addButton(btn11);
-		TextButton btn12 = new TextButton();
-		btn12.setText("Delete");
+		upToolbar.add(btn11);
+		TextButton btn12 = new TextButton("Delete", doDelete());
 		btn12.setIcon(imageResource.btnDelete());
-		cpLeft.addButton(btn12);
-		TextButton btn13 = new TextButton();
-		btn13.setText("Refresh");
+		upToolbar.add(btn12);
+		TextButton btn13 = new TextButton("Refresh", doRefresh());
 		btn13.setIcon(imageResource.btnRefresh());
-		cpLeft.addButton(btn13);
-		TextButton btn14 = new TextButton();
-		btn14.setText("Print");
+		upToolbar.add(btn13);
+		TextButton btn14 = new TextButton("Print", doPrint());
 		btn14.setIcon(imageResource.btnPrinter());
-		cpLeft.addButton(btn14);
-		TextButton btn15 = new TextButton();
-		btn15.setText("Export");
+		upToolbar.add(btn14);
+		TextButton btn15 = new TextButton("Export", doExport());
 		btn15.setIcon(imageResource.btnExport());
-		cpLeft.addButton(btn15);
-		
-		upToolbar.add(cpLeft);
-		
-		ContentPanel cpRight = new ContentPanel();
-		cpRight.setHeaderVisible(false);
-		cpRight.setButtonAlign(BoxLayoutPack.END);
-		
-		TextButton btn21 = new TextButton();
-		btn21.setText("Search");
+		upToolbar.add(btn15);
+
+		upToolbar.add(new FillToolItem());
+
+		CheckBox cbk1 = new CheckBox();
+		cbk1.setWidth(15);
+		upToolbar.add(cbk1);
+		TextButton btn21 = new TextButton("Search", doSearch());
 		btn21.setIcon(imageResource.btnSearch());
-		cpRight.addButton(btn21);
-		TextButton btn22 = new TextButton();
-		btn22.setText("Window");
+		upToolbar.add(btn21);
+		TextButton btn22 = new TextButton("Window", doWindow());
 		btn22.setIcon(imageResource.btnWindow());
-		cpRight.addButton(btn22);
-		
-		upToolbar.add(cpRight);		
-		
+		upToolbar.add(btn22);
+
 		return upToolbar;
 	}
 
@@ -250,7 +239,7 @@ public class ListMVarStatic implements IsWidget {
 				return events;
 			}
 			@Override
-			public void onBrowserEvent(com.google.gwt.cell.client.Cell.Context context, Element parent, String value, NativeEvent event, ValueUpdater<String> valueUpdater) {
+			public void onBrowserEvent(Context context, Element parent, String value, NativeEvent event, ValueUpdater<String> valueUpdater) {
 				super.onBrowserEvent(context, parent, value, event, valueUpdater);
 				if (parent.getFirstChildElement().isOrHasChild(Element.as(event.getEventTarget()))) {
 					doCreateForm(grid.getSelectionModel().getSelectedItem().getVarstat_id());
@@ -304,6 +293,71 @@ public class ListMVarStatic implements IsWidget {
 	private void doCreateForm(String idNya) {
 		Window.alert(idNya);
 	}
+
+	/********** Event Handler dan Listener **********/
+	private SelectHandler doInsert() {
+		return new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				doCreateForm("INSERT");
+			}
+		};
+	}
+
+	private SelectHandler doDelete() {
+		return new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				doCreateForm("DELETE");
+			}
+		};
+	}
+
+	private SelectHandler doRefresh() {
+		return new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				pagingToolbar.refresh();
+			}
+		};
+	}
+
+	private SelectHandler doPrint() {
+		return new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				doCreateForm("PRINT");
+			}
+		};
+	}
+
+	private SelectHandler doExport() {
+		return new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				doCreateForm("EXPORT");
+			}
+		};
+	}
+
+	private SelectHandler doSearch() {
+		return new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				doCreateForm("SEARCH");
+			}
+		};
+	}
+
+	private SelectHandler doWindow() {
+		return new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				doCreateForm("WINDOW");
+			}
+		};
+	}
+
 
 	/********** Setter Getter **********/
 	public ContentPanel getList() {

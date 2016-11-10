@@ -11,7 +11,7 @@ import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.Expa
 import com.sencha.gxt.widget.core.client.container.BoxLayoutContainer.BoxLayoutData;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer.VBoxLayoutAlign;
-import com.wd.andalas.global.GlobalMenuLeftClickHandler;
+import com.wd.andalas.global.GlobalClickHandler;
 
 public class CustomMenuLeft {
 
@@ -58,7 +58,7 @@ public class CustomMenuLeft {
 
 	/********** Custom Methods **********/
 	private void doCreateImageList(VBoxLayoutContainer vlc, String pathIcon, String[] tabParams, String widgetParams) {
-		GlobalMenuLeftClickHandler customHandler = new GlobalMenuLeftClickHandler();
+		GlobalClickHandler customHandler = new GlobalClickHandler();
 		customHandler.setTabParams(tabParams);
 		customHandler.setWidgetParams(widgetParams);
 
