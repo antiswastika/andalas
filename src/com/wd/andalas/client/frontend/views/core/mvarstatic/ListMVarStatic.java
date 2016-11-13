@@ -32,27 +32,24 @@ import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
-import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 import com.sencha.gxt.widget.core.client.event.RefreshEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
-import com.sencha.gxt.widget.core.client.form.CheckBox;
 import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.grid.RowNumberer;
-import com.sencha.gxt.widget.core.client.toolbar.FillToolItem;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTOProperties;
-import com.wd.andalas.resources.Resources;
+import com.wd.andalas.global.GlobalToolbarList;
 
 public class ListMVarStatic implements IsWidget {
 
@@ -103,39 +100,7 @@ public class ListMVarStatic implements IsWidget {
 	}
 
 	private ToolBar doCreateUpToolbar() {
-		final Resources imageResource = GWT.create(Resources.class);
-		upToolbar = new ToolBar();
-		upToolbar.setBorders(false);
-		upToolbar.setLayoutData(new VerticalLayoutData(1, -1));
-
-		TextButton btn11 = new TextButton("Insert", doInsert());
-		btn11.setIcon(imageResource.btnAdd());
-		upToolbar.add(btn11);
-		TextButton btn12 = new TextButton("Delete", doDelete());
-		btn12.setIcon(imageResource.btnDelete());
-		upToolbar.add(btn12);
-		TextButton btn13 = new TextButton("Refresh", doRefresh());
-		btn13.setIcon(imageResource.btnRefresh());
-		upToolbar.add(btn13);
-		TextButton btn14 = new TextButton("Print", doPrint());
-		btn14.setIcon(imageResource.btnPrinter());
-		upToolbar.add(btn14);
-		TextButton btn15 = new TextButton("Export", doExport());
-		btn15.setIcon(imageResource.btnExport());
-		upToolbar.add(btn15);
-
-		upToolbar.add(new FillToolItem());
-
-		CheckBox cbk1 = new CheckBox();
-		cbk1.setWidth(15);
-		upToolbar.add(cbk1);
-		TextButton btn21 = new TextButton("Search", doSearch());
-		btn21.setIcon(imageResource.btnSearch());
-		upToolbar.add(btn21);
-		TextButton btn22 = new TextButton("Window", doWindow());
-		btn22.setIcon(imageResource.btnWindow());
-		upToolbar.add(btn22);
-
+		ToolBar upToolbar = new GlobalToolbarList().createToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doSearch(), doWindow());
 		return upToolbar;
 	}
 
@@ -283,10 +248,8 @@ public class ListMVarStatic implements IsWidget {
 
 	private PagingToolBar doCreatePagingToolbar(int pageLimit, PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader) {
 		pagingToolbar = new PagingToolBar(pageLimit);
-
 		pagingToolbar.bind(pagingLoader);
 		pagingToolbar.setBorders(false);
-
 		return pagingToolbar;
 	}
 
