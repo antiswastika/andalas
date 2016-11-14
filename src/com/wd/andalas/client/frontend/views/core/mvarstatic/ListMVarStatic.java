@@ -213,10 +213,7 @@ public class ListMVarStatic implements IsWidget {
 		});
 		imageEditColumn.setCellClassName("customTextCell");
 
-		/* Step 10 : Buat Definisi PagingToolbar */
-
-
-		/* Step 11 : Buat Generate Grid */
+		/* Step 10 : Buat Generate Grid */
 		grid = new Grid<CoreMVarstaticDTO>(store, cm) {
 			@Override
 			protected void onAfterFirstAttach() {
@@ -231,7 +228,7 @@ public class ListMVarStatic implements IsWidget {
 			}
 		};
 
-		/* Step 12 : Buat set Parameter Grid */
+		/* Step 11 : Buat set Parameter Grid */
 		numbererColumn.initPlugin(grid);
 		grid.setSelectionModel(selectionModel);
 		grid.setColumnReordering(true);
