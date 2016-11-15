@@ -11,12 +11,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
-import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
+import com.wd.andalas.client.backend.services.thos.ThosProfilService;
 import com.wd.andalas.client.frontend.models.thos.ThosProfilDTO;
 import com.wd.andalas.server.backend.HibernateUtil;
 import com.wd.andalas.server.backend.models.thos.ThosProfil;
 
-public class ThosProfilServiceImpl extends RemoteServiceServlet implements CoreMVarstaticService {
+public class ThosProfilServiceImpl extends RemoteServiceServlet implements ThosProfilService {
 
 	/********** Inisiasi **********/
 	private static final long serialVersionUID = 1L;
