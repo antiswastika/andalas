@@ -4,30 +4,52 @@ import java.util.HashMap;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.Window;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
+import com.wd.andalas.global.GlobalToolbarForm;
 import com.wd.andalas.global.Singleton;
 
-public class FormMVarStatic extends Window implements IsWidget {
+public class FormMVarStatic extends ContentPanel implements IsWidget {
 	
 	/********** Inisiasi **********/
-	private Window thisWindow;
+	private ContentPanel cp;
 	private HashMap<String, Object> allObjects = new HashMap<String, Object>();
+	private VerticalLayoutContainer vlc;
+	private ToolBar downToolbar;
 
 	@Override
 	public Widget asWidget() {
-		if (thisWindow == null) {
-			thisWindow = new Window();
-			thisWindow.setId("FormMVarStaticID");
-			thisWindow.setModal(true);
-			thisWindow.setBlinkModal(true);
-			thisWindow.setOnEsc(true);
+		if (cp == null) {
+			cp = new ContentPanel();
+			cp.setId("FormMVarStaticID");
+			cp.setHeaderVisible(false);
+			cp.setHeading("");
 			
-			allObjects.put("formMVarStaticID", thisWindow);
+			//vlc = doCreateVerticalLayoutContainer();
+			downToolbar = doCreateDownToolbar();
+			
+			//vlc.add(downToolbar);
+			cp.add(downToolbar);
+			
+			allObjects.put("formMVarStaticID", cp);
 			Singleton.getInstance().setAllObjects(allObjects);
 		} else {
-			thisWindow = (Window) Singleton.getInstance().getAllObjects().get("formMVarStaticID");
+			cp = (ContentPanel) Singleton.getInstance().getAllObjects().get("formMVarStaticID");
 		}
-		return thisWindow;
-	}	
+		return cp;
+	}
+	
+	/********** Custom Methods **********/
+	private VerticalLayoutContainer doCreateVerticalLayoutContainer() {
+		vlc = new VerticalLayoutContainer();
+		return vlc;
+	}
+	
+	private ToolBar doCreateDownToolbar() {
+		ToolBar downToolbar = new GlobalToolbarForm().createToolBar( null, null, null, null, null, null, null );
+		return downToolbar;
+	}
 
 }

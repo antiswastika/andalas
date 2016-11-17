@@ -31,6 +31,7 @@ import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.Window;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -260,7 +261,14 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				FormMVarStatic newWindow = new FormMVarStatic();
+				Window newWindow = new Window();
+				
+				newWindow.setModal(true);
+				newWindow.setSize("1000", "600");
+				newWindow.setOnEsc(false);
+				newWindow.setHeading("Insert Variabel Statis");
+				newWindow.add(new FormMVarStatic());
+				
 				newWindow.show();
 			}
 		};
