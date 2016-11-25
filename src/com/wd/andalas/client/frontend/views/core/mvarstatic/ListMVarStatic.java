@@ -77,6 +77,7 @@ public class ListMVarStatic implements IsWidget {
 			list.setBodyStyle("background:transparent; border:0");
 			list.setHeaderVisible(true);
 			list.setHeading(tabHeader);
+			list.setAllowTextSelection(false);
 			listData.setMargins(new Margins(0, 0, 0, 0));
 			list.setLayoutData(listData);
 
@@ -138,8 +139,8 @@ public class ListMVarStatic implements IsWidget {
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_parentid = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, "Id Parent");
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_parentname = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, "Nama Parent");
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_icon = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_icon(), 250, "Icon");
-		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_lock(), 100, "ReadOnly");
-		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_deleteable(), 100, "Deleteable");
+		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_lock(), 100, "Konstan");
+		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_deleteable(), 100, "Bisa Dihapus");
 		ColumnConfig<CoreMVarstaticDTO, Date> varstat_activedate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_activedate(), 120, "Tgl Mulai");
 		ColumnConfig<CoreMVarstaticDTO, Date> varstat_expiredate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_expiredate(), 120, "Tgl Berakhir");
 
@@ -262,13 +263,17 @@ public class ListMVarStatic implements IsWidget {
 			@Override
 			public void onSelect(SelectEvent event) {
 				Window newWindow = new Window();
-				
+				FormMVarStatic formTpl = new FormMVarStatic();
+
 				newWindow.setModal(true);
+				newWindow.setId("FormMVarStaticID");
 				newWindow.setSize("1000", "600");
+				newWindow.setResizable(false);
+				newWindow.setAllowTextSelection(false);
 				newWindow.setOnEsc(false);
-				newWindow.setHeading("Insert Variabel Statis");
-				newWindow.add(new FormMVarStatic());
-				
+				newWindow.setHeading("Form - Insert Variabel Statis");
+				newWindow.add(formTpl.asWidget());
+
 				newWindow.show();
 			}
 		};

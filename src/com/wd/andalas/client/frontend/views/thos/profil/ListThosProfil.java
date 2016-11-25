@@ -76,6 +76,7 @@ public class ListThosProfil implements IsWidget {
 			list.setBodyStyle("background:transparent; border:0");
 			list.setHeaderVisible(true);
 			list.setHeading(tabHeader);
+			list.setAllowTextSelection(false);
 			listData.setMargins(new Margins(0, 0, 0, 0));
 			list.setLayoutData(listData);
 

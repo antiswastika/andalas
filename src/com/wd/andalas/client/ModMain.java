@@ -22,7 +22,7 @@ import com.wd.andalas.global.GlobalFunctions;
 import com.wd.andalas.global.Singleton;
 
 public class ModMain implements EntryPoint {
-	
+
 	/********** Inisiasi **********/
 	private Viewport viewPort = new Viewport();
 	private HashMap<String, Object> allObjects = new HashMap<String, Object>();
@@ -32,14 +32,14 @@ public class ModMain implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		Singleton.getInstance().setSingletonId("ABCD1234");
-		
-		Widget mainWidget = startUp(); 
+
+		Widget mainWidget = startUp();
 		viewPort.setWidget(mainWidget);
 		RootLayoutPanel.get().add(viewPort);
-		
+
 		Logger logger = Logger.getLogger("DEBUG");
 		logger.log(Level.INFO, "Application Started.....");
-				
+
 		allObjects.put("viewPort", viewPort);
 		allObjects.put("mainWidget", mainWidget);
 		Singleton.getInstance().setAllObjects(allObjects);
@@ -56,21 +56,21 @@ public class ModMain implements EntryPoint {
 		}
 		return blc;
 	}
-	
+
 	/********** Custom Methods **********/
 	private ContentPanel doCreateNorth() {
 		ContentPanel north;
 		BorderLayoutData northData = new BorderLayoutData();
-		
+
 		north = new ContentPanel();
 		north.setId("regionNorthID");
 		north.setResize(false);
 		north.setBorders(false);
 		north.setBodyStyle("background:transparent; border:0");
-		north.setHeaderVisible(false);		
+		north.setHeaderVisible(false);
 		northData.setCollapsible(false);
 		northData.setSize(70);
-		northData.setMargins(new Margins(5, 5, 0, 5));		
+		northData.setMargins(new Margins(5, 5, 0, 5));
 		north.setLayoutData(northData);
 
 		HBoxLayoutContainer hContainer = new HBoxLayoutContainer();
@@ -79,17 +79,17 @@ public class ModMain implements EntryPoint {
 		appLogo.setHeight("50px");
 		hContainer.setHBoxLayoutAlign(HBoxLayoutAlign.BOTTOM);
 		hContainer.add(appLogo, new BoxLayoutData(new Margins(5, 0, 0, 20)));
-		hContainer.setWidth("500px");		
+		hContainer.setWidth("500px");
 		north.add(hContainer);
-		
+
 		return north;
 	}
-	
+
 	private ContentPanel doCreateWest() {
 		ContentPanel west;
 		BorderLayoutData westData = new BorderLayoutData();
 		String judulWest = "";
-		
+
 		west = new ContentPanel();
 		west.setId("regionWestID");
 		west.setHeading(judulWest);
@@ -110,14 +110,14 @@ public class ModMain implements EntryPoint {
 
 		CustomMenuLeft menuLeft = new CustomMenuLeft();
 		west.add(menuLeft.getAccordionPanel());
-		
+
 		return west;
 	}
-	
+
 	private ContentPanel doCreateSouth() {
 		ContentPanel south;
 		BorderLayoutData southData = new BorderLayoutData();
-		
+
 		south = new ContentPanel();
 		south.setId("regionSouthID");
 		south.setResize(false);
@@ -128,26 +128,26 @@ public class ModMain implements EntryPoint {
 		southData.setSize(30);
 		southData.setMargins(new Margins(0, 5, 5, 5));
 		south.setLayoutData(southData);
-		
+
 		return south;
 	}
-	
+
 	private TabPanel doCreateCenter() {
 		TabPanel tabPanel;
 		BorderLayoutData tabPanelData = new BorderLayoutData();
-		
+
 		tabPanel = new TabPanel();
 		tabPanel.setId("regionCenterID");
 		tabPanel.setBorders(false);
 		tabPanelData.setMargins(new Margins(0, 5, 0, 4));
 		tabPanel.setLayoutData(tabPanelData);
-		
+
 		GlobalFunctions globalF = new GlobalFunctions();
 		globalF.doCreateTab(tabPanel, null, null);
-		
+
 		return tabPanel;
 	}
-	
+
 	/********** Setter Getter **********/
 	public HashMap<String, Object> getAllObjects() {
 		return allObjects;
