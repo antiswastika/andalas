@@ -44,3 +44,7 @@
 	vertical-align: middle;
 	text-align: center;
 }
+
+.customFieldLabel Label {
+	text-align: right !important;
+}

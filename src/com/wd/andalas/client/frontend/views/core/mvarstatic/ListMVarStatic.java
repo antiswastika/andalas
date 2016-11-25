@@ -102,7 +102,7 @@ public class ListMVarStatic implements IsWidget {
 	}
 
 	private ToolBar doCreateUpToolbar() {
-		ToolBar upToolbar = new GlobalToolbarList().createToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doSearch(), doWindow());
+		ToolBar upToolbar = new GlobalToolbarList().createUpToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doSearch(), doWindow());
 		return upToolbar;
 	}
 
@@ -266,12 +266,11 @@ public class ListMVarStatic implements IsWidget {
 				FormMVarStatic formTpl = new FormMVarStatic();
 
 				newWindow.setModal(true);
-				newWindow.setId("FormMVarStaticID");
-				newWindow.setSize("1000", "600");
+				newWindow.setSize("700", "400");
 				newWindow.setResizable(false);
 				newWindow.setAllowTextSelection(false);
 				newWindow.setOnEsc(false);
-				newWindow.setHeading("Form - Insert Variabel Statis");
+				newWindow.setHeading(formTpl.getFormTitle());
 				newWindow.add(formTpl.asWidget());
 
 				newWindow.show();
@@ -332,7 +331,6 @@ public class ListMVarStatic implements IsWidget {
 			}
 		};
 	}
-
 
 	/********** Setter Getter **********/
 	public ContentPanel getList() {

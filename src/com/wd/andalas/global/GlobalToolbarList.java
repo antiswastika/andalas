@@ -17,7 +17,7 @@ public class GlobalToolbarList extends ToolBar {
 		return;
 	}
 	
-	public ToolBar createToolBar(final SelectHandler insertHandler, final SelectHandler deleteHandler, final SelectHandler refreshHandler, final SelectHandler printHandler, final SelectHandler exportHandler, final SelectHandler searchHandler, final SelectHandler windowHandler) {
+	public ToolBar createUpToolBar(final SelectHandler insertHandler, final SelectHandler deleteHandler, final SelectHandler refreshHandler, final SelectHandler printHandler, final SelectHandler exportHandler, final SelectHandler searchHandler, final SelectHandler windowHandler) {
 		final Resources imageResource = GWT.create(Resources.class);
 		
 		toolbarNya = new ToolBar();
@@ -51,6 +51,29 @@ public class GlobalToolbarList extends ToolBar {
 		TextButton btn22 = new TextButton("Window", windowHandler);
 		btn22.setIcon(imageResource.btnWindow());
 		toolbarNya.add(btn22);
+		
+		return toolbarNya;
+	}
+	
+	public ToolBar createDownToolBar(final SelectHandler saveHandler, final SelectHandler resetHandler, final SelectHandler closeHandler, final SelectHandler customHandler) {
+		final Resources imageResource = GWT.create(Resources.class);
+		
+		toolbarNya = new ToolBar();
+		toolbarNya.setBorders(false);
+		toolbarNya.setLayoutData(new VerticalLayoutData(1, -1));
+		
+		TextButton btn30 = new TextButton("Reset", resetHandler);
+		btn30.setIcon(imageResource.btnRefresh());
+		toolbarNya.add(btn30);
+		
+		toolbarNya.add(new FillToolItem());
+
+		TextButton btn31 = new TextButton("Simpan", saveHandler);
+		btn31.setIcon(imageResource.btnDiscBlue());
+		toolbarNya.add(btn31);
+		TextButton btn32 = new TextButton("Tutup", closeHandler);
+		btn32.setIcon(imageResource.btnWindow());
+		toolbarNya.add(btn32);
 		
 		return toolbarNya;
 	}

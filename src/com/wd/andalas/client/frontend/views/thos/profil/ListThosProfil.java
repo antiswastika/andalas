@@ -101,7 +101,7 @@ public class ListThosProfil implements IsWidget {
 	}
 
 	private ToolBar doCreateUpToolbar() {
-		ToolBar upToolbar = new GlobalToolbarList().createToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doSearch(), doWindow());
+		ToolBar upToolbar = new GlobalToolbarList().createUpToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doSearch(), doWindow());
 		return upToolbar;
 	}
 
