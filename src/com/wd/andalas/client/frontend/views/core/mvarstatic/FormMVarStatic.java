@@ -2,10 +2,21 @@ package com.wd.andalas.client.frontend.views.core.mvarstatic;
 
 import java.util.Iterator;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.core.client.util.Padding;
+import com.sencha.gxt.data.client.loader.RpcProxy;
+import com.sencha.gxt.data.shared.LabelProvider;
+import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.loader.DataProxy;
+import com.sencha.gxt.data.shared.loader.ListLoadConfig;
+import com.sencha.gxt.data.shared.loader.ListLoadResult;
+import com.sencha.gxt.data.shared.loader.ListLoader;
+import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
+import com.sencha.gxt.widget.core.client.Window;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData;
@@ -14,25 +25,34 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.form.ComboBox;
 import com.sencha.gxt.widget.core.client.form.DateField;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.IntegerField;
 import com.sencha.gxt.widget.core.client.form.TextArea;
 import com.sencha.gxt.widget.core.client.form.TextField;
-import com.sencha.gxt.widget.core.client.toolbar.FillToolItem;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
+import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
+import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
+import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
+import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTOProperties;
 import com.wd.andalas.global.GlobalToolbarList;
 
 public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 
 	/********** Inisiasi **********/
-	private VBoxLayoutContainer vlcMain;
-	private HorizontalLayoutContainer hlcMain;
+	private CoreMVarstaticDTOProperties properties = GWT.create(CoreMVarstaticDTOProperties.class);
+	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
+	private ListLoader<ListLoadConfig, ListLoadResult<CoreMVarstaticDTO>> listLoader;
 
+	private VerticalLayoutContainer vlcMain;
+	private HorizontalLayoutContainer hlcMain;
 	private VerticalLayoutContainer vlcCol1;
 	private VerticalLayoutContainer vlcCol2;
+	private Window parentWindow;
 
-	private TextField txtInduk, txtNilai, txtGrup;
+	private TextField txtInduk, txtNilai;
+	private ComboBox<CoreMVarstaticDTO> cmbGrup;
 	private TextArea txtDeskripsi;
 	private IntegerField txtUrutan;
 	private DateField dateAktif, dateKadaluarsa;
@@ -40,9 +60,8 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 
 	@Override
 	public Widget asWidget() {
-		vlcMain = new VBoxLayoutContainer(VBoxLayoutAlign.STRETCH);
-		vlcMain.add(doCreateForm());
-		vlcMain.add(new FillToolItem());
+		vlcMain = new VerticalLayoutContainer();
+		vlcMain.add(doCreateForm(), new VerticalLayoutData(1, 1, new Margins(5)));
 		vlcMain.add(doCreateDownToolbar());
 		return vlcMain;
 	}
@@ -59,19 +78,22 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 
 		txtNilai = new TextField();
 		txtNilai.setAllowBlank(true);
-		txtGrup = new TextField();
-		txtGrup.setAllowBlank(true);
+		cmbGrup = doCreateComboboxGrup();
+		cmbGrup.setEmptyText("Pilih grup...");
+		cmbGrup.setEditable(false);
 		txtDeskripsi = new TextArea();
 		txtDeskripsi.setAllowBlank(true);
-		txtDeskripsi.setHeight(120);
+		txtDeskripsi.setHeight(140);
 		txtUrutan = new IntegerField();
 		txtUrutan.setValue(0);
 		dateAktif = new DateField();
+		dateAktif.setAllowBlank(true);
 		dateKadaluarsa = new DateField();
-		
+		dateKadaluarsa.setAllowBlank(true);
+
 		vlcCol1.add(new FieldLabel(txtNilai, "Nilai Statis"), new VerticalLayoutData(1, -1));
 		vlcCol1.add(new FieldLabel(txtUrutan, "Urutan"));
-		vlcCol1.add(new FieldLabel(txtGrup, "Grup"), new VerticalLayoutData(1, -1));
+		vlcCol1.add(new FieldLabel(cmbGrup, "Grup"), new VerticalLayoutData(1, -1));
 		vlcCol1.add(new FieldLabel(dateAktif, "Tanggal Mulai"));
 		vlcCol1.add(new FieldLabel(dateKadaluarsa, "Tanggal Berakhir"));
 		vlcCol1.add(new FieldLabel(txtDeskripsi, "Deskripsi"), new VerticalLayoutData(1, -1));
@@ -100,16 +122,50 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		//===========================================================
 		hlcMain.add(vlcCol1, new HorizontalLayoutData(.6, -1, new Margins(10, 10, 10, 10)));
 		hlcMain.add(vlcCol2, new HorizontalLayoutData(.4, -1, new Margins(10, 10, 10, 10)));
-		
+
 		return hlcMain;
 	}
-	
+
 	private ToolBar doCreateDownToolbar() {
-		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(doSave(), doSave(), doSave(), null);
+		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(doSave(), doReset(), doClose(), doInfo(), null);
 		downToolbar.setBorders(true);
 		downToolbar.setPadding(new Padding(2));
-		downToolbar.setShadow(true);
 		return downToolbar;
+	}
+
+	private ComboBox<CoreMVarstaticDTO> doCreateComboboxGrup() {
+		/* Step 1 : Buat Store */
+		ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
+
+		/* Step 2 : Buat RpcProxy */
+		DataProxy<ListLoadConfig, ListLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<ListLoadConfig, ListLoadResult<CoreMVarstaticDTO>>() {
+			@Override
+			public void load(ListLoadConfig loadConfig, final AsyncCallback<ListLoadResult<CoreMVarstaticDTO>> callback) {
+				service.getAllGrup(loadConfig, callback);
+			}
+		};
+
+		/* Step 3 : Buat listLoader */
+		listLoader = new ListLoader<ListLoadConfig, ListLoadResult<CoreMVarstaticDTO>>(dataProxy);
+		listLoader.addLoadHandler(new LoadResultListStoreBinding<ListLoadConfig, CoreMVarstaticDTO, ListLoadResult<CoreMVarstaticDTO>>(store));
+		listLoader.load();
+
+		/* Step 4 : Buat labelProvider */
+		LabelProvider<CoreMVarstaticDTO> labelProvider = new LabelProvider<CoreMVarstaticDTO>() {
+			@Override
+			public String getLabel(CoreMVarstaticDTO item) {
+				if (item.getVarstat_group() == null) {
+					return "";
+				}
+				return item.getVarstat_group();
+			}
+		};
+
+		/* Step 5 : Buat combobox */
+		ComboBox<CoreMVarstaticDTO> cmb = new ComboBox<CoreMVarstaticDTO>(store, labelProvider);
+		cmb.setLoader(listLoader);
+
+		return cmb;
 	}
 
 	/********** Event Handler dan Listener **********/
@@ -122,10 +178,46 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 			}
 		};
 	}
-	
+
+	private SelectHandler doReset() {
+		return new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				MessageBox msgbox = new MessageBox("RESET");
+				msgbox.show();
+			}
+		};
+	}
+
+	private SelectHandler doClose() {
+		return new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				parentWindow.setVisible(false);
+			}
+		};
+	}
+
+	private SelectHandler doInfo() {
+		return new SelectHandler() {
+			@Override
+			public void onSelect(SelectEvent event) {
+				MessageBox msgbox = new MessageBox("INFO");
+				msgbox.show();
+			}
+		};
+	}
+
 	/********** Setter Getter **********/
 	public String getFormTitle() {
 		return formTitle;
+	}
+
+	public Window getParentWindow() {
+		return parentWindow;
+	}
+	public void setParentWindow(Window parentWindow) {
+		this.parentWindow = parentWindow;
 	}
 
 }

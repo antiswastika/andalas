@@ -8,6 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.sencha.gxt.data.shared.loader.ListLoadConfig;
+import com.sencha.gxt.data.shared.loader.ListLoadResult;
+import com.sencha.gxt.data.shared.loader.ListLoadResultBean;
 import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
@@ -85,6 +88,31 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		int allRecordSize = getAllUnpaged();
 
 		return new PagingLoadResultBean<CoreMVarstaticDTO>(resultDTO, allRecordSize, loadConfig.getOffset());
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	@Override
+	public ListLoadResult<CoreMVarstaticDTO> getAllGrup(ListLoadConfig loadConfig) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		String queryText = "FROM CoreMVarstatic";
+		Query query = session.createQuery(queryText);
+
+		List<CoreMVarstatic> result = query.list();
+
+		List<CoreMVarstaticDTO> resultDTO = new ArrayList<CoreMVarstaticDTO>(result != null ? result.size() : 0);
+		if (result != null) {
+			for (CoreMVarstatic obj : result) {
+				resultDTO.add(new CoreMVarstaticDTO(obj));
+			}
+		}
+
+		session.getTransaction().commit();
+		session.close();
+
+		return new ListLoadResultBean<CoreMVarstaticDTO>(resultDTO);
 	}
 
 }

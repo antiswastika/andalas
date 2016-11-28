@@ -264,10 +264,12 @@ public class ListMVarStatic implements IsWidget {
 			public void onSelect(SelectEvent event) {
 				Window newWindow = new Window();
 				FormMVarStatic formTpl = new FormMVarStatic();
+				formTpl.setParentWindow(newWindow);
 
 				newWindow.setModal(true);
 				newWindow.setSize("700", "400");
 				newWindow.setResizable(false);
+				newWindow.setClosable(false);
 				newWindow.setAllowTextSelection(false);
 				newWindow.setOnEsc(false);
 				newWindow.setHeading(formTpl.getFormTitle());
