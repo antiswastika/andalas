@@ -32,7 +32,6 @@ import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.Window;
-import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
@@ -209,7 +208,7 @@ public class ListMVarStatic implements IsWidget {
 			public void onBrowserEvent(Context context, Element parent, String value, NativeEvent event, ValueUpdater<String> valueUpdater) {
 				super.onBrowserEvent(context, parent, value, event, valueUpdater);
 				if (parent.getFirstChildElement().isOrHasChild(Element.as(event.getEventTarget()))) {
-					doCreateForm(grid.getSelectionModel().getSelectedItem().getVarstat_id());
+					doCreateForm(grid.getSelectionModel().getSelectedItem().getVarstat_id(), grid.getSelectionModel().getSelectedItem());
 				}
 			}
 		});
@@ -252,9 +251,29 @@ public class ListMVarStatic implements IsWidget {
 		return pagingToolbar;
 	}
 
-	private void doCreateForm(String idNya) {
-		MessageBox msgbox = new MessageBox(idNya);
-		msgbox.show();
+	private void doCreateForm(String idNya, CoreMVarstaticDTO entity) {
+		Window newWindow = new Window();
+		FormMVarStatic formTpl = new FormMVarStatic();
+		String judulForm = formTpl.getFormTitle();
+		formTpl.setParentWindow(newWindow);
+
+		if (idNya != null && entity != null) {
+			formTpl.setEntity(entity);
+			judulForm = judulForm + " (Ubah)";
+		} else {
+			judulForm = judulForm + " (Tambah)";
+		}
+
+		newWindow.setModal(true);
+		newWindow.setSize("700", "400");
+		newWindow.setResizable(false);
+		newWindow.setClosable(false);
+		newWindow.setAllowTextSelection(false);
+		newWindow.setOnEsc(false);
+		newWindow.setHeading(judulForm);
+		newWindow.add(formTpl.asWidget());
+
+		newWindow.show();
 	}
 
 	/********** Event Handler dan Listener **********/
@@ -262,20 +281,7 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				Window newWindow = new Window();
-				FormMVarStatic formTpl = new FormMVarStatic();
-				formTpl.setParentWindow(newWindow);
-
-				newWindow.setModal(true);
-				newWindow.setSize("700", "400");
-				newWindow.setResizable(false);
-				newWindow.setClosable(false);
-				newWindow.setAllowTextSelection(false);
-				newWindow.setOnEsc(false);
-				newWindow.setHeading(formTpl.getFormTitle());
-				newWindow.add(formTpl.asWidget());
-
-				newWindow.show();
+				doCreateForm(null, null);
 			}
 		};
 	}
@@ -284,7 +290,7 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("DELETE");
+				//
 			}
 		};
 	}
@@ -302,7 +308,7 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("PRINT");
+				//
 			}
 		};
 	}
@@ -311,7 +317,7 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("EXPORT");
+				//
 			}
 		};
 	}
@@ -320,7 +326,7 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("SEARCH");
+				//
 			}
 		};
 	}
@@ -329,7 +335,7 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("WINDOW");
+				//
 			}
 		};
 	}
@@ -346,7 +352,6 @@ public class ListMVarStatic implements IsWidget {
 	public String getTabHeader() {
 		return tabHeader;
 	}
-
 	public void setTabHeader(String tabHeader) {
 		this.tabHeader = tabHeader;
 	}

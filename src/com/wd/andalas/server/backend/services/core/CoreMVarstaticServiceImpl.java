@@ -97,15 +97,31 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 
+		//DENGAN METODE HQL
+		//----------------------------------------------
 		String queryText = "FROM CoreMVarstatic";
 		Query query = session.createQuery(queryText);
-
 		List<CoreMVarstatic> result = query.list();
 
+		//DENGAN METODE CRITERIA
+		//----------------------------------------------
+		/*Criteria crit = session.createCriteria(CoreMVarstatic.class);
+		crit.add(Restrictions.isNotNull("varstatGroup"));
+		crit.setResultTransformer( DistinctRootEntityResultTransformer.INSTANCE );
+		List<CoreMVarstatic> result = crit.list();*/
+
+		//DENGAN METODE NATIVE QUERY
+		//----------------------------------------------
+		/*List<CoreMVarstatic> result = session.createSQLQuery("SELECT * FROM core_m_varstatic").addEntity(CoreMVarstatic.class).list();*/
+
+		List<String> arrVarstatGroup = new ArrayList<String>();
 		List<CoreMVarstaticDTO> resultDTO = new ArrayList<CoreMVarstaticDTO>(result != null ? result.size() : 0);
 		if (result != null) {
 			for (CoreMVarstatic obj : result) {
-				resultDTO.add(new CoreMVarstaticDTO(obj));
+				if (arrVarstatGroup.contains(obj.getVarstatGroup()) == false) {
+					resultDTO.add(new CoreMVarstaticDTO(obj));
+					arrVarstatGroup.add(obj.getVarstatGroup());
+				}
 			}
 		}
 

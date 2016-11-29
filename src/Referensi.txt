@@ -12,4 +12,4 @@ http://www.vogella.com/tutorials/GWT/article.html
 http://www.developerfusion.com/article/84332/simple-rpc-with-gwt/
 http://www.gwtproject.org/doc/latest/DevGuideServerCommunication.html#DevGuideMakingACall
 http://peyotest.blogspot.co.id/2013/10/gxt3-grid-cell-with-clickable-image-and.html
-
+http://howtodoinjava.com/hibernate/hibernate-criteria-queries-tutorial-and-examples/

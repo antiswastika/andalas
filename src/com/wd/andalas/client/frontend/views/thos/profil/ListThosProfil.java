@@ -278,7 +278,7 @@ public class ListThosProfil implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("INSERT");
+				//
 			}
 		};
 	}
@@ -287,7 +287,7 @@ public class ListThosProfil implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("DELETE");
+				//
 			}
 		};
 	}
@@ -305,7 +305,7 @@ public class ListThosProfil implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("PRINT");
+				//
 			}
 		};
 	}
@@ -314,7 +314,7 @@ public class ListThosProfil implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("EXPORT");
+				//
 			}
 		};
 	}
@@ -323,7 +323,7 @@ public class ListThosProfil implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("SEARCH");
+				//
 			}
 		};
 	}
@@ -332,11 +332,10 @@ public class ListThosProfil implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm("WINDOW");
+				//
 			}
 		};
 	}
-
 
 	/********** Setter Getter **********/
 	public ContentPanel getList() {
@@ -350,7 +349,6 @@ public class ListThosProfil implements IsWidget {
 	public String getTabHeader() {
 		return tabHeader;
 	}
-
 	public void setTabHeader(String tabHeader) {
 		this.tabHeader = tabHeader;
 	}

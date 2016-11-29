@@ -44,6 +44,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	private CoreMVarstaticDTOProperties properties = GWT.create(CoreMVarstaticDTOProperties.class);
 	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
 	private ListLoader<ListLoadConfig, ListLoadResult<CoreMVarstaticDTO>> listLoader;
+	private CoreMVarstaticDTO entity;
 
 	private VerticalLayoutContainer vlcMain;
 	private HorizontalLayoutContainer hlcMain;
@@ -56,7 +57,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	private TextArea txtDeskripsi;
 	private IntegerField txtUrutan;
 	private DateField dateAktif, dateKadaluarsa;
-	final private String formTitle = "Form - Insert Variabel Statis";
+	final private String formTitle = "Form Variabel Statis";
 
 	@Override
 	public Widget asWidget() {
@@ -123,6 +124,10 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		hlcMain.add(vlcCol1, new HorizontalLayoutData(.6, -1, new Margins(10, 10, 10, 10)));
 		hlcMain.add(vlcCol2, new HorizontalLayoutData(.4, -1, new Margins(10, 10, 10, 10)));
 
+		//Apply Data
+		//===========================================================
+		doApplyData();
+
 		return hlcMain;
 	}
 
@@ -168,6 +173,24 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		return cmb;
 	}
 
+	private void doApplyData() {
+		if (entity != null) {
+			txtNilai.setText(entity.getVarstat_name().trim());
+			cmbGrup.setText(entity.getVarstat_group());
+			txtDeskripsi.setText(entity.getVarstat_desc().trim());
+			txtUrutan.setValue(entity.getVarstat_seq());
+			dateAktif.setValue(entity.getVarstat_activedate());
+			dateKadaluarsa.setValue(entity.getVarstat_expiredate());
+		} else {
+			//Default Value
+			entity = new CoreMVarstaticDTO();
+			entity.setVarstat_deleteable((byte) 1);
+			entity.setVarstat_lock((byte) 1);
+			entity.setVarstat_parentid(null);
+			txtUrutan.setValue(1);
+		}
+	}
+
 	/********** Event Handler dan Listener **********/
 	private SelectHandler doSave() {
 		return new SelectHandler() {
@@ -209,6 +232,13 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	}
 
 	/********** Setter Getter **********/
+	public CoreMVarstaticDTO getEntity() {
+		return entity;
+	}
+	public void setEntity(CoreMVarstaticDTO entity) {
+		this.entity = entity;
+	}
+
 	public String getFormTitle() {
 		return formTitle;
 	}
