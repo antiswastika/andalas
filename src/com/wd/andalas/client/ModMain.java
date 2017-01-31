@@ -69,14 +69,14 @@ public class ModMain implements EntryPoint {
 		north.setBodyStyle("background:transparent; border:0");
 		north.setHeaderVisible(false);
 		northData.setCollapsible(false);
-		northData.setSize(70);
+		northData.setSize(60);
 		northData.setMargins(new Margins(5, 5, 0, 5));
 		north.setLayoutData(northData);
 
 		HBoxLayoutContainer hContainer = new HBoxLayoutContainer();
 		Image appLogo = new Image();
 		appLogo.setUrl("images/logo.png");
-		appLogo.setHeight("50px");
+		appLogo.setHeight("40px");
 		hContainer.setHBoxLayoutAlign(HBoxLayoutAlign.BOTTOM);
 		hContainer.add(appLogo, new BoxLayoutData(new Margins(5, 0, 0, 20)));
 		hContainer.setWidth("500px");
