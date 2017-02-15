@@ -1,5 +1,6 @@
 package com.wd.andalas.client.frontend.views.core.mvarstatic;
 
+import java.util.Date;
 import java.util.Iterator;
 
 import com.google.gwt.core.client.GWT;
@@ -190,14 +191,43 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 			txtUrutan.setValue(1);
 		}
 	}
+	
+	private void doGetEntity() {
+		if (entity != null) {
+			entity.setCreated_at(new Date());
+			entity.setCreated_by("SYSTEM");
+			entity.setUpdated_at(null);
+			entity.setUpdated_by(null);
+			entity.setVarstat_desc(txtDeskripsi.getText().trim());
+			entity.setVarstat_name(txtNilai.getText().trim());
+			entity.setVarstat_seq(txtUrutan.getValue());
+			entity.setVarstat_group(cmbGrup.getText().trim());
+			entity.setVarstat_icon(null);
+			entity.setVarstat_activedate(dateAktif.getValue());
+			entity.setVarstat_expiredate(dateKadaluarsa.getValue());
+		} else {
+			doApplyData();
+		}
+	}
 
 	/********** Event Handler dan Listener **********/
 	private SelectHandler doSave() {
 		return new SelectHandler() {
 			@Override
-			public void onSelect(SelectEvent event) {
-				MessageBox msgbox = new MessageBox("SAVE");
-				msgbox.show();
+			public void onSelect(SelectEvent event) {	
+				doGetEntity();
+				service.insertOrUpdate(entity, new AsyncCallback<Boolean>() {
+					@Override
+					public void onSuccess(Boolean result) {
+						MessageBox msgbox = new MessageBox("SUKSES");
+						msgbox.show();
+					}
+					@Override
+					public void onFailure(Throwable caught) {
+						MessageBox msgbox = new MessageBox("GAGAL");
+						msgbox.show();
+					}
+				});
 			}
 		};
 	}

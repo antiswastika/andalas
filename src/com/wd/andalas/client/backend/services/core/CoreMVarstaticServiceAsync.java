@@ -14,6 +14,8 @@ public interface CoreMVarstaticServiceAsync {
 
 	public void getAllPaged(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback);
 
-	void getAllGrup(ListLoadConfig loadConfig, AsyncCallback<ListLoadResult<CoreMVarstaticDTO>> callback);
+	public void getAllGrup(ListLoadConfig loadConfig, AsyncCallback<ListLoadResult<CoreMVarstaticDTO>> callback);
+
+	public void insertOrUpdate(CoreMVarstaticDTO obj, AsyncCallback<Boolean> callback);
 
 }

@@ -13,3 +13,5 @@ http://www.developerfusion.com/article/84332/simple-rpc-with-gwt/
 http://www.gwtproject.org/doc/latest/DevGuideServerCommunication.html#DevGuideMakingACall
 http://peyotest.blogspot.co.id/2013/10/gxt3-grid-cell-with-clickable-image-and.html
 http://howtodoinjava.com/hibernate/hibernate-criteria-queries-tutorial-and-examples/
+http://www.gwtproject.org/articles/using_gwt_with_hibernate.html
+https://shdhumale.wordpress.com/2010/11/27/example-showing-integration-of-gwt-spring-and-hibernate/

@@ -130,5 +130,19 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 
 		return new ListLoadResultBean<CoreMVarstaticDTO>(resultDTO);
 	}
+	
+	@Override
+	public Boolean insertOrUpdate(CoreMVarstaticDTO entity) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		session.saveOrUpdate(entity);
+		
+		session.getTransaction().commit();
+		session.close();
+
+		return true;
+	}
 
 }

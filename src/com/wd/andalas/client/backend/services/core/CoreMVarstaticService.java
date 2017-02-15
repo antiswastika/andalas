@@ -18,4 +18,6 @@ public interface CoreMVarstaticService extends RemoteService {
 
 	public ListLoadResult<CoreMVarstaticDTO> getAllGrup(ListLoadConfig loadConfig);
 
+	public Boolean insertOrUpdate(CoreMVarstaticDTO obj);
+
 }
