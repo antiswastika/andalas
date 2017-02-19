@@ -17,6 +17,7 @@ import com.sencha.gxt.data.shared.loader.ListLoadConfig;
 import com.sencha.gxt.data.shared.loader.ListLoadResult;
 import com.sencha.gxt.data.shared.loader.ListLoader;
 import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
+import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.Window;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
@@ -59,7 +60,10 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	private IntegerField txtUrutan;
 	private DateField dateAktif, dateKadaluarsa;
 	final private String formTitle = "Form Variabel Statis";
-
+	
+	private ContentPanel guiReferer = null; 
+	
+	/********** Main Methods **********/
 	@Override
 	public Widget asWidget() {
 		vlcMain = new VerticalLayoutContainer();
@@ -196,8 +200,8 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		if (entity != null) {
 			entity.setCreated_at(new Date());
 			entity.setCreated_by("SYSTEM");
-			entity.setUpdated_at(null);
-			entity.setUpdated_by(null);
+			entity.setUpdated_at(new Date());
+			entity.setUpdated_by("SYSTEM");
 			entity.setVarstat_desc(txtDeskripsi.getText().trim());
 			entity.setVarstat_name(txtNilai.getText().trim());
 			entity.setVarstat_seq(txtUrutan.getValue());
@@ -216,15 +220,14 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 			@Override
 			public void onSelect(SelectEvent event) {	
 				doGetEntity();
-				service.insertOrUpdate(entity, new AsyncCallback<Boolean>() {
+				service.insert(entity, new AsyncCallback<Boolean>() {
 					@Override
 					public void onSuccess(Boolean result) {
-						MessageBox msgbox = new MessageBox("SUKSES");
-						msgbox.show();
+						parentWindow.setVisible(false);
 					}
 					@Override
 					public void onFailure(Throwable caught) {
-						MessageBox msgbox = new MessageBox("GAGAL");
+						MessageBox msgbox = new MessageBox("GAGAL", caught.getMessage());
 						msgbox.show();
 					}
 				});
@@ -236,7 +239,8 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				MessageBox msgbox = new MessageBox("RESET");
+				//doApplyData();
+				MessageBox msgbox = new MessageBox("TEST", guiReferer.getClass().getName());
 				msgbox.show();
 			}
 		};
@@ -278,6 +282,13 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	}
 	public void setParentWindow(Window parentWindow) {
 		this.parentWindow = parentWindow;
+	}
+
+	public ContentPanel getGuiReferer() {
+		return guiReferer;
+	}
+	public void setGuiReferer(ContentPanel guiReferer) {
+		this.guiReferer = guiReferer;
 	}
 
 }

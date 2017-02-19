@@ -16,6 +16,6 @@ public interface CoreMVarstaticServiceAsync {
 
 	public void getAllGrup(ListLoadConfig loadConfig, AsyncCallback<ListLoadResult<CoreMVarstaticDTO>> callback);
 
-	public void insertOrUpdate(CoreMVarstaticDTO obj, AsyncCallback<Boolean> callback);
+	public void insert(CoreMVarstaticDTO obj, AsyncCallback<Boolean> callback);
 
 }

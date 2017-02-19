@@ -132,12 +132,13 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 	}
 	
 	@Override
-	public Boolean insertOrUpdate(CoreMVarstaticDTO entity) {
+	public Boolean insert(CoreMVarstaticDTO entity) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-
-		session.saveOrUpdate(entity);
+		
+		CoreMVarstatic objEntity = new CoreMVarstatic(entity);
+		session.save(objEntity);
 		
 		session.getTransaction().commit();
 		session.close();

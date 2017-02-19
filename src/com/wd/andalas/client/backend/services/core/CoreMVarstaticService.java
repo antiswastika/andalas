@@ -8,7 +8,7 @@ import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 
-@RemoteServiceRelativePath("coremvarstatic")
+@RemoteServiceRelativePath("./coremvarstatic")
 public interface CoreMVarstaticService extends RemoteService {
 
 	/********** Main Methods **********/
@@ -18,6 +18,6 @@ public interface CoreMVarstaticService extends RemoteService {
 
 	public ListLoadResult<CoreMVarstaticDTO> getAllGrup(ListLoadConfig loadConfig);
 
-	public Boolean insertOrUpdate(CoreMVarstaticDTO obj);
+	public Boolean insert(CoreMVarstaticDTO obj);
 
 }

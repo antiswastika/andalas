@@ -255,6 +255,7 @@ public class ListMVarStatic implements IsWidget {
 		Window newWindow = new Window();
 		FormMVarStatic formTpl = new FormMVarStatic();
 		String judulForm = formTpl.getFormTitle();
+		formTpl.setGuiReferer(list);
 		formTpl.setParentWindow(newWindow);
 
 		if (idNya != null && entity != null) {

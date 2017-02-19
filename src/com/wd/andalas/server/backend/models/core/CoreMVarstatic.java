@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 
 /**
@@ -39,9 +41,9 @@ public class CoreMVarstatic implements Serializable {
 		this.updatedBy = obj.getUpdated_by();
 		this.varstatActivedate = obj.getVarstat_activedate();
 		this.varstatDeleteable = obj.getVarstat_deleteable();
-		this.varstatDesc = obj.getVarstat_id();
+		this.varstatDesc = obj.getVarstat_desc();
 		this.varstatExpiredate = obj.getVarstat_expiredate();
-		this.varstatGroup = obj.getVarstat_desc();
+		this.varstatGroup = obj.getVarstat_group();
 		this.varstatIcon = obj.getVarstat_icon();
 		this.varstatLock = obj.getVarstat_lock();
 		this.varstatName = obj.getVarstat_name();
@@ -50,7 +52,8 @@ public class CoreMVarstatic implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GenericGenerator(name="custom_id_generator", strategy="com.wd.andalas.server.backend.models.core.CoreMVarstaticIdGenerator")
+	@GeneratedValue(generator="custom_id_generator")
 	@Column(name="varstat_id", unique=true, nullable=false, length=23)
 	private String varstatId;
 

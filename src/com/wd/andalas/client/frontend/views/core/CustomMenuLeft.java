@@ -36,12 +36,15 @@ public class CustomMenuLeft {
 		VBoxLayoutContainer vlc_B = new VBoxLayoutContainer();
 		vlc_B.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_B.setPadding(new Padding(10));
-		String[] tabParamsB1 = { "Variabel Statis", "Daftar Variabel Statis" };
-		doCreateImageList(vlc_B, "images/icon/32x32/daftar_varstatis.png", tabParamsB1, "ListMVarStaticID");
-		String[] tabParamsB2 = { "Daftar User" };
-		doCreateImageList(vlc_B, "images/icon/32x32/daftar_user.png", tabParamsB2, "");
-		String[] tabParamsB3 = { "Logout" };
-		doCreateImageList(vlc_B, "images/icon/32x32/logout.png", tabParamsB3, "");
+		String[] tabParamsB1 = { "Alih Vendor", "Proses Alih Vendor" };
+		doCreateImageList(vlc_B, "images/icon/32x32/alih_vendor.png", tabParamsB1, "");		
+		
+		String[] tabParamsB111 = { "Variabel Statis", "Daftar Variabel Statis" };
+		doCreateImageList(vlc_B, "images/icon/32x32/daftar_varstatis.png", tabParamsB111, "ListMVarStaticID");
+		String[] tabParamsB222 = { "Daftar User" };
+		doCreateImageList(vlc_B, "images/icon/32x32/daftar_user.png", tabParamsB222, "");
+		String[] tabParamsB333 = { "Logout" };
+		doCreateImageList(vlc_B, "images/icon/32x32/logout.png", tabParamsB333, "");
 		ContentPanel cp_B = new ContentPanel();
 		cp_B.setHeading("Pengaturan");
 		cp_B.add(vlc_B);
