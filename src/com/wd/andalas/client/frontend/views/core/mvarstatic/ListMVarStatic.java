@@ -32,6 +32,7 @@ import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.Window;
+import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
@@ -290,8 +291,18 @@ public class ListMVarStatic implements IsWidget {
 	private SelectHandler doDelete() {
 		return new SelectHandler() {
 			@Override
-			public void onSelect(SelectEvent event) {
-				//
+			public void onSelect(SelectEvent event) {	
+				service.delete(grid.getSelectionModel().getSelectedItem(), new AsyncCallback<Boolean>() {
+					@Override
+					public void onSuccess(Boolean result) {
+						pagingToolbar.refresh();
+					}
+					@Override
+					public void onFailure(Throwable caught) {
+						MessageBox msgbox = new MessageBox("GAGAL", caught.getMessage());
+						msgbox.show();
+					}
+				});
 			}
 		};
 	}

@@ -133,17 +133,62 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 	
 	@Override
 	public Boolean insert(CoreMVarstaticDTO entity) {
+		Boolean retVal = false;
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
 		CoreMVarstatic objEntity = new CoreMVarstatic(entity);
-		session.save(objEntity);
+		try {
+			session.save(objEntity);
+			session.getTransaction().commit();
+			retVal = true;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+		}
 		
-		session.getTransaction().commit();
 		session.close();
-
-		return true;
+		return retVal;
+	}
+	
+	@Override
+	public Boolean update(CoreMVarstaticDTO entity) {
+		Boolean retVal = false;
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		CoreMVarstatic objEntity = new CoreMVarstatic(entity);
+		try {
+			session.update(objEntity);
+			session.getTransaction().commit();
+			retVal = true;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+		}
+		
+		session.close();
+		return retVal;
+	}
+	
+	@Override
+	public Boolean delete(CoreMVarstaticDTO entity) {
+		Boolean retVal = false;
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		CoreMVarstatic objEntity = new CoreMVarstatic(entity);
+		try {
+			session.delete(objEntity);
+			session.getTransaction().commit();
+			retVal = true;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+		}
+		
+		session.close();
+		return retVal;
 	}
 
 }
