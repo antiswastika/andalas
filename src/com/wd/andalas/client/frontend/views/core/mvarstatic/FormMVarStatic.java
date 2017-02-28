@@ -17,7 +17,6 @@ import com.sencha.gxt.data.shared.loader.ListLoadConfig;
 import com.sencha.gxt.data.shared.loader.ListLoadResult;
 import com.sencha.gxt.data.shared.loader.ListLoader;
 import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
-import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.Window;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
@@ -61,7 +60,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	private DateField dateAktif, dateKadaluarsa;
 	final private String formTitle = "Form Variabel Statis";
 	
-	private ContentPanel guiReferer = null; 
+	private ListMVarStatic classReferer = null; 
 	
 	/********** Main Methods **********/
 	@Override
@@ -224,6 +223,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 					@Override
 					public void onSuccess(Boolean result) {
 						parentWindow.setVisible(false);
+						classReferer.doPublicRefresh();
 					}
 					@Override
 					public void onFailure(Throwable caught) {
@@ -239,9 +239,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				//doApplyData();
-				MessageBox msgbox = new MessageBox("TEST", guiReferer.getClass().getName());
-				msgbox.show();
+				doApplyData();
 			}
 		};
 	}
@@ -284,11 +282,11 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		this.parentWindow = parentWindow;
 	}
 
-	public ContentPanel getGuiReferer() {
-		return guiReferer;
+	public ListMVarStatic getClassReferer() {
+		return classReferer;
 	}
-	public void setGuiReferer(ContentPanel guiReferer) {
-		this.guiReferer = guiReferer;
+	public void setClassReferer(ListMVarStatic classReferer) {
+		this.classReferer = classReferer;
 	}
 
 }

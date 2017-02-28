@@ -256,7 +256,7 @@ public class ListMVarStatic implements IsWidget {
 		Window newWindow = new Window();
 		FormMVarStatic formTpl = new FormMVarStatic();
 		String judulForm = formTpl.getFormTitle();
-		formTpl.setGuiReferer(list);
+		formTpl.setClassReferer(this);
 		formTpl.setParentWindow(newWindow);
 
 		if (idNya != null && entity != null) {
@@ -276,6 +276,11 @@ public class ListMVarStatic implements IsWidget {
 		newWindow.add(formTpl.asWidget());
 
 		newWindow.show();
+	}
+	
+	/********** Public Methods **********/	
+	public void doPublicRefresh() {
+		pagingToolbar.refresh();
 	}
 
 	/********** Event Handler dan Listener **********/
@@ -351,7 +356,7 @@ public class ListMVarStatic implements IsWidget {
 			}
 		};
 	}
-
+	
 	/********** Setter Getter **********/
 	public ContentPanel getList() {
 		return list;
