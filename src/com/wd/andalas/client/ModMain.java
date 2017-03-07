@@ -24,6 +24,7 @@ import com.wd.andalas.global.Singleton;
 public class ModMain implements EntryPoint {
 
 	/********** Inisiasi **********/
+	private static final Logger logger = Logger.getLogger(ModMain.class.getName());
 	private Viewport viewPort = new Viewport();
 	private HashMap<String, Object> allObjects = new HashMap<String, Object>();
 	private BorderLayoutContainer blc;
@@ -36,9 +37,9 @@ public class ModMain implements EntryPoint {
 		Widget mainWidget = startUp();
 		viewPort.setWidget(mainWidget);
 		RootLayoutPanel.get().add(viewPort);
-
-		Logger logger = Logger.getLogger("DEBUG");
-		logger.log(Level.INFO, "Application Started.....");
+		
+		logger.log(Level.INFO, "Starting up...............");
+        logger.log(Level.WARNING, "How is it going?");
 
 		allObjects.put("viewPort", viewPort);
 		allObjects.put("mainWidget", mainWidget);

@@ -17,11 +17,13 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
+import com.google.gwt.junit.JUnitShell.Strategy;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.IdentityValueProvider;
+import com.sencha.gxt.core.client.util.Format;
 import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.data.shared.ListStore;
@@ -31,11 +33,15 @@ import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.Window;
+import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent.DialogHideHandler;
 import com.sencha.gxt.widget.core.client.event.RefreshEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
@@ -44,6 +50,7 @@ import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.grid.RowNumberer;
+import com.sencha.gxt.widget.core.client.info.Info;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
@@ -278,6 +285,24 @@ public class ListMVarStatic implements IsWidget {
 		newWindow.show();
 	}
 	
+	private void startDelete() {
+		List<CoreMVarstaticDTO> itemsToDelete = grid.getSelectionModel().getSelectedItems();
+		for (CoreMVarstaticDTO item : itemsToDelete) {
+			
+			service.delete(item, new AsyncCallback<Boolean>() {
+				@Override
+				public void onSuccess(Boolean result) {
+					//
+				}
+				@Override
+				public void onFailure(Throwable caught) {
+					//
+				}
+			});
+			
+		}
+	}
+	
 	/********** Public Methods **********/	
 	public void doPublicRefresh() {
 		pagingToolbar.refresh();
@@ -297,17 +322,27 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {	
-				service.delete(grid.getSelectionModel().getSelectedItem(), new AsyncCallback<Boolean>() {
+				ConfirmMessageBox messageBox = new ConfirmMessageBox("Konfirmasi Hapus", "Apakah Anda sudah yakin akan menghapus data yang terpilih?");
+				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
+				messageBox.setIcon(MessageBox.ICONS.question());				
+			    messageBox.addDialogHideHandler(new DialogHideHandler() {
 					@Override
-					public void onSuccess(Boolean result) {
-						pagingToolbar.refresh();
-					}
-					@Override
-					public void onFailure(Throwable caught) {
-						MessageBox msgbox = new MessageBox("GAGAL", caught.getMessage());
-						msgbox.show();
+					public void onDialogHide(DialogHideEvent event) {
+						//Contoh
+						//String message = Format.substitute("The '{0}' button was pressed", event.getHideButton());
+					    //Info.display("MessageBox", message);
+						
+						switch (event.getHideButton()) {
+							case YES:
+								startDelete();
+								pagingToolbar.refresh();
+								break;
+							case NO:
+								break;
+						}
 					}
 				});
+			    messageBox.show();			
 			}
 		};
 	}
