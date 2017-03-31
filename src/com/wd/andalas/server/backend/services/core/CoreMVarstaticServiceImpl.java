@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.sencha.gxt.data.shared.SortInfo;
 import com.sencha.gxt.data.shared.loader.ListLoadConfig;
 import com.sencha.gxt.data.shared.loader.ListLoadResult;
 import com.sencha.gxt.data.shared.loader.ListLoadResultBean;
@@ -66,8 +67,15 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-
-		String queryText = "FROM CoreMVarstatic";
+		
+		String adhocQuery = "";
+		
+		List<SortInfo> sortInfoList = (List<SortInfo>) loadConfig.getSortInfo();
+		for (int i=0; i<sortInfoList.size(); i++){
+			adhocQuery = " ORDER BY " + sortInfoList.get(i).getSortField() + " " + sortInfoList.get(i).getSortDir();
+		}
+		
+		String queryText = "FROM CoreMVarstatic" + adhocQuery;
 		Query query = session.createQuery(queryText);
 
 		query.setFirstResult(loadConfig.getOffset());
@@ -181,6 +189,28 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		CoreMVarstatic objEntity = new CoreMVarstatic(entity);
 		try {
 			session.delete(objEntity);
+			session.getTransaction().commit();
+			retVal = true;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+		}
+		
+		session.close();
+		return retVal;
+	}
+	
+	@Override
+	public Boolean deleteMany(List<CoreMVarstaticDTO> entities) {
+		Boolean retVal = false;
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		try {
+			for (CoreMVarstaticDTO item : entities) {
+				CoreMVarstatic objEntity = new CoreMVarstatic(item);
+				session.delete(objEntity);
+			}
 			session.getTransaction().commit();
 			retVal = true;
 		} catch (Exception e) {

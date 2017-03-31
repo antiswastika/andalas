@@ -31,6 +31,7 @@ public class GlobalToolbarList extends ToolBar {
 		TextButton btn12 = new TextButton("Hapus", deleteHandler);
 		btn12.setIcon(imageResource.btnDelete());
 		btn12.setToolTip("Hapus");
+		btn12.setEnabled(false);
 		toolbarNya.add(btn12);
 		TextButton btn13 = new TextButton("Refresh", refreshHandler);
 		btn13.setIcon(imageResource.btnRefresh());

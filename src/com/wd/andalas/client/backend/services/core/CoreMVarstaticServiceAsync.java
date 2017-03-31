@@ -1,5 +1,7 @@
 package com.wd.andalas.client.backend.services.core;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sencha.gxt.data.shared.loader.ListLoadConfig;
 import com.sencha.gxt.data.shared.loader.ListLoadResult;
@@ -21,5 +23,7 @@ public interface CoreMVarstaticServiceAsync {
 	public void update(CoreMVarstaticDTO obj, AsyncCallback<Boolean> callback);
 	
 	public void delete(CoreMVarstaticDTO obj, AsyncCallback<Boolean> callback);
+
+	public void deleteMany(List<CoreMVarstaticDTO> objs, AsyncCallback<Boolean> callback);
 
 }

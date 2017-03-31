@@ -17,17 +17,16 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
-import com.google.gwt.junit.JUnitShell.Strategy;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.IdentityValueProvider;
-import com.sencha.gxt.core.client.util.Format;
 import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.data.shared.ListStore;
-import com.sencha.gxt.data.shared.loader.DataProxy;
+import com.sencha.gxt.data.shared.SortDir;
+import com.sencha.gxt.data.shared.SortInfoBean;
 import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
 import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
@@ -37,12 +36,19 @@ import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.Window;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
+import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent.DialogHideHandler;
+import com.sencha.gxt.widget.core.client.event.HeaderClickEvent;
+import com.sencha.gxt.widget.core.client.event.HeaderClickEvent.HeaderClickHandler;
+import com.sencha.gxt.widget.core.client.event.HideEvent;
+import com.sencha.gxt.widget.core.client.event.HideEvent.HideHandler;
 import com.sencha.gxt.widget.core.client.event.RefreshEvent;
+import com.sencha.gxt.widget.core.client.event.RowClickEvent;
+import com.sencha.gxt.widget.core.client.event.RowClickEvent.RowClickHandler;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
@@ -50,7 +56,6 @@ import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.grid.RowNumberer;
-import com.sencha.gxt.widget.core.client.info.Info;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
@@ -96,7 +101,7 @@ public class ListMVarStatic implements IsWidget {
 			vlc.add(upToolbar);
 			vlc.add(grid, new VerticalLayoutData(1, 1));
 			vlc.add(pagingToolbar);
-
+			
 			list.add(vlc);
 		}
 		return list;
@@ -124,6 +129,8 @@ public class ListMVarStatic implements IsWidget {
 			protected void onRefresh(RefreshEvent event) {
 				if (isSelectAllChecked()) {
 					selectAll();
+				} else {
+					deselectAll();
 				}
 				super.onRefresh(event);
 			}
@@ -144,9 +151,8 @@ public class ListMVarStatic implements IsWidget {
 		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_seq = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_seq(), 80, "Urutan");
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_group = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_group(), 200, "Grup");
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_parentid = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, "Id Parent");
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_parentname = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, "Nama Parent");
 		ColumnConfig<CoreMVarstaticDTO, String> varstat_icon = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_icon(), 250, "Icon");
-		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_lock(), 100, "Konstan");
+		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_lock(), 100, "Kunci");
 		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_deleteable(), 100, "Bisa Dihapus");
 		ColumnConfig<CoreMVarstaticDTO, Date> varstat_activedate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_activedate(), 120, "Tgl Mulai");
 		ColumnConfig<CoreMVarstaticDTO, Date> varstat_expiredate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_expiredate(), 120, "Tgl Berakhir");
@@ -160,7 +166,6 @@ public class ListMVarStatic implements IsWidget {
 		columns.add(varstat_group);
 		columns.add(varstat_seq);
 		columns.add(varstat_parentid);
-		columns.add(varstat_parentname);
 		columns.add(varstat_lock);
 		columns.add(varstat_deleteable);
 		columns.add(varstat_activedate);
@@ -175,7 +180,7 @@ public class ListMVarStatic implements IsWidget {
 		ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
 
 		/* Step 7 : Buat RpcProxy */
-		DataProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
+		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
 			@Override
 			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
 				service.getAllPaged(loadConfig, callback);
@@ -184,9 +189,11 @@ public class ListMVarStatic implements IsWidget {
 
 		/* Step 8 : Buat pagingLoader */
 		pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
+		pagingLoader.addSortInfo(new SortInfoBean("varstat_name", SortDir.DESC));
 		pagingLoader.setRemoteSort(true);
 		pagingLoader.setLimit(pageLimit);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
+		pagingLoader.setReuseLoadConfig(true);
 
 		/* Step 9 : Buat Format Semua Column */
 		created_at.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
@@ -230,8 +237,7 @@ public class ListMVarStatic implements IsWidget {
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 					@Override
 					public void execute() {
-						// Begitu di-attach langsung tampilkan page pertama.
-						pagingLoader.load(0, pageLimit);
+						doRefreshGrid();
 					}
 				});
 			}
@@ -239,6 +245,7 @@ public class ListMVarStatic implements IsWidget {
 
 		/* Step 11 : Buat set Parameter Grid */
 		numbererColumn.initPlugin(grid);
+		
 		grid.setSelectionModel(selectionModel);
 		grid.setColumnReordering(true);
 		grid.setAllowTextSelection(true);
@@ -248,7 +255,10 @@ public class ListMVarStatic implements IsWidget {
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
 		grid.setLoader(pagingLoader);
-
+		
+		grid.addRowClickHandler(onRowClick());
+		grid.addHeaderClickHandler(onHeaderClick());
+		
 		return grid;
 	}
 
@@ -266,40 +276,55 @@ public class ListMVarStatic implements IsWidget {
 		formTpl.setClassReferer(this);
 		formTpl.setParentWindow(newWindow);
 
-		if (idNya != null && entity != null) {
+		if (idNya != "" && entity != null) {
 			formTpl.setEntity(entity);
 			judulForm = judulForm + " (Ubah)";
 		} else {
+			formTpl.setEntity(new CoreMVarstaticDTO());
 			judulForm = judulForm + " (Tambah)";
 		}
 
 		newWindow.setModal(true);
-		newWindow.setSize("700", "400");
+		newWindow.setSize("700", "430");
 		newWindow.setResizable(false);
 		newWindow.setClosable(false);
 		newWindow.setAllowTextSelection(false);
 		newWindow.setOnEsc(false);
 		newWindow.setHeading(judulForm);
+		
 		newWindow.add(formTpl.asWidget());
 
 		newWindow.show();
 	}
 	
-	private void startDelete() {
-		List<CoreMVarstaticDTO> itemsToDelete = grid.getSelectionModel().getSelectedItems();
-		for (CoreMVarstaticDTO item : itemsToDelete) {
-			
-			service.delete(item, new AsyncCallback<Boolean>() {
-				@Override
-				public void onSuccess(Boolean result) {
-					//
+	private void doStartDelete() {
+		final List<CoreMVarstaticDTO> itemsToDelete = grid.getSelectionModel().getSelectedItems();
+		service.deleteMany(itemsToDelete, new AsyncCallback<Boolean>() {
+			@Override
+			public void onSuccess(Boolean result) {
+				for (CoreMVarstaticDTO item : itemsToDelete) {
+					grid.getStore().remove(item);
 				}
-				@Override
-				public void onFailure(Throwable caught) {
-					//
-				}
-			});
-			
+				doRefreshGrid();
+			}
+			@Override
+			public void onFailure(Throwable caught) {
+				//
+			}
+		});
+	}
+	
+	private void doRefreshGrid() {
+		pagingLoader.load(0, pageLimit);
+	}
+	
+	private void doGetSetBtnDeleteActivities() {
+		int selections = grid.getSelectionModel().getSelectedItems().size();
+		TextButton btnDelete = (TextButton) upToolbar.getWidget(1);
+		if (selections == 0) {
+			btnDelete.setEnabled(false);
+		} else {
+			btnDelete.setEnabled(true);
 		}
 	}
 	
@@ -309,11 +334,35 @@ public class ListMVarStatic implements IsWidget {
 	}
 
 	/********** Event Handler dan Listener **********/
+	private RowClickHandler onRowClick() {
+		return new RowClickHandler() {
+			@Override
+			public void onRowClick(RowClickEvent event) {
+				doGetSetBtnDeleteActivities();
+			}
+		};
+	}
+	
+	private HeaderClickHandler onHeaderClick() {
+		return new HeaderClickHandler() {
+			@Override
+			public void onHeaderClick(HeaderClickEvent event) {
+				Integer colIndex = event.getColumnIndex();
+				String colValueProvider = grid.getColumnModel().getColumn(colIndex).getValueProvider().getPath();
+				
+				doGetSetBtnDeleteActivities();
+				
+				//ConfirmMessageBox messageBox = new ConfirmMessageBox(colIndex.toString(), GXT.getVersion().getRelease() );
+				//messageBox.show();				
+			}
+		};
+	}
+	
 	private SelectHandler doInsert() {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doCreateForm(null, null);
+				doCreateForm("", null);
 			}
 		};
 	}
@@ -324,7 +373,8 @@ public class ListMVarStatic implements IsWidget {
 			public void onSelect(SelectEvent event) {	
 				ConfirmMessageBox messageBox = new ConfirmMessageBox("Konfirmasi Hapus", "Apakah Anda sudah yakin akan menghapus data yang terpilih?");
 				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
-				messageBox.setIcon(MessageBox.ICONS.question());				
+				messageBox.setIcon(MessageBox.ICONS.question());
+				
 			    messageBox.addDialogHideHandler(new DialogHideHandler() {
 					@Override
 					public void onDialogHide(DialogHideEvent event) {
@@ -334,10 +384,11 @@ public class ListMVarStatic implements IsWidget {
 						
 						switch (event.getHideButton()) {
 							case YES:
-								startDelete();
-								pagingToolbar.refresh();
+								doStartDelete();
 								break;
 							case NO:
+								break;
+							default:
 								break;
 						}
 					}
@@ -387,7 +438,25 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				//
+				final Widget listWidget = list.getWidget(0);
+				list.setHeaderVisible(false);
+				upToolbar.getWidget(upToolbar.getWidgetCount()-1).setVisible(false);
+				
+				Window newWindow = new Window();
+				newWindow.setMaximizable(true);
+				newWindow.setHeading(list.getHeader().getHeading());
+				newWindow.setModal(true);				
+				newWindow.add(listWidget);				
+				newWindow.addHideHandler(new HideHandler() {
+					@Override
+					public void onHide(HideEvent event) {
+						list.setHeaderVisible(true);
+						upToolbar.getWidget(upToolbar.getWidgetCount()-1).setVisible(true);
+						list.add(listWidget);
+						list.forceLayout();
+					}					
+				});
+				newWindow.show();
 			}
 		};
 	}

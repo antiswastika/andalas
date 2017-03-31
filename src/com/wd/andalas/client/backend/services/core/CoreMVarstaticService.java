@@ -1,5 +1,7 @@
 package com.wd.andalas.client.backend.services.core;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.sencha.gxt.data.shared.loader.ListLoadConfig;
@@ -23,5 +25,7 @@ public interface CoreMVarstaticService extends RemoteService {
 	public Boolean update(CoreMVarstaticDTO obj);
 	
 	public Boolean delete(CoreMVarstaticDTO obj);
+
+	public Boolean deleteMany(List<CoreMVarstaticDTO> objs);
 
 }

@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -47,7 +46,7 @@ public class CoreMVarstatic implements Serializable {
 		this.varstatIcon = obj.getVarstat_icon();
 		this.varstatLock = obj.getVarstat_lock();
 		this.varstatName = obj.getVarstat_name();
-		this.varstatParentid = obj.getVarstat_id();
+		this.varstatParentid = obj.getVarstat_parentid();
 		this.varstatSeq = obj.getVarstat_seq();
 	}
 

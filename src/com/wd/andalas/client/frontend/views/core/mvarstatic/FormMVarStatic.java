@@ -53,7 +53,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	private VerticalLayoutContainer vlcCol2;
 	private Window parentWindow;
 
-	private TextField txtInduk, txtNilai;
+	private TextField txtInduk, txtNilai, txtNewGrup;
 	private ComboBox<CoreMVarstaticDTO> cmbGrup;
 	private TextArea txtDeskripsi;
 	private IntegerField txtUrutan;
@@ -86,6 +86,8 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		cmbGrup = doCreateComboboxGrup();
 		cmbGrup.setEmptyText("Pilih grup...");
 		cmbGrup.setEditable(false);
+		txtNewGrup = new TextField();
+		txtNewGrup.setEmptyText("atau buat grup baru....");
 		txtDeskripsi = new TextArea();
 		txtDeskripsi.setAllowBlank(true);
 		txtDeskripsi.setHeight(140);
@@ -99,6 +101,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		vlcCol1.add(new FieldLabel(txtNilai, "Nilai Statis"), new VerticalLayoutData(1, -1));
 		vlcCol1.add(new FieldLabel(txtUrutan, "Urutan"));
 		vlcCol1.add(new FieldLabel(cmbGrup, "Grup"), new VerticalLayoutData(1, -1));
+		vlcCol1.add(new FieldLabel(txtNewGrup, ""), new VerticalLayoutData(1, -1));
 		vlcCol1.add(new FieldLabel(dateAktif, "Tanggal Mulai"));
 		vlcCol1.add(new FieldLabel(dateKadaluarsa, "Tanggal Berakhir"));
 		vlcCol1.add(new FieldLabel(txtDeskripsi, "Deskripsi"), new VerticalLayoutData(1, -1));
@@ -163,9 +166,6 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		LabelProvider<CoreMVarstaticDTO> labelProvider = new LabelProvider<CoreMVarstaticDTO>() {
 			@Override
 			public String getLabel(CoreMVarstaticDTO item) {
-				if (item.getVarstat_group() == null) {
-					return "";
-				}
 				return item.getVarstat_group();
 			}
 		};
@@ -176,9 +176,10 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 
 		return cmb;
 	}
-
+	
+	/* Apply data dari list ke form */
 	private void doApplyData() {
-		if (entity != null) {
+		if (entity.getVarstat_id() != null) {
 			txtNilai.setText(entity.getVarstat_name().trim());
 			cmbGrup.setText(entity.getVarstat_group());
 			txtDeskripsi.setText(entity.getVarstat_desc().trim());
@@ -187,30 +188,31 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 			dateKadaluarsa.setValue(entity.getVarstat_expiredate());
 		} else {
 			//Default Value
-			entity = new CoreMVarstaticDTO();
 			entity.setVarstat_deleteable((byte) 1);
-			entity.setVarstat_lock((byte) 1);
+			entity.setVarstat_lock((byte) 0);
 			entity.setVarstat_parentid(null);
 			txtUrutan.setValue(1);
 		}
 	}
 	
 	private void doGetEntity() {
-		if (entity != null) {
-			entity.setCreated_at(new Date());
-			entity.setCreated_by("SYSTEM");
-			entity.setUpdated_at(new Date());
-			entity.setUpdated_by("SYSTEM");
-			entity.setVarstat_desc(txtDeskripsi.getText().trim());
-			entity.setVarstat_name(txtNilai.getText().trim());
-			entity.setVarstat_seq(txtUrutan.getValue());
-			entity.setVarstat_group(cmbGrup.getText().trim());
-			entity.setVarstat_icon(null);
-			entity.setVarstat_activedate(dateAktif.getValue());
-			entity.setVarstat_expiredate(dateKadaluarsa.getValue());
+		entity.setCreated_at(new Date());
+		entity.setCreated_by("SYSTEM");
+		entity.setUpdated_at(new Date());
+		entity.setUpdated_by("SYSTEM");
+		entity.setVarstat_desc(txtDeskripsi.getText().trim());
+		entity.setVarstat_name(txtNilai.getText().trim());
+		entity.setVarstat_seq(txtUrutan.getValue());
+		
+		if (txtNewGrup.getText().trim().equals("") == false) {
+			entity.setVarstat_group(txtNewGrup.getText().trim());
 		} else {
-			doApplyData();
-		}
+			entity.setVarstat_group(cmbGrup.getText().trim());
+		}			
+		
+		entity.setVarstat_icon(null);
+		entity.setVarstat_activedate(dateAktif.getValue());
+		entity.setVarstat_expiredate(dateKadaluarsa.getValue());
 	}
 
 	/********** Event Handler dan Listener **********/
@@ -219,18 +221,34 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 			@Override
 			public void onSelect(SelectEvent event) {	
 				doGetEntity();
-				service.insert(entity, new AsyncCallback<Boolean>() {
-					@Override
-					public void onSuccess(Boolean result) {
-						parentWindow.setVisible(false);
-						classReferer.doPublicRefresh();
-					}
-					@Override
-					public void onFailure(Throwable caught) {
-						MessageBox msgbox = new MessageBox("GAGAL", caught.getMessage());
-						msgbox.show();
-					}
-				});
+				if (entity.getVarstat_id() != null) {
+					service.update(entity, new AsyncCallback<Boolean>() {
+						@Override
+						public void onSuccess(Boolean result) {
+							parentWindow.setVisible(false);
+							classReferer.doPublicRefresh();
+						}
+						@Override
+						public void onFailure(Throwable caught) {
+							MessageBox msgbox = new MessageBox("GAGAL", caught.getMessage());
+							msgbox.show();
+						}
+					});
+				} else {
+					service.insert(entity, new AsyncCallback<Boolean>() {
+						@Override
+						public void onSuccess(Boolean result) {
+							parentWindow.setVisible(false);
+							classReferer.doPublicRefresh();
+						}
+						@Override
+						public void onFailure(Throwable caught) {
+							MessageBox msgbox = new MessageBox("GAGAL", caught.getMessage());
+							msgbox.show();
+						}
+					});
+				}
+				
 			}
 		};
 	}
