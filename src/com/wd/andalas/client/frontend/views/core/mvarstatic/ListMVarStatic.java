@@ -25,8 +25,6 @@ import com.sencha.gxt.core.client.IdentityValueProvider;
 import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.data.shared.ListStore;
-import com.sencha.gxt.data.shared.SortDir;
-import com.sencha.gxt.data.shared.SortInfoBean;
 import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
 import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
@@ -63,6 +61,7 @@ import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTOProperties;
 import com.wd.andalas.global.GlobalToolbarList;
+import com.wd.andalas.global.views.FormExportData;
 
 public class ListMVarStatic implements IsWidget {
 
@@ -189,7 +188,6 @@ public class ListMVarStatic implements IsWidget {
 
 		/* Step 8 : Buat pagingLoader */
 		pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
-		pagingLoader.addSortInfo(new SortInfoBean("varstat_name", SortDir.DESC));
 		pagingLoader.setRemoteSort(true);
 		pagingLoader.setLimit(pageLimit);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
@@ -346,14 +344,8 @@ public class ListMVarStatic implements IsWidget {
 	private HeaderClickHandler onHeaderClick() {
 		return new HeaderClickHandler() {
 			@Override
-			public void onHeaderClick(HeaderClickEvent event) {
-				Integer colIndex = event.getColumnIndex();
-				String colValueProvider = grid.getColumnModel().getColumn(colIndex).getValueProvider().getPath();
-				
+			public void onHeaderClick(HeaderClickEvent event) {			
 				doGetSetBtnDeleteActivities();
-				
-				//ConfirmMessageBox messageBox = new ConfirmMessageBox(colIndex.toString(), GXT.getVersion().getRelease() );
-				//messageBox.show();				
 			}
 		};
 	}
@@ -420,7 +412,23 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				//
+				Window newWindow = new Window();
+				FormExportData formTpl = new FormExportData();
+				String judulForm = formTpl.getFormTitle();
+				formTpl.setClassReferer(this);
+				formTpl.setParentWindow(newWindow);
+
+				newWindow.setModal(true);
+				newWindow.setSize("400", "160");
+				newWindow.setResizable(false);
+				newWindow.setClosable(false);
+				newWindow.setAllowTextSelection(false);
+				newWindow.setOnEsc(false);
+				newWindow.setHeading(judulForm);
+				
+				newWindow.add(formTpl.asWidget());
+
+				newWindow.show();
 			}
 		};
 	}

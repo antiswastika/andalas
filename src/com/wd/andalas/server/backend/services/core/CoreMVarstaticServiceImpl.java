@@ -50,8 +50,9 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-
-		String queryText = "FROM CoreMVarstatic";
+		
+		String adhocQuery = " ORDER BY varstat_group ASC";
+		String queryText = "FROM CoreMVarstatic" + adhocQuery;
 		Query query = session.createQuery(queryText);
 		List<CoreMVarstatic> result = query.list();
 
@@ -71,9 +72,14 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		String adhocQuery = "";
 		
 		List<SortInfo> sortInfoList = (List<SortInfo>) loadConfig.getSortInfo();
-		for (int i=0; i<sortInfoList.size(); i++){
-			adhocQuery = " ORDER BY " + sortInfoList.get(i).getSortField() + " " + sortInfoList.get(i).getSortDir();
+		if (sortInfoList.size() > 0) {
+			for (int i=0; i<sortInfoList.size(); i++){
+				adhocQuery = " ORDER BY " + sortInfoList.get(i).getSortField() + " " + sortInfoList.get(i).getSortDir();
+			}
+		} else {
+			adhocQuery = " ORDER BY varstat_group ASC";
 		}
+		
 		
 		String queryText = "FROM CoreMVarstatic" + adhocQuery;
 		Query query = session.createQuery(queryText);

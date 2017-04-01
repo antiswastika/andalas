@@ -18,13 +18,17 @@ import com.sencha.gxt.data.shared.loader.ListLoadResult;
 import com.sencha.gxt.data.shared.loader.ListLoader;
 import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
 import com.sencha.gxt.widget.core.client.Window;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData;
 import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent.DialogHideHandler;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.form.ComboBox;
 import com.sencha.gxt.widget.core.client.form.DateField;
@@ -139,7 +143,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	}
 
 	private ToolBar doCreateDownToolbar() {
-		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(doSave(), doReset(), doClose(), doInfo(), null);
+		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(doSave(), doReset(), doClose(), doInfo(), null, null, null);
 		downToolbar.setBorders(true);
 		downToolbar.setPadding(new Padding(2));
 		return downToolbar;
@@ -257,7 +261,25 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				doApplyData();
+				ConfirmMessageBox messageBox = new ConfirmMessageBox("Konfirmasi Reset", "Apakah Anda sudah yakin akan mengembalikan data seperti pertama kali?");
+				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
+				messageBox.setIcon(MessageBox.ICONS.question());
+				
+			    messageBox.addDialogHideHandler(new DialogHideHandler() {
+					@Override
+					public void onDialogHide(DialogHideEvent event) {
+						switch (event.getHideButton()) {
+							case YES:
+								doApplyData();
+								break;
+							case NO:
+								break;
+							default:
+								break;
+						}
+					}
+				});
+			    messageBox.show();
 			}
 		};
 	}
