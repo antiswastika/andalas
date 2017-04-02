@@ -2,6 +2,7 @@ package com.wd.andalas.client.frontend.views.core.mvarstatic;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -415,15 +416,14 @@ public class ListMVarStatic implements IsWidget {
 				Window newWindow = new Window();
 				FormExportData formTpl = new FormExportData();
 				String judulForm = formTpl.getFormTitle();
-				formTpl.setClassReferer(this);
 				formTpl.setParentWindow(newWindow);
 
 				newWindow.setModal(true);
 				newWindow.setSize("400", "160");
 				newWindow.setResizable(false);
-				newWindow.setClosable(false);
+				newWindow.setClosable(true);
 				newWindow.setAllowTextSelection(false);
-				newWindow.setOnEsc(false);
+				newWindow.setOnEsc(true);
 				newWindow.setHeading(judulForm);
 				
 				newWindow.add(formTpl.asWidget());
@@ -437,7 +437,32 @@ public class ListMVarStatic implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				//
+				
+				HashMap<String, String> fieldValues = new HashMap<String, String>();
+				for (int i=0; i<grid.getColumnModel().getColumnCount(); i++) {
+					//Indeks kolom yang HARUS di-SKIP!!
+					if (i>2 && i!=5 && i!=6 && i!=7 && i!=8 &&  i!=12) {
+						fieldValues.put(grid.getColumnModel().getColumn(i).getValueProvider().getPath(), grid.getColumnModel().getColumn(i).getHeader().asString());
+					}
+				}
+				
+				Window newWindow = new Window();
+				FormSearchData formTpl = new FormSearchData();
+				String judulForm = formTpl.getFormTitle();
+				formTpl.setFieldValues(fieldValues);
+				formTpl.setParentWindow(newWindow);
+				
+				newWindow.setModal(true);
+				newWindow.setSize("600", "300");
+				newWindow.setResizable(false);
+				newWindow.setClosable(true);
+				newWindow.setAllowTextSelection(false);
+				newWindow.setOnEsc(true);
+				newWindow.setHeading(judulForm);
+				
+				newWindow.add(formTpl.asWidget());
+
+				newWindow.show();
 			}
 		};
 	}
@@ -453,7 +478,9 @@ public class ListMVarStatic implements IsWidget {
 				Window newWindow = new Window();
 				newWindow.setMaximizable(true);
 				newWindow.setHeading(list.getHeader().getHeading());
-				newWindow.setModal(true);				
+				newWindow.setModal(true);
+				newWindow.setClosable(true);
+				newWindow.setOnEsc(true);
 				newWindow.add(listWidget);				
 				newWindow.addHideHandler(new HideHandler() {
 					@Override

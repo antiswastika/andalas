@@ -1,10 +1,10 @@
 package com.wd.andalas.global.views;
 
-public class AnyCombo {
+public class AnyComboModel {
 	private String key;
 	private String value;
 
-	public AnyCombo(String key, String value) {
+	public AnyComboModel(String key, String value) {
 	      this.key = key;
 	      this.value = value;
 	    }

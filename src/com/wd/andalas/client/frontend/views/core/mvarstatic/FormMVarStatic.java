@@ -64,7 +64,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	private DateField dateAktif, dateKadaluarsa;
 	final private String formTitle = "Form Variabel Statis";
 	
-	private ListMVarStatic classReferer = null; 
+	private Object classReferer = null; 
 	
 	/********** Main Methods **********/
 	@Override
@@ -230,7 +230,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 						@Override
 						public void onSuccess(Boolean result) {
 							parentWindow.setVisible(false);
-							classReferer.doPublicRefresh();
+							((ListMVarStatic) classReferer).doPublicRefresh();
 						}
 						@Override
 						public void onFailure(Throwable caught) {
@@ -243,7 +243,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 						@Override
 						public void onSuccess(Boolean result) {
 							parentWindow.setVisible(false);
-							classReferer.doPublicRefresh();
+							((ListMVarStatic) classReferer).doPublicRefresh();
 						}
 						@Override
 						public void onFailure(Throwable caught) {
@@ -322,10 +322,10 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		this.parentWindow = parentWindow;
 	}
 
-	public ListMVarStatic getClassReferer() {
+	public Object getClassReferer() {
 		return classReferer;
 	}
-	public void setClassReferer(ListMVarStatic classReferer) {
+	public void setClassReferer(Object classReferer) {
 		this.classReferer = classReferer;
 	}
 
