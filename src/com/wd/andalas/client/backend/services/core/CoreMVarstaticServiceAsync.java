@@ -1,6 +1,7 @@
 package com.wd.andalas.client.backend.services.core;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sencha.gxt.data.shared.loader.ListLoadConfig;
@@ -25,5 +26,7 @@ public interface CoreMVarstaticServiceAsync {
 	public void delete(CoreMVarstaticDTO obj, AsyncCallback<Boolean> callback);
 
 	public void deleteMany(List<CoreMVarstaticDTO> objs, AsyncCallback<Boolean> callback);
+	
+	public void getSearchPaged(Map<String, String> mapCriteria, PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback);
 
 }

@@ -1,6 +1,7 @@
 package com.wd.andalas.client.backend.services.core;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -27,5 +28,7 @@ public interface CoreMVarstaticService extends RemoteService {
 	public Boolean delete(CoreMVarstaticDTO obj);
 
 	public Boolean deleteMany(List<CoreMVarstaticDTO> objs);
+
+	public PagingLoadResult<CoreMVarstaticDTO> getSearchPaged(Map<String, String> mapCriteria, PagingLoadConfig loadConfig);
 
 }

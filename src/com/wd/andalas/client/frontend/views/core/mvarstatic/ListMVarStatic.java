@@ -416,6 +416,7 @@ public class ListMVarStatic implements IsWidget {
 				Window newWindow = new Window();
 				FormExportData formTpl = new FormExportData();
 				String judulForm = formTpl.getFormTitle();
+				formTpl.setClassReferer(this);
 				formTpl.setParentWindow(newWindow);
 
 				newWindow.setModal(true);
@@ -450,6 +451,10 @@ public class ListMVarStatic implements IsWidget {
 				FormSearchData formTpl = new FormSearchData();
 				String judulForm = formTpl.getFormTitle();
 				formTpl.setFieldValues(fieldValues);
+				formTpl.setClassReferer(this);
+				formTpl.setGridReferer(grid);
+				formTpl.setPagingToolbarReferer(pagingToolbar);
+				formTpl.setGridPageLimit(pageLimit);
 				formTpl.setParentWindow(newWindow);
 				
 				newWindow.setModal(true);

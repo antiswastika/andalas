@@ -40,6 +40,8 @@ public class FormExportData extends VBoxLayoutContainer implements IsWidget {
 	private ComboBox<AnyComboModel> cmbFormat;
 	final private String formTitle = "Ekspor Data"; 
 	
+	private Object classReferer = null;
+	
 	/********** Main Methods **********/
 	@Override
 	public Widget asWidget() {
@@ -175,6 +177,13 @@ public class FormExportData extends VBoxLayoutContainer implements IsWidget {
 	}
 	public void setParentWindow(Window parentWindow) {
 		this.parentWindow = parentWindow;
+	}
+
+	public Object getClassReferer() {
+		return classReferer;
+	}
+	public void setClassReferer(Object classReferer) {
+		this.classReferer = classReferer;
 	}
 
 }

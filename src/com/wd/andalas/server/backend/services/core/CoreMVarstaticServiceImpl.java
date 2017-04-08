@@ -2,6 +2,7 @@ package com.wd.andalas.server.backend.services.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -79,8 +80,7 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		} else {
 			adhocQuery = " ORDER BY varstat_group ASC";
 		}
-		
-		
+				
 		String queryText = "FROM CoreMVarstatic" + adhocQuery;
 		Query query = session.createQuery(queryText);
 
@@ -100,6 +100,56 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		session.close();
 
 		int allRecordSize = getAllUnpaged();
+
+		return new PagingLoadResultBean<CoreMVarstaticDTO>(resultDTO, allRecordSize, loadConfig.getOffset());
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	private int getSearchUnpaged(Map<String, String> mapCriteria) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		String adhocQuery = " WHERE varstat_group = 'Agama'";
+		String queryText = "FROM CoreMVarstatic" + adhocQuery;
+		Query query = session.createQuery(queryText);
+		List<CoreMVarstatic> result = query.list();
+
+		session.getTransaction().commit();
+		session.close();
+
+		return result.size();
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	@Override
+	public PagingLoadResult<CoreMVarstaticDTO> getSearchPaged(Map<String, String> mapCriteria, PagingLoadConfig loadConfig) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		String adhocQuery = "";
+		adhocQuery = " WHERE varstat_group = 'Agama'";
+		
+		String queryText = "FROM CoreMVarstatic" + adhocQuery;
+		Query query = session.createQuery(queryText);
+
+		query.setFirstResult(loadConfig.getOffset());
+		query.setMaxResults(loadConfig.getLimit());
+
+		List<CoreMVarstatic> result = query.list();
+
+		List<CoreMVarstaticDTO> resultDTO = new ArrayList<CoreMVarstaticDTO>(result != null ? result.size() : 0);
+		if (result != null) {
+			for (CoreMVarstatic obj : result) {
+				resultDTO.add(new CoreMVarstaticDTO(obj));
+			}
+		}
+
+		session.getTransaction().commit();
+		session.close();
+
+		int allRecordSize = getSearchUnpaged(mapCriteria);
 
 		return new PagingLoadResultBean<CoreMVarstaticDTO>(resultDTO, allRecordSize, loadConfig.getOffset());
 	}

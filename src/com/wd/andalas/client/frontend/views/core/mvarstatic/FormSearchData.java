@@ -8,14 +8,20 @@ import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.cell.core.client.form.ComboBoxCell.TriggerAction;
 import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.core.client.util.Padding;
+import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.data.shared.LabelProvider;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
+import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
+import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
+import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.Window;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
@@ -28,14 +34,21 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.form.ComboBox;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.TextField;
+import com.sencha.gxt.widget.core.client.grid.Grid;
+import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
+import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
+import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
+import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.global.GlobalToolbarList;
 import com.wd.andalas.global.views.AnyComboModel;
 import com.wd.andalas.resources.Resources;
 
 public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 
-	/********** Inisiasi **********/
+	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
+	private PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader;
+	
 	private VerticalLayoutContainer vlcMain;
 	private HorizontalLayoutContainer hlcMain;
 	private VerticalLayoutContainer vlcCol1, vlcCol2,vlcCol3;
@@ -43,7 +56,11 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 
 	final private String formTitle = "Cari Data";
 	
-	private HashMap<String, String> fieldValues = null; 
+	private Object classReferer = null;
+	private Grid<CoreMVarstaticDTO> gridReferer = null;
+	private PagingToolBar pagingToolbarReferer = null;
+	private int gridPageLimit = 0;
+	private HashMap<String, String> fieldValues = null;
 	
 	/********** Main Methods **********/
 	@Override
@@ -208,13 +225,45 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		return cmb;
 	}
 	
+	private void doSearching() {
+		//MessageBox msgbox = new MessageBox("SEARCH");
+		//msgbox.show();
+		
+		/* Step 6 : Buat Store */
+		ListStore<CoreMVarstaticDTO> store = gridReferer.getStore();
+
+		/* Step 7 : Buat RpcProxy */
+		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
+			@Override
+			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
+				Map<String, String> mapCriteria = new HashMap<String, String>();
+				mapCriteria.put("Keynya", "Valnya");
+				
+				service.getSearchPaged(mapCriteria, loadConfig, callback);
+			}
+		};
+		
+		/* Step 8 : Buat pagingLoader */
+		pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
+		pagingLoader.setRemoteSort(true);
+		pagingLoader.setLimit(gridPageLimit);
+		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
+		pagingLoader.setReuseLoadConfig(true);
+		
+		gridReferer.setLoadMask(true);
+		gridReferer.setLoader(pagingLoader);
+		
+		pagingToolbarReferer.bind(pagingLoader);
+		
+		pagingLoader.load();
+	}
+	
 	/********** Event Handler dan Listener **********/
 	private SelectHandler doSearch() {
 		return new SelectHandler() {
 			@Override
-			public void onSelect(SelectEvent event) {					
-				MessageBox msgbox = new MessageBox("SEARCH");
-				msgbox.show();
+			public void onSelect(SelectEvent event) {			
+				doSearching();
 			}
 		};
 	}
@@ -255,6 +304,34 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 	}
 	public void setFieldValues(final HashMap<String, String> fieldValues) {
 		this.fieldValues = fieldValues;
+	}
+	
+	public Object getClassReferer() {
+		return classReferer;
+	}
+	public void setClassReferer(Object classReferer) {
+		this.classReferer = classReferer;
+	}
+
+	public Grid<CoreMVarstaticDTO> getGridReferer() {
+		return gridReferer;
+	}
+	public void setGridReferer(Grid<CoreMVarstaticDTO> gridReferer) {
+		this.gridReferer = gridReferer;
+	}
+
+	public PagingToolBar getPagingToolbarReferer() {
+		return pagingToolbarReferer;
+	}
+	public void setPagingToolbarReferer(PagingToolBar pagingToolbarReferer) {
+		this.pagingToolbarReferer = pagingToolbarReferer;
+	}
+
+	public int getGridPageLimit() {
+		return gridPageLimit;
+	}
+	public void setGridPageLimit(int gridPageLimit) {
+		this.gridPageLimit = gridPageLimit;
 	}
 
 }

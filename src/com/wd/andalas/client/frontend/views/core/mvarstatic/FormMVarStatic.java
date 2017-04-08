@@ -64,7 +64,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	private DateField dateAktif, dateKadaluarsa;
 	final private String formTitle = "Form Variabel Statis";
 	
-	private Object classReferer = null; 
+	private Object classReferer = null;
 	
 	/********** Main Methods **********/
 	@Override
