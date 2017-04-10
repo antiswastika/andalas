@@ -263,7 +263,19 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {			
-				doSearching();
+				//doSearching();
+				
+				List<Map<String, String>> listMapParams = new ArrayList<Map<String, String>>();
+				
+				Iterator<Widget> arrayOfChilds1 = vlcCol1.iterator();
+				while (arrayOfChilds1.hasNext()) {
+					Widget ch = arrayOfChilds1.next();
+					if (ch instanceof FieldLabel) {
+						((FieldLabel) ch).setLabelWidth(120);
+						((FieldLabel) ch).setLabelSeparator("");
+						((FieldLabel) ch).addStyleName("customFieldLabel");
+					}
+				}
 			}
 		};
 	}
