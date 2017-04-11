@@ -1,5 +1,6 @@
 package com.wd.andalas.client.frontend.views.core.mvarstatic;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -271,9 +272,25 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 				while (arrayOfChilds1.hasNext()) {
 					Widget ch = arrayOfChilds1.next();
 					if (ch instanceof FieldLabel) {
-						((FieldLabel) ch).setLabelWidth(120);
-						((FieldLabel) ch).setLabelSeparator("");
-						((FieldLabel) ch).addStyleName("customFieldLabel");
+						Widget cmb = ((FieldLabel) ch).getWidget(0);
+						ComboBox<AnyComboModel> cmb2 = (ComboBox<AnyComboModel>) cmb;
+						
+						if (cmb2.getText().equalsIgnoreCase("") == false) {
+							String cmb2Key = cmb2.getValue().getKey();
+							String cmb2Val = cmb2.getValue().getValue();
+							
+							//MessageBox msgbox = new MessageBox("SEARCH", cmb2Key);
+							//msgbox.show();
+							
+							if (cmb2Val.equalsIgnoreCase("") == false) {
+								Map<String, String> mapParams = new HashMap<String, String>();
+								mapParams.put(cmb2Key, cmb2Val);
+								listMapParams.add(mapParams);
+								
+								MessageBox msgbox = new MessageBox("SEARCH", mapParams.get(cmb2Key));
+								msgbox.show();
+							}
+						}
 					}
 				}
 			}
