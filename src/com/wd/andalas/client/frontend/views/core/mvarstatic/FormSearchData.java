@@ -1,6 +1,5 @@
 package com.wd.andalas.client.frontend.views.core.mvarstatic;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,27 +48,27 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 
 	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
 	private PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader;
-	
+
 	private VerticalLayoutContainer vlcMain;
 	private HorizontalLayoutContainer hlcMain;
 	private VerticalLayoutContainer vlcCol1, vlcCol2,vlcCol3;
 	private Window parentWindow;
 
 	final private String formTitle = "Cari Data";
-	
+
 	private Object classReferer = null;
 	private Grid<CoreMVarstaticDTO> gridReferer = null;
 	private PagingToolBar pagingToolbarReferer = null;
 	private int gridPageLimit = 0;
 	private HashMap<String, String> fieldValues = null;
-	
+
 	/********** Main Methods **********/
 	@Override
 	public Widget asWidget() {
 		vlcMain = new VerticalLayoutContainer();
 		vlcMain.add(doCreateForm(), new VerticalLayoutData(1, 1, new Margins(5)));
 		vlcMain.add(doCreateDownToolbar());
-		
+
 		return vlcMain;
 	}
 
@@ -87,28 +86,28 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		vlcCol2.setBorders(debugShowBorders);
 		vlcCol3 = new VerticalLayoutContainer();
 		vlcCol3.setBorders(debugShowBorders);
-		
+
 		List<String> comboValues = new ArrayList<String>();
-	
+
 		for (int i=0; i<banyakComboBox; i++) {
 			ComboBox<AnyComboModel> cmbField;
 			cmbField = doCreateComboboxField(comboValues);
 			cmbField.setEmptyText("- - -");
 			cmbField.setEditable(false);
-			cmbField.setTriggerAction(TriggerAction.ALL);			
+			cmbField.setTriggerAction(TriggerAction.ALL);
 			vlcCol1.add(new FieldLabel(cmbField, "Field " + (i+1)), new VerticalLayoutData(1, -1));
-			
+
 			ComboBox<AnyComboModel> cmbField2;
 			cmbField2 = doCreateComboboxCondition();
 			cmbField2.setEmptyText("- - -");
 			cmbField2.setEditable(false);
-			cmbField2.setTriggerAction(TriggerAction.ALL);	
+			cmbField2.setTriggerAction(TriggerAction.ALL);
 			vlcCol2.add(new FieldLabel(cmbField2, ""), new VerticalLayoutData(1, -1));
-			
+
 			TextField textField = new TextField();
 			vlcCol3.add(new FieldLabel(textField, ""), new VerticalLayoutData(1, -1));
 		}
-		
+
 		Iterator<Widget> arrayOfChilds1 = vlcCol1.iterator();
 		while (arrayOfChilds1.hasNext()) {
 			Widget ch = arrayOfChilds1.next();
@@ -118,7 +117,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 				((FieldLabel) ch).addStyleName("customFieldLabel");
 			}
 		}
-		
+
 		Iterator<Widget> arrayOfChilds2 = vlcCol2.iterator();
 		while (arrayOfChilds2.hasNext()) {
 			Widget ch = arrayOfChilds2.next();
@@ -128,7 +127,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 				((FieldLabel) ch).addStyleName("customFieldLabel");
 			}
 		}
-		
+
 		Iterator<Widget> arrayOfChilds3 = vlcCol3.iterator();
 		while (arrayOfChilds3.hasNext()) {
 			Widget ch = arrayOfChilds3.next();
@@ -153,20 +152,21 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		List<String> customHandlerTextList = new ArrayList<String>();
 		List<ImageResource> customHandlerIconResourceList = new ArrayList<ImageResource>();
 		Resources imageResource = GWT.create(Resources.class);
-		
+
 		customHandlerList.add(doSearch());
 		customHandlerTextList.add("Proses");
 		customHandlerIconResourceList.add(imageResource.btnSearch());
-		
+
 		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(null, null, doClose(), doInfo(), customHandlerList, customHandlerTextList, customHandlerIconResourceList);
 		downToolbar.setBorders(true);
 		downToolbar.setPadding(new Padding(2));
 		return downToolbar;
 	}
-	
+
 	private ComboBox<AnyComboModel> doCreateComboboxField(List<String> comboValues) {
 		/* Step 1 : Buat Store */
 		ListStore<AnyComboModel> store = new ListStore<AnyComboModel>(new ModelKeyProvider<AnyComboModel>() {
+			@Override
 			public String getKey(AnyComboModel item) {
 				return item.getKey().toString();
 			}
@@ -176,7 +176,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		for (Map.Entry<String, String> item : fieldValues.entrySet()) {
 			store.add(new AnyComboModel(item.getKey(), item.getValue()));
 		}
-		
+
 		/* Step 3 : Buat labelProvider */
 		LabelProvider<AnyComboModel> labelProvider = new LabelProvider<AnyComboModel>() {
 			@Override
@@ -194,10 +194,11 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 
 		return cmb;
 	}
-	
+
 	private ComboBox<AnyComboModel> doCreateComboboxCondition() {
 		/* Step 1 : Buat Store */
 		ListStore<AnyComboModel> store = new ListStore<AnyComboModel>(new ModelKeyProvider<AnyComboModel>() {
+			@Override
 			public String getKey(AnyComboModel item) {
 				return item.getKey().toString();
 			}
@@ -207,7 +208,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		store.add(new AnyComboModel("0", "="));
 		store.add(new AnyComboModel("1", "<>"));
 		store.add(new AnyComboModel("2", "LIKE"));
-		
+
 		/* Step 3 : Buat labelProvider */
 		LabelProvider<AnyComboModel> labelProvider = new LabelProvider<AnyComboModel>() {
 			@Override
@@ -225,11 +226,11 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 
 		return cmb;
 	}
-	
-	private void doSearching() {
+
+	private void doSearching(List<Map<String, String>> listMapParams) {
 		//MessageBox msgbox = new MessageBox("SEARCH");
 		//msgbox.show();
-		
+
 		/* Step 6 : Buat Store */
 		ListStore<CoreMVarstaticDTO> store = gridReferer.getStore();
 
@@ -239,60 +240,116 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
 				Map<String, String> mapCriteria = new HashMap<String, String>();
 				mapCriteria.put("Keynya", "Valnya");
-				
+
 				service.getSearchPaged(mapCriteria, loadConfig, callback);
 			}
 		};
-		
+
 		/* Step 8 : Buat pagingLoader */
 		pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
 		pagingLoader.setRemoteSort(true);
 		pagingLoader.setLimit(gridPageLimit);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
 		pagingLoader.setReuseLoadConfig(true);
-		
+
 		gridReferer.setLoadMask(true);
 		gridReferer.setLoader(pagingLoader);
-		
+
 		pagingToolbarReferer.bind(pagingLoader);
-		
+
 		pagingLoader.load();
 	}
-	
+
 	/********** Event Handler dan Listener **********/
 	private SelectHandler doSearch() {
 		return new SelectHandler() {
+			@SuppressWarnings({ "unchecked", "unused" })
 			@Override
-			public void onSelect(SelectEvent event) {			
-				//doSearching();
-				
+			public void onSelect(SelectEvent event) {
 				List<Map<String, String>> listMapParams = new ArrayList<Map<String, String>>();
-				
+
+				List<String> cekCmbKey = new ArrayList<String>();
+				List<String> cekCmbCond = new ArrayList<String>();
+				List<String> cekTxtVal = new ArrayList<String>();
+
 				Iterator<Widget> arrayOfChilds1 = vlcCol1.iterator();
 				while (arrayOfChilds1.hasNext()) {
 					Widget ch = arrayOfChilds1.next();
+					//---------------------------------------------------------------------------
 					if (ch instanceof FieldLabel) {
 						Widget cmb = ((FieldLabel) ch).getWidget(0);
 						ComboBox<AnyComboModel> cmb2 = (ComboBox<AnyComboModel>) cmb;
-						
 						if (cmb2.getText().equalsIgnoreCase("") == false) {
 							String cmb2Key = cmb2.getValue().getKey();
 							String cmb2Val = cmb2.getValue().getValue();
-							
-							//MessageBox msgbox = new MessageBox("SEARCH", cmb2Key);
+							//MessageBox msgbox = new MessageBox("SEARCH", "AAAAAAAAAAA");
 							//msgbox.show();
-							
-							if (cmb2Val.equalsIgnoreCase("") == false) {
-								Map<String, String> mapParams = new HashMap<String, String>();
-								mapParams.put(cmb2Key, cmb2Val);
-								listMapParams.add(mapParams);
-								
-								MessageBox msgbox = new MessageBox("SEARCH", mapParams.get(cmb2Key));
-								msgbox.show();
-							}
+							MessageBox msgbox = new MessageBox("SEARCH", "AAAAAAAAAAA");
+							msgbox.show();
+							cekCmbKey.add(cmb2Key);
+						} else {
+							//MessageBox msgbox = new MessageBox("SEARCH", "BBBBBBBBBBB");
+							//msgbox.show();
+							MessageBox msgbox = new MessageBox("SEARCH", "BBBBBBBBBBB");
+							msgbox.show();
+							cekCmbKey.add("");
 						}
 					}
+					//---------------------------------------------------------------------------
 				}
+
+				Iterator<Widget> arrayOfChilds2 = vlcCol2.iterator();
+				while (arrayOfChilds2.hasNext()) {
+					Widget ch = arrayOfChilds2.next();
+					//---------------------------------------------------------------------------
+					if (ch instanceof FieldLabel) {
+						Widget cmb = ((FieldLabel) ch).getWidget(0);
+						ComboBox<AnyComboModel> cmb2 = (ComboBox<AnyComboModel>) cmb;
+						if (cmb2.getText().equalsIgnoreCase("") == false) {
+							String cmb2Key = cmb2.getValue().getKey();
+							String cmb2Val = cmb2.getValue().getValue();
+							//MessageBox msgbox = new MessageBox("SEARCH", "AAAAAAAAAAA");
+							//msgbox.show();
+							cekCmbCond.add(cmb2Val);
+						} else {
+							//MessageBox msgbox = new MessageBox("SEARCH", "BBBBBBBBBBB");
+							//msgbox.show();
+							cekCmbCond.add("");
+						}
+					}
+					//---------------------------------------------------------------------------
+				}
+
+				Iterator<Widget> arrayOfChilds3 = vlcCol3.iterator();
+				while (arrayOfChilds3.hasNext()) {
+					Widget ch = arrayOfChilds3.next();
+					//---------------------------------------------------------------------------
+					if (ch instanceof FieldLabel) {
+						Widget txt = ((FieldLabel) ch).getWidget(0);
+						TextField txt2 = (TextField) txt;
+						if (txt2.getText().equalsIgnoreCase("") == false) {
+							String txt2Val = txt2.getValue();
+							//MessageBox msgbox = new MessageBox("SEARCH", "AAAAAAAAAAA");
+							//msgbox.show();
+							cekTxtVal.add(txt2Val.trim());
+						} else {
+							//MessageBox msgbox = new MessageBox("SEARCH", "BBBBBBBBBBB");
+							//msgbox.show();
+							cekTxtVal.add("");
+						}
+					}
+					//---------------------------------------------------------------------------
+				}
+
+				for (int i=0; i<cekCmbKey.size(); i++) {
+					if (cekCmbKey.get(i).trim().equalsIgnoreCase("") == false && cekCmbCond.get(i).trim().equalsIgnoreCase("") == false && cekTxtVal.get(i).trim().equalsIgnoreCase("") == false) {
+						Map<String, String> mapParams = new HashMap<String, String>();
+						mapParams.put(cekCmbKey.get(i) + ";" + cekCmbCond.get(i), cekTxtVal.get(i));
+						listMapParams.add(mapParams);
+					}
+				}
+
+				doSearching(listMapParams);
 			}
 		};
 	}
@@ -334,7 +391,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 	public void setFieldValues(final HashMap<String, String> fieldValues) {
 		this.fieldValues = fieldValues;
 	}
-	
+
 	public Object getClassReferer() {
 		return classReferer;
 	}
