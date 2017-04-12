@@ -29,6 +29,6 @@ public interface CoreMVarstaticService extends RemoteService {
 
 	public Boolean deleteMany(List<CoreMVarstaticDTO> objs);
 
-	public PagingLoadResult<CoreMVarstaticDTO> getSearchPaged(Map<String, String> mapCriteria, PagingLoadConfig loadConfig);
+	public PagingLoadResult<CoreMVarstaticDTO> getSearchPaged(List<Map<String, String>> listMapParams, PagingLoadConfig loadConfig);
 
 }

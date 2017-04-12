@@ -192,7 +192,7 @@ public class ListMVarStatic implements IsWidget {
 		pagingLoader.setRemoteSort(true);
 		pagingLoader.setLimit(pageLimit);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
-		pagingLoader.setReuseLoadConfig(true);
+		pagingLoader.setReuseLoadConfig(false);
 
 		/* Step 9 : Buat Format Semua Column */
 		created_at.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));

@@ -1,6 +1,7 @@
 package com.wd.andalas.server.backend.services.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -105,13 +106,32 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 	}
 	
 	@SuppressWarnings({ "unchecked" })
-	private int getSearchUnpaged(Map<String, String> mapCriteria) {
+	private int getSearchUnpaged(List<Map<String, String>> listMapParams) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
-		String adhocQuery = " WHERE varstat_group = 'Agama'";
-		String queryText = "FROM CoreMVarstatic" + adhocQuery;
+		String adhocQuery = "";
+		
+		if (listMapParams.size() > 0) {
+			adhocQuery = " WHERE ";
+			
+			for (int i=0; i<listMapParams.size(); i++) {
+				for (Map.Entry<String, String> mapItem : listMapParams.get(i).entrySet()) {
+										
+					String[] arrVal = mapItem.getKey().split(";");
+					List<String> itemList = Arrays.asList(arrVal);
+					
+					adhocQuery = adhocQuery + " " + itemList.get(0) + " " + itemList.get(1) + " '" + mapItem.getValue() + "' ";
+					
+					if (i != listMapParams.size()-1) {
+						adhocQuery = adhocQuery + " AND ";	
+					}
+				}
+			}
+		}
+		
+		String queryText = "FROM CoreMVarstatic WHERE varstat_group = 'Kota'"; //+ adhocQuery;
 		Query query = session.createQuery(queryText);
 		List<CoreMVarstatic> result = query.list();
 
@@ -123,15 +143,32 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 	
 	@SuppressWarnings({ "unchecked" })
 	@Override
-	public PagingLoadResult<CoreMVarstaticDTO> getSearchPaged(Map<String, String> mapCriteria, PagingLoadConfig loadConfig) {
+	public PagingLoadResult<CoreMVarstaticDTO> getSearchPaged(List<Map<String, String>> listMapParams, PagingLoadConfig loadConfig) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
 		String adhocQuery = "";
-		adhocQuery = " WHERE varstat_group = 'Agama'";
 		
-		String queryText = "FROM CoreMVarstatic" + adhocQuery;
+		if (listMapParams.size() > 0) {
+			adhocQuery = " WHERE ";
+			
+			for (int i=0; i<listMapParams.size(); i++) {
+				for (Map.Entry<String, String> mapItem : listMapParams.get(i).entrySet()) {
+					
+					String[] arrVal = mapItem.getKey().split(";");
+					List<String> itemList = Arrays.asList(arrVal);
+					
+					adhocQuery = adhocQuery + " " + itemList.get(0) + " " + itemList.get(1) + " '" + mapItem.getValue() + "' ";
+					
+					if (i != listMapParams.size()-1) {
+						adhocQuery = adhocQuery + " AND ";	
+					}
+				}
+			}
+		}
+		
+		String queryText = "FROM CoreMVarstatic WHERE varstat_group = 'Kota'"; //+ adhocQuery;
 		Query query = session.createQuery(queryText);
 
 		query.setFirstResult(loadConfig.getOffset());
@@ -149,7 +186,7 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 		session.getTransaction().commit();
 		session.close();
 
-		int allRecordSize = getSearchUnpaged(mapCriteria);
+		int allRecordSize = getSearchUnpaged(listMapParams);
 
 		return new PagingLoadResultBean<CoreMVarstaticDTO>(resultDTO, allRecordSize, loadConfig.getOffset());
 	}

@@ -227,7 +227,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		return cmb;
 	}
 
-	private void doSearching(List<Map<String, String>> listMapParams) {
+	private void doSearching(final List<Map<String, String>> listMapParams) {
 		//MessageBox msgbox = new MessageBox("SEARCH");
 		//msgbox.show();
 
@@ -238,10 +238,11 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
 			@Override
 			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
-				Map<String, String> mapCriteria = new HashMap<String, String>();
-				mapCriteria.put("Keynya", "Valnya");
+				
+				//Map<String, String> mapCriteria = new HashMap<String, String>();
+				//mapCriteria.put("Keynya", "Valnya");
 
-				service.getSearchPaged(mapCriteria, loadConfig, callback);
+				service.getSearchPaged(listMapParams, loadConfig, callback);
 			}
 		};
 
@@ -250,7 +251,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		pagingLoader.setRemoteSort(true);
 		pagingLoader.setLimit(gridPageLimit);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
-		pagingLoader.setReuseLoadConfig(true);
+		pagingLoader.setReuseLoadConfig(false);
 
 		gridReferer.setLoadMask(true);
 		gridReferer.setLoader(pagingLoader);
@@ -284,14 +285,10 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 							String cmb2Val = cmb2.getValue().getValue();
 							//MessageBox msgbox = new MessageBox("SEARCH", "AAAAAAAAAAA");
 							//msgbox.show();
-							MessageBox msgbox = new MessageBox("SEARCH", "AAAAAAAAAAA");
-							msgbox.show();
 							cekCmbKey.add(cmb2Key);
 						} else {
 							//MessageBox msgbox = new MessageBox("SEARCH", "BBBBBBBBBBB");
 							//msgbox.show();
-							MessageBox msgbox = new MessageBox("SEARCH", "BBBBBBBBBBB");
-							msgbox.show();
 							cekCmbKey.add("");
 						}
 					}

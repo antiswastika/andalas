@@ -27,6 +27,6 @@ public interface CoreMVarstaticServiceAsync {
 
 	public void deleteMany(List<CoreMVarstaticDTO> objs, AsyncCallback<Boolean> callback);
 	
-	public void getSearchPaged(Map<String, String> mapCriteria, PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback);
+	public void getSearchPaged(List<Map<String, String>> listMapParams, PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback);
 
 }
