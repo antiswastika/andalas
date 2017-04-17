@@ -61,6 +61,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 	private PagingToolBar pagingToolbarReferer = null;
 	private int gridPageLimit = 0;
 	private HashMap<String, String> fieldValues = null;
+	private List<Map<String, String>> listMapParams;
 
 	/********** Main Methods **********/
 	@Override
@@ -228,25 +229,24 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 	}
 
 	private void doSearching(final List<Map<String, String>> listMapParams) {
-		//MessageBox msgbox = new MessageBox("SEARCH");
-		//msgbox.show();
+		/* Step 1 : Set Map ke Referer */
+		((ListMVarStatic) classReferer).setListSearchQuery(listMapParams);
+		
+		/* Step 2 : Tandai CheckBox Search */
+		((ListMVarStatic) classReferer).getCbkSearch().setValue(true);
 
-		/* Step 6 : Buat Store */
+		/* Step 3 : Buat Store */
 		ListStore<CoreMVarstaticDTO> store = gridReferer.getStore();
 
-		/* Step 7 : Buat RpcProxy */
+		/* Step 4 : Buat RpcProxy */
 		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
 			@Override
 			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
-				
-				//Map<String, String> mapCriteria = new HashMap<String, String>();
-				//mapCriteria.put("Keynya", "Valnya");
-
 				service.getSearchPaged(listMapParams, loadConfig, callback);
 			}
 		};
 
-		/* Step 8 : Buat pagingLoader */
+		/* Step 5 : Buat pagingLoader */
 		pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
 		pagingLoader.setRemoteSort(true);
 		pagingLoader.setLimit(gridPageLimit);
@@ -267,7 +267,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 			@SuppressWarnings({ "unchecked", "unused" })
 			@Override
 			public void onSelect(SelectEvent event) {
-				List<Map<String, String>> listMapParams = new ArrayList<Map<String, String>>();
+				listMapParams = new ArrayList<Map<String, String>>();
 
 				List<String> cekCmbKey = new ArrayList<String>();
 				List<String> cekCmbCond = new ArrayList<String>();

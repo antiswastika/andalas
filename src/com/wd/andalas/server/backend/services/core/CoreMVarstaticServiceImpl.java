@@ -122,7 +122,14 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 					String[] arrVal = mapItem.getKey().split(";");
 					List<String> itemList = Arrays.asList(arrVal);
 					
-					adhocQuery = adhocQuery + " " + itemList.get(0) + " " + itemList.get(1) + " '" + mapItem.getValue() + "' ";
+					String condValue = "";
+					if (itemList.get(1).equalsIgnoreCase("LIKE") == true) {
+						condValue = "%" + mapItem.getValue() + "%";
+					} else {
+						condValue = mapItem.getValue();
+					}
+					
+					adhocQuery = adhocQuery + " " + itemList.get(0) + " " + itemList.get(1) + " '" + condValue + "' ";
 					
 					if (i != listMapParams.size()-1) {
 						adhocQuery = adhocQuery + " AND ";	
@@ -131,7 +138,7 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 			}
 		}
 		
-		String queryText = "FROM CoreMVarstatic WHERE varstat_group = 'Kota'"; //+ adhocQuery;
+		String queryText = "FROM CoreMVarstatic " + adhocQuery;
 		Query query = session.createQuery(queryText);
 		List<CoreMVarstatic> result = query.list();
 
@@ -159,7 +166,14 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 					String[] arrVal = mapItem.getKey().split(";");
 					List<String> itemList = Arrays.asList(arrVal);
 					
-					adhocQuery = adhocQuery + " " + itemList.get(0) + " " + itemList.get(1) + " '" + mapItem.getValue() + "' ";
+					String condValue = "";
+					if (itemList.get(1).equalsIgnoreCase("LIKE") == true) {
+						condValue = "%" + mapItem.getValue() + "%";
+					} else {
+						condValue = mapItem.getValue();
+					}
+					
+					adhocQuery = adhocQuery + " " + itemList.get(0) + " " + itemList.get(1) + " '" + condValue + "' ";
 					
 					if (i != listMapParams.size()-1) {
 						adhocQuery = adhocQuery + " AND ";	
@@ -168,7 +182,7 @@ public class CoreMVarstaticServiceImpl extends RemoteServiceServlet implements C
 			}
 		}
 		
-		String queryText = "FROM CoreMVarstatic WHERE varstat_group = 'Kota'"; //+ adhocQuery;
+		String queryText = "FROM CoreMVarstatic " + adhocQuery;
 		Query query = session.createQuery(queryText);
 
 		query.setFirstResult(loadConfig.getOffset());

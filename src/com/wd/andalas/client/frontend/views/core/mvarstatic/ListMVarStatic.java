@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.cell.client.AbstractCell;
@@ -50,6 +52,7 @@ import com.sencha.gxt.widget.core.client.event.RowClickEvent;
 import com.sencha.gxt.widget.core.client.event.RowClickEvent.RowClickHandler;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.form.CheckBox;
 import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
@@ -79,7 +82,11 @@ public class ListMVarStatic implements IsWidget {
 	private PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader;
 	private PagingToolBar pagingToolbar;
 	private int pageLimit = 30;
-
+	
+	private ListMVarStatic thisObj;
+	private List<Map<String, String>> listSearchQuery;
+	private CheckBox cbkSearch;
+	
 	/********** Main Methods **********/
 	@Override
 	public Widget asWidget() {
@@ -103,6 +110,8 @@ public class ListMVarStatic implements IsWidget {
 			vlc.add(pagingToolbar);
 			
 			list.add(vlc);
+			
+			thisObj = this;
 		}
 		return list;
 	}
@@ -272,7 +281,7 @@ public class ListMVarStatic implements IsWidget {
 		Window newWindow = new Window();
 		FormMVarStatic formTpl = new FormMVarStatic();
 		String judulForm = formTpl.getFormTitle();
-		formTpl.setClassReferer(this);
+		formTpl.setClassReferer(thisObj);
 		formTpl.setParentWindow(newWindow);
 
 		if (idNya != "" && entity != null) {
@@ -416,7 +425,7 @@ public class ListMVarStatic implements IsWidget {
 				Window newWindow = new Window();
 				FormExportData formTpl = new FormExportData();
 				String judulForm = formTpl.getFormTitle();
-				formTpl.setClassReferer(this);
+				formTpl.setClassReferer(thisObj);
 				formTpl.setParentWindow(newWindow);
 
 				newWindow.setModal(true);
@@ -437,7 +446,14 @@ public class ListMVarStatic implements IsWidget {
 	private SelectHandler doSearch() {
 		return new SelectHandler() {
 			@Override
-			public void onSelect(SelectEvent event) {
+			public void onSelect(SelectEvent event) {				
+				Iterator<Widget> arrayOfChilds1 = upToolbar.iterator();
+				while (arrayOfChilds1.hasNext()) {
+					Widget cb = arrayOfChilds1.next();
+					if (cb instanceof CheckBox) {
+						cbkSearch = (CheckBox) cb;
+					}
+				}
 				
 				HashMap<String, String> fieldValues = new HashMap<String, String>();
 				for (int i=0; i<grid.getColumnModel().getColumnCount(); i++) {
@@ -451,7 +467,7 @@ public class ListMVarStatic implements IsWidget {
 				FormSearchData formTpl = new FormSearchData();
 				String judulForm = formTpl.getFormTitle();
 				formTpl.setFieldValues(fieldValues);
-				formTpl.setClassReferer(this);
+				formTpl.setClassReferer(thisObj);
 				formTpl.setGridReferer(grid);
 				formTpl.setPagingToolbarReferer(pagingToolbar);
 				formTpl.setGridPageLimit(pageLimit);
@@ -515,6 +531,20 @@ public class ListMVarStatic implements IsWidget {
 	}
 	public void setTabHeader(String tabHeader) {
 		this.tabHeader = tabHeader;
+	}
+
+	public List<Map<String, String>> getListSearchQuery() {
+		return listSearchQuery;
+	}
+	public void setListSearchQuery(List<Map<String, String>> listSearchQuery) {
+		this.listSearchQuery = listSearchQuery;
+	}
+
+	public CheckBox getCbkSearch() {
+		return cbkSearch;
+	}
+	public void setCbkSearch(CheckBox cbkSearch) {
+		this.cbkSearch = cbkSearch;
 	}
 
 }
