@@ -18,6 +18,8 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -123,10 +125,10 @@ public class ListMVarStatic implements IsWidget {
 	}
 
 	private ToolBar doCreateUpToolbar() {
-		ToolBar upToolbar = new GlobalToolbarList().createUpToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doSearch(), doWindow());
+		ToolBar upToolbar = new GlobalToolbarList().createUpToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doClearSearch(), doSearch(), doWindow());
 		return upToolbar;
 	}
-
+	
 	@SuppressWarnings("unused")
 	private Grid<CoreMVarstaticDTO> doCreateGrid() {
 		/* Step 1 : Buat Identity Model */
@@ -189,12 +191,7 @@ public class ListMVarStatic implements IsWidget {
 		ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
 
 		/* Step 7 : Buat RpcProxy */
-		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
-			@Override
-			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
-				service.getAllPaged(loadConfig, callback);
-			}
-		};
+		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = theDefaultRPC();
 
 		/* Step 8 : Buat pagingLoader */
 		pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
@@ -336,6 +333,16 @@ public class ListMVarStatic implements IsWidget {
 		}
 	}
 	
+	private RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> theDefaultRPC() {
+		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
+			@Override
+			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
+				service.getAllPaged(loadConfig, callback);
+			}
+		};		
+		return dataProxy;
+	}
+	
 	/********** Public Methods **********/	
 	public void doPublicRefresh() {
 		pagingToolbar.refresh();
@@ -376,7 +383,6 @@ public class ListMVarStatic implements IsWidget {
 				ConfirmMessageBox messageBox = new ConfirmMessageBox("Konfirmasi Hapus", "Apakah Anda sudah yakin akan menghapus data yang terpilih?");
 				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
 				messageBox.setIcon(MessageBox.ICONS.question());
-				
 			    messageBox.addDialogHideHandler(new DialogHideHandler() {
 					@Override
 					public void onDialogHide(DialogHideEvent event) {
@@ -442,6 +448,43 @@ public class ListMVarStatic implements IsWidget {
 			}
 		};
 	}
+	
+	private ChangeHandler doClearSearch() {
+		return new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				ConfirmMessageBox messageBox = new ConfirmMessageBox("Pencarian", "Apakah Anda akan mematikan mode pencarian?");
+				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
+				messageBox.setIcon(MessageBox.ICONS.question());				
+			    messageBox.addDialogHideHandler(new DialogHideHandler() {
+					@Override
+					public void onDialogHide(DialogHideEvent event) {
+						switch (event.getHideButton()) {
+							case YES:
+								pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(theDefaultRPC());
+								pagingLoader.setRemoteSort(true);
+								pagingLoader.setLimit(pageLimit);
+								pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(grid.getStore()));
+								pagingLoader.setReuseLoadConfig(false);
+								
+								grid.setLoadMask(true);
+								grid.setLoader(pagingLoader);
+						
+								pagingToolbar.bind(pagingLoader);
+								
+								pagingLoader.load();
+								break;
+							case NO:
+								break;
+							default:
+								break;
+						}
+					}
+				});
+			    messageBox.show();
+			}
+		};
+	}
 
 	private SelectHandler doSearch() {
 		return new SelectHandler() {
@@ -458,7 +501,7 @@ public class ListMVarStatic implements IsWidget {
 				HashMap<String, String> fieldValues = new HashMap<String, String>();
 				for (int i=0; i<grid.getColumnModel().getColumnCount(); i++) {
 					//Indeks kolom yang HARUS di-SKIP!!
-					if (i>2 && i!=5 && i!=6 && i!=7 && i!=8 &&  i!=12) {
+					if (i>2 && i!=5 && i!=6 && i!=7 && i!=8 && i!=9 && i!=10 && i!=12) {
 						fieldValues.put(grid.getColumnModel().getColumn(i).getValueProvider().getPath(), grid.getColumnModel().getColumn(i).getHeader().asString());
 					}
 				}

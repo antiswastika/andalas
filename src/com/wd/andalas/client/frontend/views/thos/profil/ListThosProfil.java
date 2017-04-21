@@ -2,8 +2,11 @@ package com.wd.andalas.client.frontend.views.thos.profil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.cell.client.AbstractCell;
@@ -15,10 +18,11 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,18 +30,31 @@ import com.sencha.gxt.core.client.IdentityValueProvider;
 import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.data.shared.ListStore;
-import com.sencha.gxt.data.shared.loader.DataProxy;
 import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
 import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoader;
 import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.Window;
+import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
+import com.sencha.gxt.widget.core.client.box.MessageBox;
+import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent.DialogHideHandler;
+import com.sencha.gxt.widget.core.client.event.HeaderClickEvent;
+import com.sencha.gxt.widget.core.client.event.HeaderClickEvent.HeaderClickHandler;
+import com.sencha.gxt.widget.core.client.event.HideEvent;
+import com.sencha.gxt.widget.core.client.event.HideEvent.HideHandler;
 import com.sencha.gxt.widget.core.client.event.RefreshEvent;
+import com.sencha.gxt.widget.core.client.event.RowClickEvent;
+import com.sencha.gxt.widget.core.client.event.RowClickEvent.RowClickHandler;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.form.CheckBox;
 import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
@@ -50,6 +67,7 @@ import com.wd.andalas.client.backend.services.thos.ThosProfilServiceAsync;
 import com.wd.andalas.client.frontend.models.thos.ThosProfilDTO;
 import com.wd.andalas.client.frontend.models.thos.ThosProfilDTOProperties;
 import com.wd.andalas.global.GlobalToolbarList;
+import com.wd.andalas.global.views.FormExportData;
 
 public class ListThosProfil implements IsWidget {
 
@@ -66,6 +84,10 @@ public class ListThosProfil implements IsWidget {
 	private PagingLoader<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> pagingLoader;
 	private PagingToolBar pagingToolbar;
 	private int pageLimit = 30;
+	
+	private ListThosProfil thisObj;
+	private List<Map<String, String>> listSearchQuery;
+	private CheckBox cbkSearch;
 
 	/********** Main Methods **********/
 	@Override
@@ -90,6 +112,8 @@ public class ListThosProfil implements IsWidget {
 			vlc.add(pagingToolbar);
 
 			list.add(vlc);
+			
+			thisObj = this;
 		}
 		return list;
 	}
@@ -101,7 +125,7 @@ public class ListThosProfil implements IsWidget {
 	}
 
 	private ToolBar doCreateUpToolbar() {
-		ToolBar upToolbar = new GlobalToolbarList().createUpToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doSearch(), doWindow());
+		ToolBar upToolbar = new GlobalToolbarList().createUpToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doClearSearch(), doSearch(), doWindow());
 		return upToolbar;
 	}
 
@@ -116,6 +140,8 @@ public class ListThosProfil implements IsWidget {
 			protected void onRefresh(RefreshEvent event) {
 				if (isSelectAllChecked()) {
 					selectAll();
+				} else {
+					deselectAll();
 				}
 				super.onRefresh(event);
 			}
@@ -185,18 +211,14 @@ public class ListThosProfil implements IsWidget {
 		ListStore<ThosProfilDTO> store = new ListStore<ThosProfilDTO>(properties.profil_id());
 
 		/* Step 7 : Buat RpcProxy */
-		DataProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>() {
-			@Override
-			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<ThosProfilDTO>> callback) {
-				service.getAllPaged(loadConfig, callback);
-			}
-		};
+		RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> dataProxy = theDefaultRPC();
 
 		/* Step 8 : Buat pagingLoader */
 		pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>(dataProxy);
 		pagingLoader.setRemoteSort(true);
 		pagingLoader.setLimit(pageLimit);
 		pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, ThosProfilDTO, PagingLoadResult<ThosProfilDTO>>(store));
+		pagingLoader.setReuseLoadConfig(false);
 
 		/* Step 9 : Buat Format Semua Column */
 		created_at.setCell(new DateCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
@@ -249,6 +271,7 @@ public class ListThosProfil implements IsWidget {
 
 		/* Step 11 : Buat set Parameter Grid */
 		numbererColumn.initPlugin(grid);
+		
 		grid.setSelectionModel(selectionModel);
 		grid.setColumnReordering(true);
 		grid.setAllowTextSelection(true);
@@ -258,6 +281,9 @@ public class ListThosProfil implements IsWidget {
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
 		grid.setLoader(pagingLoader);
+		
+		grid.addRowClickHandler(onRowClick());
+		grid.addHeaderClickHandler(onHeaderClick());
 
 		return grid;
 	}
@@ -270,10 +296,53 @@ public class ListThosProfil implements IsWidget {
 	}
 
 	private void doCreateForm(String idNya) {
-		Window.alert(idNya);
+		//
+	}
+	
+	private void doGetSetBtnDeleteActivities() {
+		int selections = grid.getSelectionModel().getSelectedItems().size();
+		TextButton btnDelete = (TextButton) upToolbar.getWidget(1);
+		if (selections == 0) {
+			btnDelete.setEnabled(false);
+		} else {
+			btnDelete.setEnabled(true);
+		}
+	}
+	
+	private RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> theDefaultRPC() {
+		RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>() {
+			@Override
+			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<ThosProfilDTO>> callback) {
+				service.getAllPaged(loadConfig, callback);
+			}
+		};		
+		return dataProxy;
+	}
+	
+	/********** Public Methods **********/	
+	public void doPublicRefresh() {
+		pagingToolbar.refresh();
 	}
 
 	/********** Event Handler dan Listener **********/
+	private RowClickHandler onRowClick() {
+		return new RowClickHandler() {
+			@Override
+			public void onRowClick(RowClickEvent event) {
+				doGetSetBtnDeleteActivities();
+			}
+		};
+	}
+	
+	private HeaderClickHandler onHeaderClick() {
+		return new HeaderClickHandler() {
+			@Override
+			public void onHeaderClick(HeaderClickEvent event) {			
+				doGetSetBtnDeleteActivities();
+			}
+		};
+	}
+	
 	private SelectHandler doInsert() {
 		return new SelectHandler() {
 			@Override
@@ -314,7 +383,60 @@ public class ListThosProfil implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				//
+				Window newWindow = new Window();
+				FormExportData formTpl = new FormExportData();
+				String judulForm = formTpl.getFormTitle();
+				formTpl.setClassReferer(thisObj);
+				formTpl.setParentWindow(newWindow);
+
+				newWindow.setModal(true);
+				newWindow.setSize("400", "160");
+				newWindow.setResizable(false);
+				newWindow.setClosable(true);
+				newWindow.setAllowTextSelection(false);
+				newWindow.setOnEsc(true);
+				newWindow.setHeading(judulForm);
+				
+				newWindow.add(formTpl.asWidget());
+
+				newWindow.show();
+			}
+		};
+	}
+	
+	private ChangeHandler doClearSearch() {
+		return new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				ConfirmMessageBox messageBox = new ConfirmMessageBox("Pencarian", "Apakah Anda akan mematikan mode pencarian?");
+				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
+				messageBox.setIcon(MessageBox.ICONS.question());				
+			    messageBox.addDialogHideHandler(new DialogHideHandler() {
+					@Override
+					public void onDialogHide(DialogHideEvent event) {
+						switch (event.getHideButton()) {
+							case YES:
+								pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>(theDefaultRPC());
+								pagingLoader.setRemoteSort(true);
+								pagingLoader.setLimit(pageLimit);
+								pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, ThosProfilDTO, PagingLoadResult<ThosProfilDTO>>(grid.getStore()));
+								pagingLoader.setReuseLoadConfig(false);
+								
+								grid.setLoadMask(true);
+								grid.setLoader(pagingLoader);
+						
+								pagingToolbar.bind(pagingLoader);
+								
+								pagingLoader.load();
+								break;
+							case NO:
+								break;
+							default:
+								break;
+						}
+					}
+				});
+			    messageBox.show();
 			}
 		};
 	}
@@ -322,8 +444,44 @@ public class ListThosProfil implements IsWidget {
 	private SelectHandler doSearch() {
 		return new SelectHandler() {
 			@Override
-			public void onSelect(SelectEvent event) {
-				//
+			public void onSelect(SelectEvent event) {				
+				Iterator<Widget> arrayOfChilds1 = upToolbar.iterator();
+				while (arrayOfChilds1.hasNext()) {
+					Widget cb = arrayOfChilds1.next();
+					if (cb instanceof CheckBox) {
+						cbkSearch = (CheckBox) cb;
+					}
+				}
+				
+				HashMap<String, String> fieldValues = new HashMap<String, String>();
+				for (int i=0; i<grid.getColumnModel().getColumnCount(); i++) {
+					//Indeks kolom yang HARUS di-SKIP!!
+					if (i>2 && i!=5 && i!=6 && i!=7 && i!=8 && i!=9 && i!=10 && i!=12) {
+						fieldValues.put(grid.getColumnModel().getColumn(i).getValueProvider().getPath(), grid.getColumnModel().getColumn(i).getHeader().asString());
+					}
+				}
+				
+				Window newWindow = new Window();
+				FormSearchData formTpl = new FormSearchData();
+				String judulForm = formTpl.getFormTitle();
+				formTpl.setFieldValues(fieldValues);
+				formTpl.setClassReferer(thisObj);
+				formTpl.setGridReferer(grid);
+				formTpl.setPagingToolbarReferer(pagingToolbar);
+				formTpl.setGridPageLimit(pageLimit);
+				formTpl.setParentWindow(newWindow);
+				
+				newWindow.setModal(true);
+				newWindow.setSize("600", "300");
+				newWindow.setResizable(false);
+				newWindow.setClosable(true);
+				newWindow.setAllowTextSelection(false);
+				newWindow.setOnEsc(true);
+				newWindow.setHeading(judulForm);
+				
+				newWindow.add(formTpl.asWidget());
+
+				newWindow.show();
 			}
 		};
 	}
@@ -332,7 +490,27 @@ public class ListThosProfil implements IsWidget {
 		return new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
-				//
+				final Widget listWidget = list.getWidget(0);
+				list.setHeaderVisible(false);
+				upToolbar.getWidget(upToolbar.getWidgetCount()-1).setVisible(false);
+				
+				Window newWindow = new Window();
+				newWindow.setMaximizable(true);
+				newWindow.setHeading(list.getHeader().getHeading());
+				newWindow.setModal(true);
+				newWindow.setClosable(true);
+				newWindow.setOnEsc(true);
+				newWindow.add(listWidget);				
+				newWindow.addHideHandler(new HideHandler() {
+					@Override
+					public void onHide(HideEvent event) {
+						list.setHeaderVisible(true);
+						upToolbar.getWidget(upToolbar.getWidgetCount()-1).setVisible(true);
+						list.add(listWidget);
+						list.forceLayout();
+					}					
+				});
+				newWindow.show();
 			}
 		};
 	}
@@ -351,6 +529,20 @@ public class ListThosProfil implements IsWidget {
 	}
 	public void setTabHeader(String tabHeader) {
 		this.tabHeader = tabHeader;
+	}
+	
+	public List<Map<String, String>> getListSearchQuery() {
+		return listSearchQuery;
+	}
+	public void setListSearchQuery(List<Map<String, String>> listSearchQuery) {
+		this.listSearchQuery = listSearchQuery;
+	}
+
+	public CheckBox getCbkSearch() {
+		return cbkSearch;
+	}
+	public void setCbkSearch(CheckBox cbkSearch) {
+		this.cbkSearch = cbkSearch;
 	}
 
 }

@@ -24,9 +24,9 @@ public class CustomMenuLeft {
 		VBoxLayoutContainer vlc_A = new VBoxLayoutContainer();
 		vlc_A.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_A.setPadding(new Padding(10));
-		String[] tabParamsA1 = { "Pegawai THOS", "Daftar Pegawai THOS" };
+		String[] tabParamsA1 = { "Pegawai", "Daftar Pegawai" };
 		doCreateImageList(vlc_A, "images/icon/32x32/daftar_pegawai_thos.png", tabParamsA1, "ListThosProfilID");
-		String[] tabParamsA2 = { "Cari Pegawai THOS" };
+		String[] tabParamsA2 = { "Cari Pegawai" };
 		doCreateImageList(vlc_A, "images/icon/32x32/cari_pegawai.png", tabParamsA2, "");
 		ContentPanel cp_A = new ContentPanel();
 		cp_A.setHeading("Daftar");
@@ -36,9 +36,8 @@ public class CustomMenuLeft {
 		VBoxLayoutContainer vlc_B = new VBoxLayoutContainer();
 		vlc_B.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_B.setPadding(new Padding(10));
-		String[] tabParamsB1 = { "Alih Vendor", "Proses Alih Vendor" };
-		doCreateImageList(vlc_B, "images/icon/32x32/alih_vendor.png", tabParamsB1, "");		
-		
+		/*String[] tabParamsB1 = { "Alih Vendor", "Proses Alih Vendor" };
+		doCreateImageList(vlc_B, "images/icon/32x32/alih_vendor.png", tabParamsB1, "");*/		
 		String[] tabParamsB111 = { "Variabel Statis", "Daftar Variabel Statis" };
 		doCreateImageList(vlc_B, "images/icon/32x32/daftar_varstatis.png", tabParamsB111, "ListMVarStaticID");
 		String[] tabParamsB222 = { "Daftar User" };
