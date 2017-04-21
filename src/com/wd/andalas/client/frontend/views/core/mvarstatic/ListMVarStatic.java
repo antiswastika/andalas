@@ -18,6 +18,8 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -64,7 +66,9 @@ import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
 import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
 import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTOProperties;
+import com.wd.andalas.client.locale.core.mvarstatic.MVarStaticConstants;
 import com.wd.andalas.global.GlobalToolbarList;
+import com.wd.andalas.global.locale.AndalasConstants;
 import com.wd.andalas.global.views.FormExportData;
 
 public class ListMVarStatic implements IsWidget {
@@ -86,6 +90,9 @@ public class ListMVarStatic implements IsWidget {
 	private ListMVarStatic thisObj;
 	private List<Map<String, String>> listSearchQuery;
 	private CheckBox cbkSearch;
+	
+	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
+	final MVarStaticConstants localText = GWT.create(MVarStaticConstants.class);
 	
 	/********** Main Methods **********/
 	@Override
@@ -123,10 +130,10 @@ public class ListMVarStatic implements IsWidget {
 	}
 
 	private ToolBar doCreateUpToolbar() {
-		ToolBar upToolbar = new GlobalToolbarList().createUpToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doSearch(), doWindow());
+		ToolBar upToolbar = new GlobalToolbarList().createUpToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doClearSearch(), doSearch(), doWindow());
 		return upToolbar;
 	}
-
+	
 	@SuppressWarnings("unused")
 	private Grid<CoreMVarstaticDTO> doCreateGrid() {
 		/* Step 1 : Buat Identity Model */
@@ -147,24 +154,24 @@ public class ListMVarStatic implements IsWidget {
 
 		/* Step 3 : Buat Definisi Semua Column */
 		RowNumberer<CoreMVarstaticDTO> numbererColumn = new RowNumberer<CoreMVarstaticDTO>();
-		numbererColumn.setHeader("No");
+		numbererColumn.setHeader(localText.labelFieldExtraMap().get("label.fieldExtra.01"));
 		numbererColumn.setWidth(40);
 		ColumnConfig<CoreMVarstaticDTO, String> imageEditColumn = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_name(), 40, "");
 		imageEditColumn.setResizable(false);
-		ColumnConfig<CoreMVarstaticDTO, Date> created_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.created_at(), 100, "Tgl Input");
-		ColumnConfig<CoreMVarstaticDTO, String> created_by = new ColumnConfig<CoreMVarstaticDTO, String>(properties.created_by(), 150, "Input Oleh");
-		ColumnConfig<CoreMVarstaticDTO, Date> updated_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.updated_at(), 100, "Tgl Update");
-		ColumnConfig<CoreMVarstaticDTO, String> updated_by = new ColumnConfig<CoreMVarstaticDTO, String>(properties.updated_by(), 150, "Update Oleh");
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_desc = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_desc(), 350, "Deskripsi");
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_name = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_name(), 250, "Nilai Statis");
-		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_seq = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_seq(), 80, "Urutan");
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_group = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_group(), 200, "Grup");
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_parentid = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, "Id Parent");
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_icon = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_icon(), 250, "Icon");
-		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_lock(), 100, "Kunci");
-		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_deleteable(), 100, "Bisa Dihapus");
-		ColumnConfig<CoreMVarstaticDTO, Date> varstat_activedate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_activedate(), 120, "Tgl Mulai");
-		ColumnConfig<CoreMVarstaticDTO, Date> varstat_expiredate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_expiredate(), 120, "Tgl Berakhir");
+		ColumnConfig<CoreMVarstaticDTO, Date> created_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.created_at(), 100, localText.labelFieldMap().get("label.field.createdAt"));
+		ColumnConfig<CoreMVarstaticDTO, String> created_by = new ColumnConfig<CoreMVarstaticDTO, String>(properties.created_by(), 150, localText.labelFieldMap().get("label.field.createdBy"));
+		ColumnConfig<CoreMVarstaticDTO, Date> updated_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.updated_at(), 100, localText.labelFieldMap().get("label.field.updatedAt"));
+		ColumnConfig<CoreMVarstaticDTO, String> updated_by = new ColumnConfig<CoreMVarstaticDTO, String>(properties.updated_by(), 150, localText.labelFieldMap().get("label.field.updatedBy"));
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_desc = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_desc(), 350, localText.labelFieldMap().get("label.field.varstatDesc"));
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_name = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_name(), 250, localText.labelFieldMap().get("label.field.varstatName"));
+		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_seq = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_seq(), 80, localText.labelFieldMap().get("label.field.varstatSeq"));
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_group = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_group(), 200, localText.labelFieldMap().get("label.field.varstatGroup"));
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_parentid = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, localText.labelFieldMap().get("label.field.varstatParentid"));
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_icon = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_icon(), 250, localText.labelFieldMap().get("label.field.varstatIcon"));
+		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_lock(), 100, localText.labelFieldMap().get("label.field.varstatLock"));
+		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_deleteable(), 100, localText.labelFieldMap().get("label.field.varstatDeleteable"));
+		ColumnConfig<CoreMVarstaticDTO, Date> varstat_activedate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_activedate(), 120, localText.labelFieldMap().get("label.field.varstatActivedate"));
+		ColumnConfig<CoreMVarstaticDTO, Date> varstat_expiredate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_expiredate(), 120, localText.labelFieldMap().get("label.field.varstatExpiredate"));
 
 		/* Step 4 : Buat View Urutan Column */
 		List<ColumnConfig<CoreMVarstaticDTO, ?>> columns = new ArrayList<ColumnConfig<CoreMVarstaticDTO, ?>>();
@@ -189,12 +196,7 @@ public class ListMVarStatic implements IsWidget {
 		ListStore<CoreMVarstaticDTO> store = new ListStore<CoreMVarstaticDTO>(properties.varstat_id());
 
 		/* Step 7 : Buat RpcProxy */
-		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
-			@Override
-			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
-				service.getAllPaged(loadConfig, callback);
-			}
-		};
+		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = theDefaultRPC();
 
 		/* Step 8 : Buat pagingLoader */
 		pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
@@ -286,10 +288,10 @@ public class ListMVarStatic implements IsWidget {
 
 		if (idNya != "" && entity != null) {
 			formTpl.setEntity(entity);
-			judulForm = judulForm + " (Ubah)";
+			//judulForm = judulForm + " (" + andalasText.labelButtonMap().get("label.button.edit") + ")";
 		} else {
 			formTpl.setEntity(new CoreMVarstaticDTO());
-			judulForm = judulForm + " (Tambah)";
+			//judulForm = judulForm + " (" + andalasText.labelButtonMap().get("label.button.insert") + ")";
 		}
 
 		newWindow.setModal(true);
@@ -336,6 +338,16 @@ public class ListMVarStatic implements IsWidget {
 		}
 	}
 	
+	private RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> theDefaultRPC() {
+		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
+			@Override
+			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
+				service.getAllPaged(loadConfig, callback);
+			}
+		};		
+		return dataProxy;
+	}
+	
 	/********** Public Methods **********/	
 	public void doPublicRefresh() {
 		pagingToolbar.refresh();
@@ -376,7 +388,6 @@ public class ListMVarStatic implements IsWidget {
 				ConfirmMessageBox messageBox = new ConfirmMessageBox("Konfirmasi Hapus", "Apakah Anda sudah yakin akan menghapus data yang terpilih?");
 				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
 				messageBox.setIcon(MessageBox.ICONS.question());
-				
 			    messageBox.addDialogHideHandler(new DialogHideHandler() {
 					@Override
 					public void onDialogHide(DialogHideEvent event) {
@@ -442,6 +453,43 @@ public class ListMVarStatic implements IsWidget {
 			}
 		};
 	}
+	
+	private ChangeHandler doClearSearch() {
+		return new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				ConfirmMessageBox messageBox = new ConfirmMessageBox("Pencarian", "Apakah Anda akan mematikan mode pencarian?");
+				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
+				messageBox.setIcon(MessageBox.ICONS.question());				
+			    messageBox.addDialogHideHandler(new DialogHideHandler() {
+					@Override
+					public void onDialogHide(DialogHideEvent event) {
+						switch (event.getHideButton()) {
+							case YES:
+								pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(theDefaultRPC());
+								pagingLoader.setRemoteSort(true);
+								pagingLoader.setLimit(pageLimit);
+								pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(grid.getStore()));
+								pagingLoader.setReuseLoadConfig(false);
+								
+								grid.setLoadMask(true);
+								grid.setLoader(pagingLoader);
+						
+								pagingToolbar.bind(pagingLoader);
+								
+								pagingLoader.load();
+								break;
+							case NO:
+								break;
+							default:
+								break;
+						}
+					}
+				});
+			    messageBox.show();
+			}
+		};
+	}
 
 	private SelectHandler doSearch() {
 		return new SelectHandler() {
@@ -458,7 +506,7 @@ public class ListMVarStatic implements IsWidget {
 				HashMap<String, String> fieldValues = new HashMap<String, String>();
 				for (int i=0; i<grid.getColumnModel().getColumnCount(); i++) {
 					//Indeks kolom yang HARUS di-SKIP!!
-					if (i>2 && i!=5 && i!=6 && i!=7 && i!=8 &&  i!=12) {
+					if (i>2 && i!=5 && i!=6 && i!=7 && i!=8 && i!=9 && i!=10 && i!=12) {
 						fieldValues.put(grid.getColumnModel().getColumn(i).getValueProvider().getPath(), grid.getColumnModel().getColumn(i).getHeader().asString());
 					}
 				}

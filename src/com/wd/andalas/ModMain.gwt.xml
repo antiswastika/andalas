@@ -26,4 +26,8 @@
     <inherits name='com.sencha.gxt.theme.neptune.Theme' />
     <inherits name='com.sencha.gxt.chart.Chart' />
     <stylesheet src="reset.css" />
+    
+    <!-- Custom Localization -->
+    <extend-property name="locale" values="id" />
+    <extend-property name="locale" values="en" />
 </module>

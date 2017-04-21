@@ -1,4 +1,4 @@
-package com.wd.andalas.client.frontend.views.core.mvarstatic;
+package com.wd.andalas.client.frontend.views.thos.profil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,17 +37,18 @@ import com.sencha.gxt.widget.core.client.form.TextField;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
-import com.wd.andalas.client.backend.services.core.CoreMVarstaticService;
-import com.wd.andalas.client.backend.services.core.CoreMVarstaticServiceAsync;
-import com.wd.andalas.client.frontend.models.core.CoreMVarstaticDTO;
+import com.wd.andalas.client.backend.services.thos.ThosProfilService;
+import com.wd.andalas.client.backend.services.thos.ThosProfilServiceAsync;
+import com.wd.andalas.client.frontend.models.thos.ThosProfilDTO;
 import com.wd.andalas.global.GlobalToolbarList;
 import com.wd.andalas.global.views.AnyComboModel;
 import com.wd.andalas.resources.Resources;
 
 public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 
-	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
-	private PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader;
+	@SuppressWarnings("unused")
+	private ThosProfilServiceAsync service = (ThosProfilServiceAsync) GWT.create(ThosProfilService.class);
+	private PagingLoader<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> pagingLoader;
 
 	private VerticalLayoutContainer vlcMain;
 	private HorizontalLayoutContainer hlcMain;
@@ -57,7 +58,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 	final private String formTitle = "Cari Data";
 
 	private Object classReferer = null;
-	private Grid<CoreMVarstaticDTO> gridReferer = null;
+	private Grid<ThosProfilDTO> gridReferer = null;
 	private PagingToolBar pagingToolbarReferer = null;
 	private int gridPageLimit = 0;
 	private HashMap<String, String> fieldValues = null;
@@ -232,27 +233,27 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		if (listMapParams.size() > 0) {
 			
 			/* Step 1 : Set Map ke Referer */
-			((ListMVarStatic) classReferer).setListSearchQuery(listMapParams);
+			((ListThosProfil) classReferer).setListSearchQuery(listMapParams);
 			
 			/* Step 2 : Tandai CheckBox Search */
-			((ListMVarStatic) classReferer).getCbkSearch().setValue(true);
+			((ListThosProfil) classReferer).getCbkSearch().setValue(true);
 	
 			/* Step 3 : Buat Store */
-			ListStore<CoreMVarstaticDTO> store = gridReferer.getStore();
+			ListStore<ThosProfilDTO> store = gridReferer.getStore();
 	
 			/* Step 4 : Buat RpcProxy */
-			RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
+			RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>() {
 				@Override
-				public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
-					service.getSearchPaged(listMapParams, loadConfig, callback);
+				public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<ThosProfilDTO>> callback) {
+					//service.getSearchPaged(listMapParams, loadConfig, callback);
 				}
 			};
 	
 			/* Step 5 : Buat pagingLoader */
-			pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(dataProxy);
+			pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>(dataProxy);
 			pagingLoader.setRemoteSort(true);
 			pagingLoader.setLimit(gridPageLimit);
-			pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(store));
+			pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, ThosProfilDTO, PagingLoadResult<ThosProfilDTO>>(store));
 			pagingLoader.setReuseLoadConfig(false);
 	
 			gridReferer.setLoadMask(true);
@@ -404,10 +405,10 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		this.classReferer = classReferer;
 	}
 
-	public Grid<CoreMVarstaticDTO> getGridReferer() {
+	public Grid<ThosProfilDTO> getGridReferer() {
 		return gridReferer;
 	}
-	public void setGridReferer(Grid<CoreMVarstaticDTO> gridReferer) {
+	public void setGridReferer(Grid<ThosProfilDTO> gridReferer) {
 		this.gridReferer = gridReferer;
 	}
 
