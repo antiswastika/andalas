@@ -1,10 +1,5 @@
 package com.wd.andalas.client.frontend.views.core;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;

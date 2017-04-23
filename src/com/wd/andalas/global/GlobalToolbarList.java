@@ -18,9 +18,7 @@ public class GlobalToolbarList extends ToolBar {
 	
 	/********** Inisiasi **********/
 	private ToolBar toolbarNya;
-	private AndalasConstants localText = GWT.create(AndalasConstants.class);
-	
-	/********** Main Methods **********/
+
 	public GlobalToolbarList() {
 		return;
 	}
