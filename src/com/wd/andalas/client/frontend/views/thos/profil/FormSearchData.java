@@ -1,6 +1,7 @@
 package com.wd.andalas.client.frontend.views.thos.profil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +42,7 @@ import com.wd.andalas.client.backend.services.thos.ThosProfilService;
 import com.wd.andalas.client.backend.services.thos.ThosProfilServiceAsync;
 import com.wd.andalas.client.frontend.models.thos.ThosProfilDTO;
 import com.wd.andalas.global.GlobalToolbarList;
+import com.wd.andalas.global.locale.AndalasConstants;
 import com.wd.andalas.global.views.AnyComboModel;
 import com.wd.andalas.resources.Resources;
 
@@ -55,14 +57,14 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 	private VerticalLayoutContainer vlcCol1, vlcCol2,vlcCol3;
 	private Window parentWindow;
 
-	final private String formTitle = "Cari Data";
-
 	private Object classReferer = null;
 	private Grid<ThosProfilDTO> gridReferer = null;
 	private PagingToolBar pagingToolbarReferer = null;
 	private int gridPageLimit = 0;
 	private HashMap<String, String> fieldValues = null;
 	private List<Map<String, String>> listMapParams;
+	
+	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
 
 	/********** Main Methods **********/
 	@Override
@@ -154,9 +156,11 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		List<String> customHandlerTextList = new ArrayList<String>();
 		List<ImageResource> customHandlerIconResourceList = new ArrayList<ImageResource>();
 		Resources imageResource = GWT.create(Resources.class);
-
+		
+		List<String> listButtons = new ArrayList<String>(Arrays.asList(andalasText.labelButtonMap().get("label.button.saveUpdateSubmit").split(andalasText.labelApplicationMap().get("label.application.delimiter"))));
+		
 		customHandlerList.add(doSearch());
-		customHandlerTextList.add("Proses");
+		customHandlerTextList.add(listButtons.get(2));
 		customHandlerIconResourceList.add(imageResource.btnSearch());
 
 		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(null, null, doClose(), doInfo(), customHandlerList, customHandlerTextList, customHandlerIconResourceList);
@@ -192,7 +196,6 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 
 		/* Step 4 : Buat combobox */
 		ComboBox<AnyComboModel> cmb = new ComboBox<AnyComboModel>(store, labelProvider);
-		cmb.setWidth(formTitle);
 
 		return cmb;
 	}
@@ -224,7 +227,6 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 
 		/* Step 4 : Buat combobox */
 		ComboBox<AnyComboModel> cmb = new ComboBox<AnyComboModel>(store, labelProvider);
-		cmb.setWidth(formTitle);
 
 		return cmb;
 	}
@@ -380,10 +382,6 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 	}
 
 	/********** Setter Getter **********/
-	public String getFormTitle() {
-		return formTitle;
-	}
-
 	public Window getParentWindow() {
 		return parentWindow;
 	}

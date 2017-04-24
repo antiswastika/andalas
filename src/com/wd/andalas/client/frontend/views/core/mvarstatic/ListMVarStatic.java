@@ -76,7 +76,7 @@ public class ListMVarStatic implements IsWidget {
 	/********** Inisiasi **********/
 	private ContentPanel list;
 	private BorderLayoutData listData = new BorderLayoutData();
-	private String tabHeader = "XXXXX";
+	private String tabHeader;
 	private CoreMVarstaticDTOProperties properties = GWT.create(CoreMVarstaticDTOProperties.class);
 	private CoreMVarstaticServiceAsync service = (CoreMVarstaticServiceAsync) GWT.create(CoreMVarstaticService.class);
 	private ColumnModel<CoreMVarstaticDTO> cm;
@@ -92,7 +92,7 @@ public class ListMVarStatic implements IsWidget {
 	private CheckBox cbkSearch;
 	
 	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
-	final MVarStaticConstants localText = GWT.create(MVarStaticConstants.class);
+	final MVarStaticConstants mvarstaticText = GWT.create(MVarStaticConstants.class);
 	
 	/********** Main Methods **********/
 	@Override
@@ -102,7 +102,7 @@ public class ListMVarStatic implements IsWidget {
 			list.setId("ListMVarStaticID");
 			list.setBodyStyle("background:transparent; border:0");
 			list.setHeaderVisible(true);
-			list.setHeading(tabHeader);
+			list.setHeading(getTabHeader());
 			list.setAllowTextSelection(false);
 			listData.setMargins(new Margins(0, 0, 0, 0));
 			list.setLayoutData(listData);
@@ -154,24 +154,24 @@ public class ListMVarStatic implements IsWidget {
 
 		/* Step 3 : Buat Definisi Semua Column */
 		RowNumberer<CoreMVarstaticDTO> numbererColumn = new RowNumberer<CoreMVarstaticDTO>();
-		numbererColumn.setHeader(localText.labelFieldExtraMap().get("label.fieldExtra.01"));
+		numbererColumn.setHeader(mvarstaticText.labelFieldExtraMap().get("label.fieldExtra.01"));
 		numbererColumn.setWidth(40);
 		ColumnConfig<CoreMVarstaticDTO, String> imageEditColumn = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_name(), 40, "");
 		imageEditColumn.setResizable(false);
-		ColumnConfig<CoreMVarstaticDTO, Date> created_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.created_at(), 100, localText.labelFieldMap().get("label.field.createdAt"));
-		ColumnConfig<CoreMVarstaticDTO, String> created_by = new ColumnConfig<CoreMVarstaticDTO, String>(properties.created_by(), 150, localText.labelFieldMap().get("label.field.createdBy"));
-		ColumnConfig<CoreMVarstaticDTO, Date> updated_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.updated_at(), 100, localText.labelFieldMap().get("label.field.updatedAt"));
-		ColumnConfig<CoreMVarstaticDTO, String> updated_by = new ColumnConfig<CoreMVarstaticDTO, String>(properties.updated_by(), 150, localText.labelFieldMap().get("label.field.updatedBy"));
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_desc = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_desc(), 350, localText.labelFieldMap().get("label.field.varstatDesc"));
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_name = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_name(), 250, localText.labelFieldMap().get("label.field.varstatName"));
-		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_seq = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_seq(), 80, localText.labelFieldMap().get("label.field.varstatSeq"));
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_group = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_group(), 200, localText.labelFieldMap().get("label.field.varstatGroup"));
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_parentid = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, localText.labelFieldMap().get("label.field.varstatParentid"));
-		ColumnConfig<CoreMVarstaticDTO, String> varstat_icon = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_icon(), 250, localText.labelFieldMap().get("label.field.varstatIcon"));
-		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_lock(), 100, localText.labelFieldMap().get("label.field.varstatLock"));
-		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_deleteable(), 100, localText.labelFieldMap().get("label.field.varstatDeleteable"));
-		ColumnConfig<CoreMVarstaticDTO, Date> varstat_activedate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_activedate(), 120, localText.labelFieldMap().get("label.field.varstatActivedate"));
-		ColumnConfig<CoreMVarstaticDTO, Date> varstat_expiredate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_expiredate(), 120, localText.labelFieldMap().get("label.field.varstatExpiredate"));
+		ColumnConfig<CoreMVarstaticDTO, Date> created_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.created_at(), 100, mvarstaticText.labelFieldMap().get("label.field.createdAt"));
+		ColumnConfig<CoreMVarstaticDTO, String> created_by = new ColumnConfig<CoreMVarstaticDTO, String>(properties.created_by(), 150, mvarstaticText.labelFieldMap().get("label.field.createdBy"));
+		ColumnConfig<CoreMVarstaticDTO, Date> updated_at = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.updated_at(), 100, mvarstaticText.labelFieldMap().get("label.field.updatedAt"));
+		ColumnConfig<CoreMVarstaticDTO, String> updated_by = new ColumnConfig<CoreMVarstaticDTO, String>(properties.updated_by(), 150, mvarstaticText.labelFieldMap().get("label.field.updatedBy"));
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_desc = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_desc(), 350, mvarstaticText.labelFieldMap().get("label.field.varstatDesc"));
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_name = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_name(), 250, mvarstaticText.labelFieldMap().get("label.field.varstatName"));
+		ColumnConfig<CoreMVarstaticDTO, Integer> varstat_seq = new ColumnConfig<CoreMVarstaticDTO, Integer>(properties.varstat_seq(), 80, mvarstaticText.labelFieldMap().get("label.field.varstatSeq"));
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_group = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_group(), 200, mvarstaticText.labelFieldMap().get("label.field.varstatGroup"));
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_parentid = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_parentid(), 150, mvarstaticText.labelFieldMap().get("label.field.varstatParentid"));
+		ColumnConfig<CoreMVarstaticDTO, String> varstat_icon = new ColumnConfig<CoreMVarstaticDTO, String>(properties.varstat_icon(), 250, mvarstaticText.labelFieldMap().get("label.field.varstatIcon"));
+		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_lock = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_lock(), 100, mvarstaticText.labelFieldMap().get("label.field.varstatLock"));
+		ColumnConfig<CoreMVarstaticDTO, Byte> varstat_deleteable = new ColumnConfig<CoreMVarstaticDTO, Byte>(properties.varstat_deleteable(), 100, mvarstaticText.labelFieldMap().get("label.field.varstatDeleteable"));
+		ColumnConfig<CoreMVarstaticDTO, Date> varstat_activedate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_activedate(), 120, mvarstaticText.labelFieldMap().get("label.field.varstatActivedate"));
+		ColumnConfig<CoreMVarstaticDTO, Date> varstat_expiredate = new ColumnConfig<CoreMVarstaticDTO, Date>(properties.varstat_expiredate(), 120, mvarstaticText.labelFieldMap().get("label.field.varstatExpiredate"));
 
 		/* Step 4 : Buat View Urutan Column */
 		List<ColumnConfig<CoreMVarstaticDTO, ?>> columns = new ArrayList<ColumnConfig<CoreMVarstaticDTO, ?>>();
@@ -288,10 +288,10 @@ public class ListMVarStatic implements IsWidget {
 
 		if (idNya != "" && entity != null) {
 			formTpl.setEntity(entity);
-			//judulForm = judulForm + " (" + andalasText.labelButtonMap().get("label.button.edit") + ")";
+			judulForm = judulForm + " (" + andalasText.labelButtonMap().get("label.button.edit") + ")";
 		} else {
 			formTpl.setEntity(new CoreMVarstaticDTO());
-			//judulForm = judulForm + " (" + andalasText.labelButtonMap().get("label.button.insert") + ")";
+			judulForm = judulForm + " (" + andalasText.labelButtonMap().get("label.button.insert") + ")";
 		}
 
 		newWindow.setModal(true);
@@ -513,7 +513,6 @@ public class ListMVarStatic implements IsWidget {
 				
 				Window newWindow = new Window();
 				FormSearchData formTpl = new FormSearchData();
-				String judulForm = formTpl.getFormTitle();
 				formTpl.setFieldValues(fieldValues);
 				formTpl.setClassReferer(thisObj);
 				formTpl.setGridReferer(grid);
@@ -527,10 +526,8 @@ public class ListMVarStatic implements IsWidget {
 				newWindow.setClosable(true);
 				newWindow.setAllowTextSelection(false);
 				newWindow.setOnEsc(true);
-				newWindow.setHeading(judulForm);
-				
+				newWindow.setHeading(andalasText.labelButtonMap().get("label.button.search"));		
 				newWindow.add(formTpl.asWidget());
-
 				newWindow.show();
 			}
 		};

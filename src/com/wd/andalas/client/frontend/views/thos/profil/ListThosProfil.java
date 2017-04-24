@@ -66,7 +66,9 @@ import com.wd.andalas.client.backend.services.thos.ThosProfilService;
 import com.wd.andalas.client.backend.services.thos.ThosProfilServiceAsync;
 import com.wd.andalas.client.frontend.models.thos.ThosProfilDTO;
 import com.wd.andalas.client.frontend.models.thos.ThosProfilDTOProperties;
+import com.wd.andalas.client.locale.core.mvarstatic.MVarStaticConstants;
 import com.wd.andalas.global.GlobalToolbarList;
+import com.wd.andalas.global.locale.AndalasConstants;
 import com.wd.andalas.global.views.FormExportData;
 
 public class ListThosProfil implements IsWidget {
@@ -74,7 +76,7 @@ public class ListThosProfil implements IsWidget {
 	/********** Inisiasi **********/
 	private ContentPanel list;
 	private BorderLayoutData listData = new BorderLayoutData();
-	private String tabHeader = "XXXXX";
+	private String tabHeader;
 	private ThosProfilDTOProperties properties = GWT.create(ThosProfilDTOProperties.class);
 	private ThosProfilServiceAsync service = (ThosProfilServiceAsync) GWT.create(ThosProfilService.class);
 	private ColumnModel<ThosProfilDTO> cm;
@@ -88,6 +90,9 @@ public class ListThosProfil implements IsWidget {
 	private ListThosProfil thisObj;
 	private List<Map<String, String>> listSearchQuery;
 	private CheckBox cbkSearch;
+	
+	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
+	//final ListThosProfilConstants listthosprofilText = GWT.create(ListThosProfilConstants.class);
 
 	/********** Main Methods **********/
 	@Override
@@ -463,7 +468,6 @@ public class ListThosProfil implements IsWidget {
 				
 				Window newWindow = new Window();
 				FormSearchData formTpl = new FormSearchData();
-				String judulForm = formTpl.getFormTitle();
 				formTpl.setFieldValues(fieldValues);
 				formTpl.setClassReferer(thisObj);
 				formTpl.setGridReferer(grid);
@@ -477,7 +481,7 @@ public class ListThosProfil implements IsWidget {
 				newWindow.setClosable(true);
 				newWindow.setAllowTextSelection(false);
 				newWindow.setOnEsc(true);
-				newWindow.setHeading(judulForm);
+				newWindow.setHeading(andalasText.labelButtonMap().get("label.button.search"));
 				
 				newWindow.add(formTpl.asWidget());
 

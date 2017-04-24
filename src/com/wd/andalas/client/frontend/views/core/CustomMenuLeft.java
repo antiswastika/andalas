@@ -23,7 +23,7 @@ public class CustomMenuLeft {
 
 	/********** Inisiasi **********/
 	final AccordionLayoutContainer accordionPanel = new AccordionLayoutContainer();
-	final AndalasConstants localText = GWT.create(AndalasConstants.class);
+	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
 
 	/********** Main Methods **********/
 	public CustomMenuLeft() {
@@ -67,8 +67,8 @@ public class CustomMenuLeft {
 		// Harus dibuat statis sehingga:
 		// 1. Menjadi bagian dari application-platform.
 		// 2. Localization terpusat.
-		List<String> listSubtitle = new ArrayList<String>(Arrays.asList(localText.labelMenuMap().get("label.menu00.subtitle").split(localText.labelApplicationMap().get("label.application.delimiter"))));
-		List<String> listSubtitleBar = new ArrayList<String>(Arrays.asList(localText.labelMenuMap().get("label.menu00.subtitle.bar").split(localText.labelApplicationMap().get("label.application.delimiter"))));		
+		List<String> listSubtitle = new ArrayList<String>(Arrays.asList(andalasText.labelMenuMap().get("label.menu00.subtitle").split(andalasText.labelApplicationMap().get("label.application.delimiter"))));
+		List<String> listSubtitleBar = new ArrayList<String>(Arrays.asList(andalasText.labelMenuMap().get("label.menu00.subtitle.bar").split(andalasText.labelApplicationMap().get("label.application.delimiter"))));		
 		VBoxLayoutContainer vlc_C = new VBoxLayoutContainer();
 		vlc_C.setVBoxLayoutAlign(VBoxLayoutAlign.CENTER);
 		vlc_C.setPadding(new Padding(10));
@@ -79,7 +79,7 @@ public class CustomMenuLeft {
 		String[] tabParamsC3 = { listSubtitle.get(3), listSubtitleBar.get(3) };
 		doCreateImageList(vlc_C, "images/icon/32x32/logout.png", tabParamsC3, "");
 		ContentPanel cp_C = new ContentPanel();
-		cp_C.setHeading(localText.labelMenuMap().get("label.menu00.title"));
+		cp_C.setHeading(andalasText.labelMenuMap().get("label.menu00.title"));
 		cp_C.add(vlc_C);
 		
 
