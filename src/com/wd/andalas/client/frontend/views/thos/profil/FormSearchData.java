@@ -268,7 +268,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 			
 			parentWindow.setVisible(false);
 		} else {
-			MessageBox msgbox = new MessageBox("Pencarian", "Mohon lengkapi kriteria pencarian data.");
+			MessageBox msgbox = new MessageBox(andalasText.errorUiMap().get("error.ui.search.title"), andalasText.errorUiMap().get("error.ui.search.text"));
 			msgbox.show();
 		}
 	}

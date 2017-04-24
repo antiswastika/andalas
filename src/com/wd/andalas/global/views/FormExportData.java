@@ -27,6 +27,7 @@ import com.sencha.gxt.widget.core.client.form.ComboBox;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 import com.wd.andalas.global.GlobalToolbarList;
+import com.wd.andalas.global.locale.AndalasConstants;
 import com.wd.andalas.resources.Resources;
 
 public class FormExportData extends VBoxLayoutContainer implements IsWidget {
@@ -38,9 +39,10 @@ public class FormExportData extends VBoxLayoutContainer implements IsWidget {
 	private Window parentWindow;
 
 	private ComboBox<AnyComboModel> cmbFormat;
-	final private String formTitle = "Ekspor Data"; 
+	final private String formTitle = "Ekspor Data";
 	
-	private Object classReferer = null;
+	private Object classReferer = null;	
+	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
 	
 	/********** Main Methods **********/
 	@Override
