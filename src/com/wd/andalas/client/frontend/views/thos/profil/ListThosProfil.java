@@ -66,7 +66,7 @@ import com.wd.andalas.client.backend.services.thos.ThosProfilService;
 import com.wd.andalas.client.backend.services.thos.ThosProfilServiceAsync;
 import com.wd.andalas.client.frontend.models.thos.ThosProfilDTO;
 import com.wd.andalas.client.frontend.models.thos.ThosProfilDTOProperties;
-import com.wd.andalas.client.locale.core.mvarstatic.MVarStaticConstants;
+import com.wd.andalas.client.locale.thos.profil.ThosProfilConstants;
 import com.wd.andalas.global.GlobalToolbarList;
 import com.wd.andalas.global.locale.AndalasConstants;
 import com.wd.andalas.global.views.FormExportData;
@@ -92,7 +92,7 @@ public class ListThosProfil implements IsWidget {
 	private CheckBox cbkSearch;
 	
 	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
-	//final ListThosProfilConstants listthosprofilText = GWT.create(ListThosProfilConstants.class);
+	final ThosProfilConstants listthosprofilText = GWT.create(ThosProfilConstants.class);
 
 	/********** Main Methods **********/
 	@Override
@@ -154,38 +154,38 @@ public class ListThosProfil implements IsWidget {
 
 		/* Step 3 : Buat Definisi Semua Column */
 		RowNumberer<ThosProfilDTO> numbererColumn = new RowNumberer<ThosProfilDTO>();
-		numbererColumn.setHeader("No");
+		numbererColumn.setHeader(listthosprofilText.labelFieldExtraMap().get("label.fieldExtra.01"));
 		numbererColumn.setWidth(40);
 		ColumnConfig<ThosProfilDTO, String> imageEditColumn = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nama(), 40, "");
 		imageEditColumn.setResizable(false);
-		ColumnConfig<ThosProfilDTO, Date> created_at = new ColumnConfig<ThosProfilDTO, Date>(properties.created_at(), 100, "Tgl Input");
-		ColumnConfig<ThosProfilDTO, String> created_by = new ColumnConfig<ThosProfilDTO, String>(properties.created_by(), 150, "Input Oleh");
-		ColumnConfig<ThosProfilDTO, Date> updated_at = new ColumnConfig<ThosProfilDTO, Date>(properties.updated_at(), 100, "Tgl Update");
-		ColumnConfig<ThosProfilDTO, String> updated_by = new ColumnConfig<ThosProfilDTO, String>(properties.updated_by(), 150, "Update Oleh");
-		ColumnConfig<ThosProfilDTO, String> profil_desc = new ColumnConfig<ThosProfilDTO, String>(properties.profil_desc(), 350, "Deskripsi");
-		ColumnConfig<ThosProfilDTO, String> profil_nip = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nip(), 80, "NIP");
-		ColumnConfig<ThosProfilDTO, String> profil_nama = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nama(), 150, "Nama");
-		ColumnConfig<ThosProfilDTO, String> profil_nama_panggilan = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nama_panggilan(), 150, "Panggilan");
-		ColumnConfig<ThosProfilDTO, Date> profil_tgl_lahir = new ColumnConfig<ThosProfilDTO, Date>(properties.profil_tgl_lahir(), 100, "Tgl Lahir");
-		ColumnConfig<ThosProfilDTO, String> profil_tmp_lahir = new ColumnConfig<ThosProfilDTO, String>(properties.profil_tmp_lahir(), 150, "Tempat Lahir");
-		ColumnConfig<ThosProfilDTO, Byte> profil_jenis_kelamin = new ColumnConfig<ThosProfilDTO, Byte>(properties.profil_jenis_kelamin(), 80, "Jenis");
-		ColumnConfig<ThosProfilDTO, String> profil_agama = new ColumnConfig<ThosProfilDTO, String>(properties.profil_agama(), 80, "Agama");
-		ColumnConfig<ThosProfilDTO, String> profil_no_ktp = new ColumnConfig<ThosProfilDTO, String>(properties.profil_no_ktp(), 100, "No.KTP");
-		ColumnConfig<ThosProfilDTO, String> profil_no_npwp = new ColumnConfig<ThosProfilDTO, String>(properties.profil_no_npwp(), 100, "No.NPWP");
-		ColumnConfig<ThosProfilDTO, String> profil_nama_bank = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nama_bank(), 100, "Nama Bank");
-		ColumnConfig<ThosProfilDTO, String> profil_no_rek = new ColumnConfig<ThosProfilDTO, String>(properties.profil_no_rek(), 100, "No.Rekening");
-		ColumnConfig<ThosProfilDTO, Byte> profil_status_menikah = new ColumnConfig<ThosProfilDTO, Byte>(properties.profil_status_menikah(), 80, "Menikah");
-		ColumnConfig<ThosProfilDTO, String> profil_alamat = new ColumnConfig<ThosProfilDTO, String>(properties.profil_alamat(), 250, "Alamat");
-		ColumnConfig<ThosProfilDTO, String> profil_no_telp = new ColumnConfig<ThosProfilDTO, String>(properties.profil_no_telp(), 100, "No.Telepon");
-		ColumnConfig<ThosProfilDTO, String> profil_jabatan = new ColumnConfig<ThosProfilDTO, String>(properties.profil_jabatan(), 250, "Jabatan");
-		ColumnConfig<ThosProfilDTO, String> profil_formasi = new ColumnConfig<ThosProfilDTO, String>(properties.profil_formasi(), 250, "Formasi");
-		ColumnConfig<ThosProfilDTO, String> profil_nama_kdarurat = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nama_kdarurat(), 150, "Nama Kontak Darurat");
-		ColumnConfig<ThosProfilDTO, String> profil_no_telp_kdarurat = new ColumnConfig<ThosProfilDTO, String>(properties.profil_no_telp_kdarurat(), 100, "No.Telepon Kontak Darurat");
-		ColumnConfig<ThosProfilDTO, String> profil_alamat_kdarurat = new ColumnConfig<ThosProfilDTO, String>(properties.profil_alamat_kdarurat(), 250, "Alamat Kontak Darurat");
-		ColumnConfig<ThosProfilDTO, Byte> profil_lock = new ColumnConfig<ThosProfilDTO, Byte>(properties.profil_lock(), 100, "ReadOnly");
-		ColumnConfig<ThosProfilDTO, Byte> profil_deleteable = new ColumnConfig<ThosProfilDTO, Byte>(properties.profil_deleteable(), 100, "Deleteable");
-		ColumnConfig<ThosProfilDTO, Date> profil_activedate = new ColumnConfig<ThosProfilDTO, Date>(properties.profil_activedate(), 120, "Tgl Mulai");
-		ColumnConfig<ThosProfilDTO, Date> profil_expiredate = new ColumnConfig<ThosProfilDTO, Date>(properties.profil_expiredate(), 120, "Tgl Berakhir");
+		ColumnConfig<ThosProfilDTO, Date> created_at = new ColumnConfig<ThosProfilDTO, Date>(properties.created_at(), 100, listthosprofilText.labelFieldMap().get("label.field.createdAt"));
+		ColumnConfig<ThosProfilDTO, String> created_by = new ColumnConfig<ThosProfilDTO, String>(properties.created_by(), 150, listthosprofilText.labelFieldMap().get("label.field.createdBy"));
+		ColumnConfig<ThosProfilDTO, Date> updated_at = new ColumnConfig<ThosProfilDTO, Date>(properties.updated_at(), 100, listthosprofilText.labelFieldMap().get("label.field.updatedAt"));
+		ColumnConfig<ThosProfilDTO, String> updated_by = new ColumnConfig<ThosProfilDTO, String>(properties.updated_by(), 150, listthosprofilText.labelFieldMap().get("label.field.updatedBy"));
+		ColumnConfig<ThosProfilDTO, String> profil_desc = new ColumnConfig<ThosProfilDTO, String>(properties.profil_desc(), 350, listthosprofilText.labelFieldMap().get("label.field.profilDesc"));
+		ColumnConfig<ThosProfilDTO, String> profil_nip = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nip(), 80, listthosprofilText.labelFieldMap().get("label.field.profilNip"));
+		ColumnConfig<ThosProfilDTO, String> profil_nama = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nama(), 150, listthosprofilText.labelFieldMap().get("label.field.profilNama"));
+		ColumnConfig<ThosProfilDTO, String> profil_nama_panggilan = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nama_panggilan(), 150, listthosprofilText.labelFieldMap().get("label.field.profilNamaPanggilan"));
+		ColumnConfig<ThosProfilDTO, Date> profil_tgl_lahir = new ColumnConfig<ThosProfilDTO, Date>(properties.profil_tgl_lahir(), 100, listthosprofilText.labelFieldMap().get("label.field.profilTglLahir"));
+		ColumnConfig<ThosProfilDTO, String> profil_tmp_lahir = new ColumnConfig<ThosProfilDTO, String>(properties.profil_tmp_lahir(), 150, listthosprofilText.labelFieldMap().get("label.field.profilTmpLahir"));
+		ColumnConfig<ThosProfilDTO, Byte> profil_jenis_kelamin = new ColumnConfig<ThosProfilDTO, Byte>(properties.profil_jenis_kelamin(), 80, listthosprofilText.labelFieldMap().get("label.field.profilJenisKelamin"));
+		ColumnConfig<ThosProfilDTO, String> profil_agama = new ColumnConfig<ThosProfilDTO, String>(properties.profil_agama(), 80, listthosprofilText.labelFieldMap().get("label.field.profilAgama"));
+		ColumnConfig<ThosProfilDTO, String> profil_no_ktp = new ColumnConfig<ThosProfilDTO, String>(properties.profil_no_ktp(), 100, listthosprofilText.labelFieldMap().get("label.field.profilNoKtp"));
+		ColumnConfig<ThosProfilDTO, String> profil_no_npwp = new ColumnConfig<ThosProfilDTO, String>(properties.profil_no_npwp(), 100, listthosprofilText.labelFieldMap().get("label.field.profilNoNpwp"));
+		ColumnConfig<ThosProfilDTO, String> profil_nama_bank = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nama_bank(), 100, listthosprofilText.labelFieldMap().get("label.field.profilNamaBank"));
+		ColumnConfig<ThosProfilDTO, String> profil_no_rek = new ColumnConfig<ThosProfilDTO, String>(properties.profil_no_rek(), 100, listthosprofilText.labelFieldMap().get("label.field.profilNoRek"));
+		ColumnConfig<ThosProfilDTO, Byte> profil_status_menikah = new ColumnConfig<ThosProfilDTO, Byte>(properties.profil_status_menikah(), 80, listthosprofilText.labelFieldMap().get("label.field.profilStatusMenikah"));
+		ColumnConfig<ThosProfilDTO, String> profil_alamat = new ColumnConfig<ThosProfilDTO, String>(properties.profil_alamat(), 250, listthosprofilText.labelFieldMap().get("label.field.profilAlamat"));
+		ColumnConfig<ThosProfilDTO, String> profil_no_telp = new ColumnConfig<ThosProfilDTO, String>(properties.profil_no_telp(), 100, listthosprofilText.labelFieldMap().get("label.field.profilNoTelp"));
+		ColumnConfig<ThosProfilDTO, String> profil_jabatan = new ColumnConfig<ThosProfilDTO, String>(properties.profil_jabatan(), 250, listthosprofilText.labelFieldMap().get("label.field.profilJabatan"));
+		ColumnConfig<ThosProfilDTO, String> profil_formasi = new ColumnConfig<ThosProfilDTO, String>(properties.profil_formasi(), 250, listthosprofilText.labelFieldMap().get("label.field.profilFormasi"));
+		ColumnConfig<ThosProfilDTO, String> profil_nama_kdarurat = new ColumnConfig<ThosProfilDTO, String>(properties.profil_nama_kdarurat(), 150, listthosprofilText.labelFieldMap().get("label.field.profilNamaKdarurat"));
+		ColumnConfig<ThosProfilDTO, String> profil_no_telp_kdarurat = new ColumnConfig<ThosProfilDTO, String>(properties.profil_no_telp_kdarurat(), 100, listthosprofilText.labelFieldMap().get("label.field.profilNoTelpKdarurat"));
+		ColumnConfig<ThosProfilDTO, String> profil_alamat_kdarurat = new ColumnConfig<ThosProfilDTO, String>(properties.profil_alamat_kdarurat(), 250, listthosprofilText.labelFieldMap().get("label.field.profilAlamatKdarurat"));
+		ColumnConfig<ThosProfilDTO, Byte> profil_lock = new ColumnConfig<ThosProfilDTO, Byte>(properties.profil_lock(), 100, listthosprofilText.labelFieldMap().get("label.field.profilLock"));
+		ColumnConfig<ThosProfilDTO, Byte> profil_deleteable = new ColumnConfig<ThosProfilDTO, Byte>(properties.profil_deleteable(), 100, listthosprofilText.labelFieldMap().get("label.field.profilDeleteable"));
+		ColumnConfig<ThosProfilDTO, Date> profil_activedate = new ColumnConfig<ThosProfilDTO, Date>(properties.profil_activedate(), 120, listthosprofilText.labelFieldMap().get("label.field.profilActivedate"));
+		ColumnConfig<ThosProfilDTO, Date> profil_expiredate = new ColumnConfig<ThosProfilDTO, Date>(properties.profil_expiredate(), 120, listthosprofilText.labelFieldMap().get("label.field.profilExpiredate"));
 
 		/* Step 4 : Buat View Urutan Column */
 		List<ColumnConfig<ThosProfilDTO, ?>> columns = new ArrayList<ColumnConfig<ThosProfilDTO, ?>>();
@@ -201,6 +201,7 @@ public class ListThosProfil implements IsWidget {
 		columns.add(profil_status_menikah);
 		columns.add(profil_alamat);
 		columns.add(profil_jabatan);
+		columns.add(profil_formasi);
 		columns.add(profil_nama_kdarurat);
 		columns.add(profil_alamat_kdarurat);
 		columns.add(profil_lock);
@@ -461,7 +462,7 @@ public class ListThosProfil implements IsWidget {
 				HashMap<String, String> fieldValues = new HashMap<String, String>();
 				for (int i=0; i<grid.getColumnModel().getColumnCount(); i++) {
 					//Indeks kolom yang HARUS di-SKIP!!
-					if (i>2 && i!=5 && i!=6 && i!=7 && i!=8 && i!=9 && i!=10 && i!=12) {
+					if (i>2 && i!=15 && i!=16 && i!=17 && i!=18) {
 						fieldValues.put(grid.getColumnModel().getColumn(i).getValueProvider().getPath(), grid.getColumnModel().getColumn(i).getHeader().asString());
 					}
 				}

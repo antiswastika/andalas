@@ -47,7 +47,8 @@ import com.wd.andalas.global.views.AnyComboModel;
 import com.wd.andalas.resources.Resources;
 
 public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
-
+	
+	/********** Inisiasi **********/
 	@SuppressWarnings("unused")
 	private ThosProfilServiceAsync service = (ThosProfilServiceAsync) GWT.create(ThosProfilService.class);
 	private PagingLoader<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> pagingLoader;

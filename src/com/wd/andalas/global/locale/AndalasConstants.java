@@ -6,6 +6,7 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface AndalasConstants extends Constants {
 	
+	/********** Main Methods **********/
 	Map<String, String> labelApplicationMap();
 	Map<String, String> labelMenuMap();
 	Map<String, String> labelButtonMap();

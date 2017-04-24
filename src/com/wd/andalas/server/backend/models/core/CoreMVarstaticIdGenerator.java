@@ -10,7 +10,8 @@ import org.hibernate.engine.SessionImplementor;
 import org.hibernate.id.IdentifierGenerator;
 
 public class CoreMVarstaticIdGenerator implements IdentifierGenerator {
-
+	
+	/********** Main Methods **********/
 	@Override
 	public Serializable generate(SessionImplementor session, Object object) throws HibernateException {
 		String prefix = "VAR";
