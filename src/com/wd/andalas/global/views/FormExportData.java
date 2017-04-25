@@ -99,7 +99,7 @@ public class FormExportData extends VBoxLayoutContainer implements IsWidget {
 		customHandlerTextList.add(listButtons.get(2));
 		customHandlerIconResourceList.add(imageResource.btnExport());
 		
-		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(null, null, doClose(), doInfo(), customHandlerList, customHandlerTextList, customHandlerIconResourceList);
+		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(null, null, doClose(), doInfo(), customHandlerList, customHandlerTextList, customHandlerIconResourceList, 0);
 		downToolbar.setBorders(true);
 		downToolbar.setPadding(new Padding(2));
 		return downToolbar;
