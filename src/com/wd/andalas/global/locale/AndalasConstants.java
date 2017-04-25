@@ -10,8 +10,9 @@ public interface AndalasConstants extends Constants {
 	Map<String, String> labelApplicationMap();
 	Map<String, String> labelMenuMap();
 	Map<String, String> labelButtonMap();
+	Map<String, String> labelTextMap();
 	Map<String, String> msgboxMap();
 	Map<String, String> licenseMap();
-	Map<String, String> errorUiMap();	
+	Map<String, String> errorUiMap();
 
 }

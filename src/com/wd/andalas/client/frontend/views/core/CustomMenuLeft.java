@@ -43,7 +43,7 @@ public class CustomMenuLeft {
 		String[] tabParamsA3 = { thosprofilText.labelUiMap().get("label.ui.05"), thosprofilText.labelUiMap().get("label.ui.06") };
 		doCreateImageList(vlc_A, "images/icon/32x32/alih_vendor.png", tabParamsA3, "");
 		ContentPanel cp_A = new ContentPanel();
-		cp_A.setHeading("Umum");
+		cp_A.setHeading(andalasText.labelMenuMap().get("label.menu01.title"));
 		cp_A.add(vlc_A);
 		
 		
@@ -59,7 +59,7 @@ public class CustomMenuLeft {
 		String[] tabParamsB999 = { listSubtitleB.get(3), listSubtitleBarB.get(3) };
 		doCreateImageList(vlc_B, "images/icon/32x32/logout.png", tabParamsB999, "");
 		ContentPanel cp_B = new ContentPanel();
-		cp_B.setHeading("Menu Saya");
+		cp_B.setHeading(andalasText.labelMenuMap().get("label.menu02.title"));
 		cp_B.add(vlc_B);
 		
 		

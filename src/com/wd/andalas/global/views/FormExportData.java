@@ -1,6 +1,7 @@
 package com.wd.andalas.global.views;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,7 +40,6 @@ public class FormExportData extends VBoxLayoutContainer implements IsWidget {
 	private Window parentWindow;
 
 	private ComboBox<AnyComboModel> cmbFormat;
-	final private String formTitle = "Ekspor Data";
 	
 	private Object classReferer = null;	
 	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
@@ -64,11 +64,11 @@ public class FormExportData extends VBoxLayoutContainer implements IsWidget {
 		vlcCol1.setBorders(debugShowBorders);
 
 		cmbFormat = doCreateComboboxFormat();
-		cmbFormat.setEmptyText("Pilih format...");
+		cmbFormat.setEmptyText("...");
 		cmbFormat.setEditable(false);
 		cmbFormat.setTriggerAction(TriggerAction.ALL);
 
-		vlcCol1.add(new FieldLabel(cmbFormat, "Format Data"), new VerticalLayoutData(1, -1));
+		vlcCol1.add(new FieldLabel(cmbFormat, andalasText.labelTextMap().get("label.text.export01")), new VerticalLayoutData(1, -1));
 
 		Iterator<Widget> arrayOfChilds1 = vlcCol1.iterator();
 		while (arrayOfChilds1.hasNext()) {
@@ -93,8 +93,10 @@ public class FormExportData extends VBoxLayoutContainer implements IsWidget {
 		List<ImageResource> customHandlerIconResourceList = new ArrayList<ImageResource>();
 		Resources imageResource = GWT.create(Resources.class);
 		
+		List<String> listButtons = new ArrayList<String>(Arrays.asList(andalasText.labelButtonMap().get("label.button.saveUpdateSubmit").split(andalasText.labelApplicationMap().get("label.application.delimiter"))));
+		
 		customHandlerList.add(doExport());
-		customHandlerTextList.add("Proses");
+		customHandlerTextList.add(listButtons.get(2));
 		customHandlerIconResourceList.add(imageResource.btnExport());
 		
 		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(null, null, doClose(), doInfo(), customHandlerList, customHandlerTextList, customHandlerIconResourceList);
@@ -134,7 +136,6 @@ public class FormExportData extends VBoxLayoutContainer implements IsWidget {
 
 		/* Step 5 : Buat combobox */
 		ComboBox<AnyComboModel> cmb = new ComboBox<AnyComboModel>(store, labelProvider);
-		cmb.setWidth(formTitle);
 
 		return cmb;
 	}
@@ -170,10 +171,6 @@ public class FormExportData extends VBoxLayoutContainer implements IsWidget {
 	}
 
 	/********** Setter Getter **********/
-	public String getFormTitle() {
-		return formTitle;
-	}
-
 	public Window getParentWindow() {
 		return parentWindow;
 	}

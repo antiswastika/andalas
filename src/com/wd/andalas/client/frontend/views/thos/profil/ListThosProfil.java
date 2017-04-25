@@ -391,7 +391,6 @@ public class ListThosProfil implements IsWidget {
 			public void onSelect(SelectEvent event) {
 				Window newWindow = new Window();
 				FormExportData formTpl = new FormExportData();
-				String judulForm = formTpl.getFormTitle();
 				formTpl.setClassReferer(thisObj);
 				formTpl.setParentWindow(newWindow);
 
@@ -401,7 +400,7 @@ public class ListThosProfil implements IsWidget {
 				newWindow.setClosable(true);
 				newWindow.setAllowTextSelection(false);
 				newWindow.setOnEsc(true);
-				newWindow.setHeading(judulForm);
+				newWindow.setHeading(andalasText.labelButtonMap().get("label.button.export"));
 				
 				newWindow.add(formTpl.asWidget());
 
