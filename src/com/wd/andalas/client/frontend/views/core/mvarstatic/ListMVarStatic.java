@@ -280,17 +280,20 @@ public class ListMVarStatic implements IsWidget {
 	}
 
 	private void doCreateForm(String idNya, CoreMVarstaticDTO entity) {
+		int saveOrUpdate;
 		Window newWindow = new Window();
 		FormMVarStatic formTpl = new FormMVarStatic();
 		String judulForm = formTpl.getFormTitle();
 		formTpl.setClassReferer(thisObj);
 		formTpl.setParentWindow(newWindow);
 
-		if (idNya != "" && entity != null) {
+		if (idNya != "") {
 			formTpl.setEntity(entity);
+			saveOrUpdate = 1;
 			judulForm = judulForm + " (" + andalasText.labelButtonMap().get("label.button.edit") + ")";
 		} else {
 			formTpl.setEntity(new CoreMVarstaticDTO());
+			saveOrUpdate = 0;
 			judulForm = judulForm + " (" + andalasText.labelButtonMap().get("label.button.insert") + ")";
 		}
 
@@ -303,6 +306,7 @@ public class ListMVarStatic implements IsWidget {
 		newWindow.setHeading(judulForm);
 		
 		newWindow.add(formTpl.asWidget());
+		formTpl.startCreatingDownToolbar(saveOrUpdate);
 
 		newWindow.show();
 	}

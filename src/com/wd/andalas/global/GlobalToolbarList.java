@@ -142,7 +142,7 @@ public class GlobalToolbarList extends ToolBar {
 		
 		if (saveHandler != null) {
 			List<String> listButtons = new ArrayList<String>(Arrays.asList(andalasText.labelButtonMap().get("label.button.saveUpdateSubmit").split(andalasText.labelApplicationMap().get("label.application.delimiter"))));
-			TextButton btn38 = new TextButton(listButtons.get(0));
+			TextButton btn38 = new TextButton(listButtons.get(saveUpdateProcess));
 			btn38.setIcon(imageResource.btnDiscBlue());
 			btn38.setToolTip(listButtons.get(0));
 			btn38.addSelectHandler(saveHandler);

@@ -76,7 +76,6 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	public Widget asWidget() {
 		vlcMain = new VerticalLayoutContainer();
 		vlcMain.add(doCreateForm(), new VerticalLayoutData(1, 1, new Margins(5)));
-		vlcMain.add(doCreateDownToolbar());
 		return vlcMain;
 	}
 
@@ -147,11 +146,8 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		return hlcMain;
 	}
 
-	private ToolBar doCreateDownToolbar() {
-		int saveType;
-		if (entity.getVarstat_id() != "") { saveType = 0; } else { saveType = 1; }
-		
-		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(doSave(), doReset(), doClose(), doInfo(), null, null, null, saveType);
+	private ToolBar doCreateDownToolbar(int saveOrUpdate) {
+		ToolBar downToolbar = new GlobalToolbarList().createDownToolBar(doSave(), doReset(), doClose(), doInfo(), null, null, null, saveOrUpdate);
 		downToolbar.setBorders(true);
 		downToolbar.setPadding(new Padding(2));
 		return downToolbar;
@@ -225,6 +221,10 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 		entity.setVarstat_icon(null);
 		entity.setVarstat_activedate(dateAktif.getValue());
 		entity.setVarstat_expiredate(dateKadaluarsa.getValue());
+	}
+	
+	public void startCreatingDownToolbar(int saveOrUpdate) {
+		vlcMain.add(doCreateDownToolbar(saveOrUpdate));
 	}
 
 	/********** Event Handler dan Listener **********/
