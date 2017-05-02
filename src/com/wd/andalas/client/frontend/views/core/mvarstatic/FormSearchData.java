@@ -266,6 +266,9 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 			pagingLoader.load();
 			
 			parentWindow.setVisible(false);
+			
+			
+			//upToolbar.getWidget(upToolbar.getWidgetCount()-1).setVisible(false);
 		} else {
 			MessageBox msgbox = new MessageBox(andalasText.errorUiMap().get("error.ui.search.title"), andalasText.errorUiMap().get("error.ui.search.text"));
 			msgbox.show();
