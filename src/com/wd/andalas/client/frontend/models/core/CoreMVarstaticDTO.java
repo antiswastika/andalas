@@ -24,6 +24,8 @@ public class CoreMVarstaticDTO implements Serializable {
 	private Byte varstat_deleteable;
 	private Date varstat_activedate;
 	private Date varstat_expiredate;
+	
+	private int varstat_idLen, created_byLen, updated_byLen, varstat_descLen, varstat_nameLen, varstat_groupLen, varstat_parentidLen, varstat_iconLen;
 
 	/********** Main Methods **********/
 	public CoreMVarstaticDTO() { }
@@ -31,6 +33,7 @@ public class CoreMVarstaticDTO implements Serializable {
 	public CoreMVarstaticDTO(CoreMVarstatic obj) {
 		super();
 		this.varstat_id = obj.getVarstatId();
+
 		this.created_at = obj.getCreatedAt();
 		this.created_by = obj.getCreatedBy();
 		this.updated_at = obj.getUpdatedAt();

@@ -79,6 +79,7 @@ public class GlobalToolbarList extends ToolBar {
 			cbk1.setWidth(15);
 			cbk1.setToolTip(andalasText.labelButtonMap().get("label.button.clearSearch.tooltip"));
 			cbk1.addChangeHandler(clearSearchHandler);
+			cbk1.setEnabled(false);
 			toolbarNya.add(cbk1);
 		}
 		if (searchHandler != null) {

@@ -64,7 +64,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 	private TextArea txtDeskripsi;
 	private IntegerField txtUrutan;
 	private DateField dateAktif, dateKadaluarsa;
-	final private String formTitle = "Form Variabel Statis XXXX";
+	final private String formTitle = "Variabel Statis";
 	
 	private Object classReferer = null;
 	
@@ -91,6 +91,7 @@ public class FormMVarStatic extends VBoxLayoutContainer implements IsWidget {
 
 		txtNilai = new TextField();
 		txtNilai.setAllowBlank(true);
+		txtNilai.getCell().getInputElement(txtNilai.getElement()).setMaxLength(2);
 		cmbGrup = doCreateComboboxGrup();
 		cmbGrup.setEmptyText(mvarstaticText.labelFieldExtraMap().get("label.fieldExtra.02"));
 		cmbGrup.setEditable(false);

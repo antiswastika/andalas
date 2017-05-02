@@ -290,11 +290,11 @@ public class ListMVarStatic implements IsWidget {
 		if (idNya != "") {
 			formTpl.setEntity(entity);
 			saveOrUpdate = 1;
-			judulForm = judulForm + " (" + andalasText.labelButtonMap().get("label.button.edit") + ")";
+			judulForm = andalasText.labelButtonMap().get("label.button.edit") + " - " + judulForm;
 		} else {
 			formTpl.setEntity(new CoreMVarstaticDTO());
 			saveOrUpdate = 0;
-			judulForm = judulForm + " (" + andalasText.labelButtonMap().get("label.button.insert") + ")";
+			judulForm = andalasText.labelButtonMap().get("label.button.insert") + " - " + judulForm;
 		}
 
 		newWindow.setModal(true);

@@ -18,6 +18,7 @@ public interface ThosProfilDTOProperties extends PropertyAccess<ThosProfilDTO> {
 	ValueProvider<ThosProfilDTO, String> updated_by();
 	ValueProvider<ThosProfilDTO, String> profil_desc();
 	ValueProvider<ThosProfilDTO, String> profil_nip();
+	ValueProvider<ThosProfilDTO, String> profil_foto();
 	ValueProvider<ThosProfilDTO, String> profil_nama();
 	ValueProvider<ThosProfilDTO, String> profil_nama_panggilan();
 	ValueProvider<ThosProfilDTO, Date> profil_tgl_lahir();

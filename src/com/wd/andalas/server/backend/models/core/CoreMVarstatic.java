@@ -51,8 +51,8 @@ public class CoreMVarstatic implements Serializable {
 	}
 
 	@Id
-	@GenericGenerator(name="custom_id_generator", strategy="com.wd.andalas.server.backend.models.core.CoreMVarstaticIdGenerator")
-	@GeneratedValue(generator="custom_id_generator")
+	@GenericGenerator(name="custom_id_generator_mvarstatic", strategy="com.wd.andalas.server.backend.models.core.CoreMVarstaticIdGenerator")
+	@GeneratedValue(generator="custom_id_generator_mvarstatic")
 	@Column(name="varstat_id", unique=true, nullable=false, length=23)
 	private String varstatId;
 

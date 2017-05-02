@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,6 +13,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.wd.andalas.client.frontend.models.thos.ThosKeluargaDTO;
 
@@ -60,7 +61,8 @@ public class ThosKeluarga implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GenericGenerator(name="custom_id_generator_thoskeluarga", strategy="com.wd.andalas.server.backend.models.thos.ThosKeluargaIdGenerator")
+	@GeneratedValue(generator="custom_id_generator_thoskeluarga")
 	@Column(name="keluarga_id", unique=true, nullable=false, length=23)
 	private String keluargaId;
 

@@ -7,13 +7,14 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.wd.andalas.client.frontend.models.thos.ThosProfilDTO;
 
@@ -41,6 +42,7 @@ public class ThosProfil implements Serializable {
 		this.updatedBy = obj.getUpdated_by();
 		this.profilDesc = obj.getProfil_desc();
 		this.profilNip = obj.getProfil_nip();
+		this.profilFoto = obj.getProfil_foto();
 		this.profilNama = obj.getProfil_nama();
 		this.profilNamaPanggilan = obj.getProfil_nama_panggilan();
 		this.profilTglLahir = obj.getProfil_tgl_lahir();
@@ -66,7 +68,8 @@ public class ThosProfil implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GenericGenerator(name="custom_id_generator_thosprofil", strategy="com.wd.andalas.server.backend.models.thos.ThosProfilIdGenerator")
+	@GeneratedValue(generator="custom_id_generator_thosprofil")
 	@Column(name="profil_id", unique=true, nullable=false, length=23)
 	private String profilId;
 
@@ -99,6 +102,9 @@ public class ThosProfil implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="profil_expiredate")
 	private Date profilExpiredate;
+
+	@Column(name="profil_foto", nullable=false, length=10)
+	private String profilFoto;
 
 	@Column(name="profil_formasi", nullable=false, length=255)
 	private String profilFormasi;
@@ -239,6 +245,13 @@ public class ThosProfil implements Serializable {
 	}
 	public void setProfilFormasi(String profilFormasi) {
 		this.profilFormasi = profilFormasi;
+	}
+
+	public String getProfilFoto() {
+		return this.profilFoto;
+	}
+	public void setProfilFoto(String profilFoto) {
+		this.profilFoto = profilFoto;
 	}
 
 	public String getProfilJabatan() {

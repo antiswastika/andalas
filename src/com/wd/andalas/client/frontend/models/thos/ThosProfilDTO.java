@@ -16,6 +16,7 @@ public class ThosProfilDTO implements Serializable {
 	private String updated_by;
 	private String profil_desc;
 	private String profil_nip;
+	private String profil_foto;
 	private String profil_nama;
 	private String profil_nama_panggilan;
 	private Date profil_tgl_lahir;
@@ -51,6 +52,7 @@ public class ThosProfilDTO implements Serializable {
 		this.updated_by = obj.getUpdatedBy();
 		this.profil_desc = obj.getProfilDesc();
 		this.profil_nip = obj.getProfilNip();
+		this.profil_foto = obj.getProfilFoto();
 		this.profil_nama = obj.getProfilNama();
 		this.profil_nama_panggilan = obj.getProfilNamaPanggilan();
 		this.profil_tgl_lahir = obj.getProfilTglLahir();
@@ -123,6 +125,13 @@ public class ThosProfilDTO implements Serializable {
 	}
 	public void setProfil_nip(String profil_nip) {
 		this.profil_nip = profil_nip;
+	}
+
+	public String getProfil_foto() {
+		return profil_foto;
+	}
+	public void setProfil_foto(String profil_foto) {
+		this.profil_foto = profil_foto;
 	}
 
 	public String getProfil_nama() {
