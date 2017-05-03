@@ -32,6 +32,7 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.form.CheckBox;
 import com.sencha.gxt.widget.core.client.form.ComboBox;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.TextField;
@@ -47,7 +48,7 @@ import com.wd.andalas.global.views.AnyComboModel;
 import com.wd.andalas.resources.Resources;
 
 public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
-	
+
 	/********** Inisiasi **********/
 	@SuppressWarnings("unused")
 	private ThosProfilServiceAsync service = (ThosProfilServiceAsync) GWT.create(ThosProfilService.class);
@@ -64,7 +65,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 	private int gridPageLimit = 0;
 	private HashMap<String, String> fieldValues = null;
 	private List<Map<String, String>> listMapParams;
-	
+
 	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
 
 	/********** Main Methods **********/
@@ -157,9 +158,9 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 		List<String> customHandlerTextList = new ArrayList<String>();
 		List<ImageResource> customHandlerIconResourceList = new ArrayList<ImageResource>();
 		Resources imageResource = GWT.create(Resources.class);
-		
+
 		List<String> listButtons = new ArrayList<String>(Arrays.asList(andalasText.labelButtonMap().get("label.button.saveUpdateSubmit").split(andalasText.labelApplicationMap().get("label.application.delimiter"))));
-		
+
 		customHandlerList.add(doSearch());
 		customHandlerTextList.add(listButtons.get(2));
 		customHandlerIconResourceList.add(imageResource.btnSearch());
@@ -234,16 +235,18 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 
 	private void doSearching(final List<Map<String, String>> listMapParams) {
 		if (listMapParams.size() > 0) {
-			
+			ToolBar upToolbar = ((ListThosProfil) classReferer).getUpToolbar();
+			CheckBox cbk1 = (CheckBox) upToolbar.getWidget(upToolbar.getWidgetCount()-3);
+
 			/* Step 1 : Set Map ke Referer */
 			((ListThosProfil) classReferer).setListSearchQuery(listMapParams);
-			
+
 			/* Step 2 : Tandai CheckBox Search */
 			((ListThosProfil) classReferer).getCbkSearch().setValue(true);
-	
+
 			/* Step 3 : Buat Store */
 			ListStore<ThosProfilDTO> store = gridReferer.getStore();
-	
+
 			/* Step 4 : Buat RpcProxy */
 			RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>() {
 				@Override
@@ -251,22 +254,24 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 					//service.getSearchPaged(listMapParams, loadConfig, callback);
 				}
 			};
-	
+
 			/* Step 5 : Buat pagingLoader */
 			pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>(dataProxy);
 			pagingLoader.setRemoteSort(true);
 			pagingLoader.setLimit(gridPageLimit);
 			pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, ThosProfilDTO, PagingLoadResult<ThosProfilDTO>>(store));
 			pagingLoader.setReuseLoadConfig(false);
-	
+
 			gridReferer.setLoadMask(true);
 			gridReferer.setLoader(pagingLoader);
-	
+
 			pagingToolbarReferer.bind(pagingLoader);
-	
+
 			pagingLoader.load();
-			
+
 			parentWindow.setVisible(false);
+
+			cbk1.setEnabled(true);
 		} else {
 			MessageBox msgbox = new MessageBox(andalasText.errorUiMap().get("error.ui.search.title"), andalasText.errorUiMap().get("error.ui.search.text"));
 			msgbox.show();

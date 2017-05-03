@@ -86,11 +86,11 @@ public class ListThosProfil implements IsWidget {
 	private PagingLoader<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> pagingLoader;
 	private PagingToolBar pagingToolbar;
 	private int pageLimit = 30;
-	
+
 	private ListThosProfil thisObj;
 	private List<Map<String, String>> listSearchQuery;
 	private CheckBox cbkSearch;
-	
+
 	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
 	final ThosProfilConstants listthosprofilText = GWT.create(ThosProfilConstants.class);
 
@@ -117,7 +117,7 @@ public class ListThosProfil implements IsWidget {
 			vlc.add(pagingToolbar);
 
 			list.add(vlc);
-			
+
 			thisObj = this;
 		}
 		return list;
@@ -277,7 +277,7 @@ public class ListThosProfil implements IsWidget {
 
 		/* Step 11 : Buat set Parameter Grid */
 		numbererColumn.initPlugin(grid);
-		
+
 		grid.setSelectionModel(selectionModel);
 		grid.setColumnReordering(true);
 		grid.setAllowTextSelection(true);
@@ -287,7 +287,7 @@ public class ListThosProfil implements IsWidget {
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
 		grid.setLoader(pagingLoader);
-		
+
 		grid.addRowClickHandler(onRowClick());
 		grid.addHeaderClickHandler(onHeaderClick());
 
@@ -304,7 +304,7 @@ public class ListThosProfil implements IsWidget {
 	private void doCreateForm(String idNya) {
 		//
 	}
-	
+
 	private void doGetSetBtnDeleteActivities() {
 		int selections = grid.getSelectionModel().getSelectedItems().size();
 		TextButton btnDelete = (TextButton) upToolbar.getWidget(1);
@@ -314,18 +314,18 @@ public class ListThosProfil implements IsWidget {
 			btnDelete.setEnabled(true);
 		}
 	}
-	
+
 	private RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> theDefaultRPC() {
 		RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>() {
 			@Override
 			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<ThosProfilDTO>> callback) {
 				service.getAllPaged(loadConfig, callback);
 			}
-		};		
+		};
 		return dataProxy;
 	}
-	
-	/********** Public Methods **********/	
+
+	/********** Public Methods **********/
 	public void doPublicRefresh() {
 		pagingToolbar.refresh();
 	}
@@ -339,16 +339,16 @@ public class ListThosProfil implements IsWidget {
 			}
 		};
 	}
-	
+
 	private HeaderClickHandler onHeaderClick() {
 		return new HeaderClickHandler() {
 			@Override
-			public void onHeaderClick(HeaderClickEvent event) {			
+			public void onHeaderClick(HeaderClickEvent event) {
 				doGetSetBtnDeleteActivities();
 			}
 		};
 	}
-	
+
 	private SelectHandler doInsert() {
 		return new SelectHandler() {
 			@Override
@@ -401,47 +401,51 @@ public class ListThosProfil implements IsWidget {
 				newWindow.setAllowTextSelection(false);
 				newWindow.setOnEsc(true);
 				newWindow.setHeading(andalasText.labelButtonMap().get("label.button.export"));
-				
+
 				newWindow.add(formTpl.asWidget());
 
 				newWindow.show();
 			}
 		};
 	}
-	
+
 	private ChangeHandler doClearSearch() {
 		return new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
 				ConfirmMessageBox messageBox = new ConfirmMessageBox("Pencarian", "Apakah Anda akan mematikan mode pencarian?");
 				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
-				messageBox.setIcon(MessageBox.ICONS.question());				
-			    messageBox.addDialogHideHandler(new DialogHideHandler() {
+				messageBox.setIcon(MessageBox.ICONS.question());
+				messageBox.addDialogHideHandler(new DialogHideHandler() {
 					@Override
 					public void onDialogHide(DialogHideEvent event) {
+						CheckBox cbk = (CheckBox) upToolbar.getWidget(upToolbar.getWidgetCount()-3);
 						switch (event.getHideButton()) {
-							case YES:
-								pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>(theDefaultRPC());
-								pagingLoader.setRemoteSort(true);
-								pagingLoader.setLimit(pageLimit);
-								pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, ThosProfilDTO, PagingLoadResult<ThosProfilDTO>>(grid.getStore()));
-								pagingLoader.setReuseLoadConfig(false);
-								
-								grid.setLoadMask(true);
-								grid.setLoader(pagingLoader);
-						
-								pagingToolbar.bind(pagingLoader);
-								
-								pagingLoader.load();
-								break;
-							case NO:
-								break;
-							default:
-								break;
+						case YES:
+							pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<ThosProfilDTO>>(theDefaultRPC());
+							pagingLoader.setRemoteSort(true);
+							pagingLoader.setLimit(pageLimit);
+							pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, ThosProfilDTO, PagingLoadResult<ThosProfilDTO>>(grid.getStore()));
+							pagingLoader.setReuseLoadConfig(false);
+
+							grid.setLoadMask(true);
+							grid.setLoader(pagingLoader);
+
+							pagingToolbar.bind(pagingLoader);
+
+							pagingLoader.load();
+							cbk.setEnabled(false);
+							break;
+						case NO:
+							cbk.setValue(true);
+							break;
+						default:
+							cbk.setValue(true);
+							break;
 						}
 					}
 				});
-			    messageBox.show();
+				messageBox.show();
 			}
 		};
 	}
@@ -449,7 +453,7 @@ public class ListThosProfil implements IsWidget {
 	private SelectHandler doSearch() {
 		return new SelectHandler() {
 			@Override
-			public void onSelect(SelectEvent event) {				
+			public void onSelect(SelectEvent event) {
 				Iterator<Widget> arrayOfChilds1 = upToolbar.iterator();
 				while (arrayOfChilds1.hasNext()) {
 					Widget cb = arrayOfChilds1.next();
@@ -457,7 +461,7 @@ public class ListThosProfil implements IsWidget {
 						cbkSearch = (CheckBox) cb;
 					}
 				}
-				
+
 				HashMap<String, String> fieldValues = new HashMap<String, String>();
 				for (int i=0; i<grid.getColumnModel().getColumnCount(); i++) {
 					//Indeks kolom yang HARUS di-SKIP!!
@@ -465,7 +469,7 @@ public class ListThosProfil implements IsWidget {
 						fieldValues.put(grid.getColumnModel().getColumn(i).getValueProvider().getPath(), grid.getColumnModel().getColumn(i).getHeader().asString());
 					}
 				}
-				
+
 				Window newWindow = new Window();
 				FormSearchData formTpl = new FormSearchData();
 				formTpl.setFieldValues(fieldValues);
@@ -474,7 +478,7 @@ public class ListThosProfil implements IsWidget {
 				formTpl.setPagingToolbarReferer(pagingToolbar);
 				formTpl.setGridPageLimit(pageLimit);
 				formTpl.setParentWindow(newWindow);
-				
+
 				newWindow.setModal(true);
 				newWindow.setSize("600", "300");
 				newWindow.setResizable(false);
@@ -482,7 +486,7 @@ public class ListThosProfil implements IsWidget {
 				newWindow.setAllowTextSelection(false);
 				newWindow.setOnEsc(true);
 				newWindow.setHeading(andalasText.labelButtonMap().get("label.button.search"));
-				
+
 				newWindow.add(formTpl.asWidget());
 
 				newWindow.show();
@@ -497,14 +501,14 @@ public class ListThosProfil implements IsWidget {
 				final Widget listWidget = list.getWidget(0);
 				list.setHeaderVisible(false);
 				upToolbar.getWidget(upToolbar.getWidgetCount()-1).setVisible(false);
-				
+
 				Window newWindow = new Window();
 				newWindow.setMaximizable(true);
 				newWindow.setHeading(list.getHeader().getHeading());
 				newWindow.setModal(true);
 				newWindow.setClosable(true);
 				newWindow.setOnEsc(true);
-				newWindow.add(listWidget);				
+				newWindow.add(listWidget);
 				newWindow.addHideHandler(new HideHandler() {
 					@Override
 					public void onHide(HideEvent event) {
@@ -512,7 +516,7 @@ public class ListThosProfil implements IsWidget {
 						upToolbar.getWidget(upToolbar.getWidgetCount()-1).setVisible(true);
 						list.add(listWidget);
 						list.forceLayout();
-					}					
+					}
 				});
 				newWindow.show();
 			}
@@ -534,7 +538,7 @@ public class ListThosProfil implements IsWidget {
 	public void setTabHeader(String tabHeader) {
 		this.tabHeader = tabHeader;
 	}
-	
+
 	public List<Map<String, String>> getListSearchQuery() {
 		return listSearchQuery;
 	}
@@ -547,6 +551,10 @@ public class ListThosProfil implements IsWidget {
 	}
 	public void setCbkSearch(CheckBox cbkSearch) {
 		this.cbkSearch = cbkSearch;
+	}
+
+	public ToolBar getUpToolbar() {
+		return upToolbar;
 	}
 
 }
