@@ -86,14 +86,14 @@ public class ListMVarStatic implements IsWidget {
 	private PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> pagingLoader;
 	private PagingToolBar pagingToolbar;
 	private int pageLimit = 30;
-	
+
 	private ListMVarStatic thisObj;
 	private List<Map<String, String>> listSearchQuery;
 	private CheckBox cbkSearch;
-	
+
 	final AndalasConstants andalasText = GWT.create(AndalasConstants.class);
 	final MVarStaticConstants mvarstaticText = GWT.create(MVarStaticConstants.class);
-	
+
 	/********** Main Methods **********/
 	@Override
 	public Widget asWidget() {
@@ -115,9 +115,9 @@ public class ListMVarStatic implements IsWidget {
 			vlc.add(upToolbar);
 			vlc.add(grid, new VerticalLayoutData(1, 1));
 			vlc.add(pagingToolbar);
-			
+
 			list.add(vlc);
-			
+
 			thisObj = this;
 		}
 		return list;
@@ -133,7 +133,7 @@ public class ListMVarStatic implements IsWidget {
 		ToolBar upToolbar = new GlobalToolbarList().createUpToolBar(doInsert(), doDelete(), doRefresh(), doPrint(), doExport(), doClearSearch(), doSearch(), doWindow());
 		return upToolbar;
 	}
-	
+
 	@SuppressWarnings("unused")
 	private Grid<CoreMVarstaticDTO> doCreateGrid() {
 		/* Step 1 : Buat Identity Model */
@@ -255,7 +255,7 @@ public class ListMVarStatic implements IsWidget {
 
 		/* Step 11 : Buat set Parameter Grid */
 		numbererColumn.initPlugin(grid);
-		
+
 		grid.setSelectionModel(selectionModel);
 		grid.setColumnReordering(true);
 		grid.setAllowTextSelection(true);
@@ -265,10 +265,10 @@ public class ListMVarStatic implements IsWidget {
 		grid.getView().setStripeRows(true);
 		grid.getView().setColumnLines(true);
 		grid.setLoader(pagingLoader);
-		
+
 		grid.addRowClickHandler(onRowClick());
 		grid.addHeaderClickHandler(onHeaderClick());
-		
+
 		return grid;
 	}
 
@@ -304,13 +304,13 @@ public class ListMVarStatic implements IsWidget {
 		newWindow.setAllowTextSelection(false);
 		newWindow.setOnEsc(false);
 		newWindow.setHeading(judulForm);
-		
+
 		newWindow.add(formTpl.asWidget());
 		formTpl.startCreatingDownToolbar(saveOrUpdate);
 
 		newWindow.show();
 	}
-	
+
 	private void doStartDelete() {
 		final List<CoreMVarstaticDTO> itemsToDelete = grid.getSelectionModel().getSelectedItems();
 		service.deleteMany(itemsToDelete, new AsyncCallback<Boolean>() {
@@ -327,11 +327,11 @@ public class ListMVarStatic implements IsWidget {
 			}
 		});
 	}
-	
+
 	private void doRefreshGrid() {
 		pagingLoader.load(0, pageLimit);
 	}
-	
+
 	private void doGetSetBtnDeleteActivities() {
 		int selections = grid.getSelectionModel().getSelectedItems().size();
 		TextButton btnDelete = (TextButton) upToolbar.getWidget(1);
@@ -341,18 +341,18 @@ public class ListMVarStatic implements IsWidget {
 			btnDelete.setEnabled(true);
 		}
 	}
-	
+
 	private RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> theDefaultRPC() {
 		RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>> dataProxy = new RpcProxy<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>() {
 			@Override
 			public void load(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<CoreMVarstaticDTO>> callback) {
 				service.getAllPaged(loadConfig, callback);
 			}
-		};		
+		};
 		return dataProxy;
 	}
-	
-	/********** Public Methods **********/	
+
+	/********** Public Methods **********/
 	public void doPublicRefresh() {
 		pagingToolbar.refresh();
 	}
@@ -366,16 +366,16 @@ public class ListMVarStatic implements IsWidget {
 			}
 		};
 	}
-	
+
 	private HeaderClickHandler onHeaderClick() {
 		return new HeaderClickHandler() {
 			@Override
-			public void onHeaderClick(HeaderClickEvent event) {			
+			public void onHeaderClick(HeaderClickEvent event) {
 				doGetSetBtnDeleteActivities();
 			}
 		};
 	}
-	
+
 	private SelectHandler doInsert() {
 		return new SelectHandler() {
 			@Override
@@ -388,29 +388,29 @@ public class ListMVarStatic implements IsWidget {
 	private SelectHandler doDelete() {
 		return new SelectHandler() {
 			@Override
-			public void onSelect(SelectEvent event) {	
+			public void onSelect(SelectEvent event) {
 				ConfirmMessageBox messageBox = new ConfirmMessageBox("Konfirmasi Hapus", "Apakah Anda sudah yakin akan menghapus data yang terpilih?");
 				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
 				messageBox.setIcon(MessageBox.ICONS.question());
-			    messageBox.addDialogHideHandler(new DialogHideHandler() {
+				messageBox.addDialogHideHandler(new DialogHideHandler() {
 					@Override
 					public void onDialogHide(DialogHideEvent event) {
 						//Contoh
 						//String message = Format.substitute("The '{0}' button was pressed", event.getHideButton());
-					    //Info.display("MessageBox", message);
-						
+						//Info.display("MessageBox", message);
+
 						switch (event.getHideButton()) {
-							case YES:
-								doStartDelete();
-								break;
-							case NO:
-								break;
-							default:
-								break;
+						case YES:
+							doStartDelete();
+							break;
+						case NO:
+							break;
+						default:
+							break;
 						}
 					}
 				});
-			    messageBox.show();			
+				messageBox.show();
 			}
 		};
 	}
@@ -449,47 +449,51 @@ public class ListMVarStatic implements IsWidget {
 				newWindow.setAllowTextSelection(false);
 				newWindow.setOnEsc(true);
 				newWindow.setHeading(andalasText.labelButtonMap().get("label.button.export"));
-				
+
 				newWindow.add(formTpl.asWidget());
 
 				newWindow.show();
 			}
 		};
 	}
-	
+
 	private ChangeHandler doClearSearch() {
 		return new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
 				ConfirmMessageBox messageBox = new ConfirmMessageBox("Pencarian", "Apakah Anda akan mematikan mode pencarian?");
 				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
-				messageBox.setIcon(MessageBox.ICONS.question());				
-			    messageBox.addDialogHideHandler(new DialogHideHandler() {
+				messageBox.setIcon(MessageBox.ICONS.question());
+				messageBox.addDialogHideHandler(new DialogHideHandler() {
 					@Override
 					public void onDialogHide(DialogHideEvent event) {
+						CheckBox cbk = (CheckBox) upToolbar.getWidget(upToolbar.getWidgetCount()-3);
 						switch (event.getHideButton()) {
-							case YES:
-								pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(theDefaultRPC());
-								pagingLoader.setRemoteSort(true);
-								pagingLoader.setLimit(pageLimit);
-								pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(grid.getStore()));
-								pagingLoader.setReuseLoadConfig(false);
-								
-								grid.setLoadMask(true);
-								grid.setLoader(pagingLoader);
-						
-								pagingToolbar.bind(pagingLoader);
-								
-								pagingLoader.load();
-								break;
-							case NO:
-								break;
-							default:
-								break;
+						case YES:
+							pagingLoader = new PagingLoader<PagingLoadConfig, PagingLoadResult<CoreMVarstaticDTO>>(theDefaultRPC());
+							pagingLoader.setRemoteSort(true);
+							pagingLoader.setLimit(pageLimit);
+							pagingLoader.addLoadHandler(new LoadResultListStoreBinding<PagingLoadConfig, CoreMVarstaticDTO, PagingLoadResult<CoreMVarstaticDTO>>(grid.getStore()));
+							pagingLoader.setReuseLoadConfig(false);
+
+							grid.setLoadMask(true);
+							grid.setLoader(pagingLoader);
+
+							pagingToolbar.bind(pagingLoader);
+
+							pagingLoader.load();
+							cbk.setEnabled(false);
+							break;
+						case NO:
+							cbk.setValue(true);
+							break;
+						default:
+							cbk.setValue(true);
+							break;
 						}
 					}
 				});
-			    messageBox.show();
+				messageBox.show();
 			}
 		};
 	}
@@ -497,7 +501,7 @@ public class ListMVarStatic implements IsWidget {
 	private SelectHandler doSearch() {
 		return new SelectHandler() {
 			@Override
-			public void onSelect(SelectEvent event) {				
+			public void onSelect(SelectEvent event) {
 				Iterator<Widget> arrayOfChilds1 = upToolbar.iterator();
 				while (arrayOfChilds1.hasNext()) {
 					Widget cb = arrayOfChilds1.next();
@@ -505,7 +509,7 @@ public class ListMVarStatic implements IsWidget {
 						cbkSearch = (CheckBox) cb;
 					}
 				}
-				
+
 				HashMap<String, String> fieldValues = new HashMap<String, String>();
 				for (int i=0; i<grid.getColumnModel().getColumnCount(); i++) {
 					//Indeks kolom yang HARUS di-SKIP!!
@@ -513,7 +517,7 @@ public class ListMVarStatic implements IsWidget {
 						fieldValues.put(grid.getColumnModel().getColumn(i).getValueProvider().getPath(), grid.getColumnModel().getColumn(i).getHeader().asString());
 					}
 				}
-				
+
 				Window newWindow = new Window();
 				FormSearchData formTpl = new FormSearchData();
 				formTpl.setFieldValues(fieldValues);
@@ -522,14 +526,14 @@ public class ListMVarStatic implements IsWidget {
 				formTpl.setPagingToolbarReferer(pagingToolbar);
 				formTpl.setGridPageLimit(pageLimit);
 				formTpl.setParentWindow(newWindow);
-				
+
 				newWindow.setModal(true);
 				newWindow.setSize("600", "300");
 				newWindow.setResizable(false);
 				newWindow.setClosable(true);
 				newWindow.setAllowTextSelection(false);
 				newWindow.setOnEsc(true);
-				newWindow.setHeading(andalasText.labelButtonMap().get("label.button.search"));		
+				newWindow.setHeading(andalasText.labelButtonMap().get("label.button.search"));
 				newWindow.add(formTpl.asWidget());
 				newWindow.show();
 			}
@@ -543,14 +547,14 @@ public class ListMVarStatic implements IsWidget {
 				final Widget listWidget = list.getWidget(0);
 				list.setHeaderVisible(false);
 				upToolbar.getWidget(upToolbar.getWidgetCount()-1).setVisible(false);
-				
+
 				Window newWindow = new Window();
 				newWindow.setMaximizable(true);
 				newWindow.setHeading(list.getHeader().getHeading());
 				newWindow.setModal(true);
 				newWindow.setClosable(true);
 				newWindow.setOnEsc(true);
-				newWindow.add(listWidget);				
+				newWindow.add(listWidget);
 				newWindow.addHideHandler(new HideHandler() {
 					@Override
 					public void onHide(HideEvent event) {
@@ -558,13 +562,13 @@ public class ListMVarStatic implements IsWidget {
 						upToolbar.getWidget(upToolbar.getWidgetCount()-1).setVisible(true);
 						list.add(listWidget);
 						list.forceLayout();
-					}					
+					}
 				});
 				newWindow.show();
 			}
 		};
 	}
-	
+
 	/********** Setter Getter **********/
 	public ContentPanel getList() {
 		return list;
@@ -593,6 +597,10 @@ public class ListMVarStatic implements IsWidget {
 	}
 	public void setCbkSearch(CheckBox cbkSearch) {
 		this.cbkSearch = cbkSearch;
+	}
+
+	public ToolBar getUpToolbar() {
+		return upToolbar;
 	}
 
 }
