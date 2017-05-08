@@ -3,6 +3,8 @@ package com.wd.andalas.client.frontend.models.core;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+
 import com.wd.andalas.server.backend.models.core.CoreMVarstatic;
 
 public class CoreMVarstaticDTO implements Serializable {
@@ -33,7 +35,6 @@ public class CoreMVarstaticDTO implements Serializable {
 	public CoreMVarstaticDTO(CoreMVarstatic obj) {
 		super();
 		this.varstat_id = obj.getVarstatId();
-
 		this.created_at = obj.getCreatedAt();
 		this.created_by = obj.getCreatedBy();
 		this.updated_at = obj.getUpdatedAt();
@@ -48,6 +49,21 @@ public class CoreMVarstaticDTO implements Serializable {
 		this.varstat_name = obj.getVarstatName();
 		this.varstat_parentid = obj.getVarstatParentid();
 		this.varstat_seq = obj.getVarstatSeq();
+		
+		/*try {
+			this.varstat_idLen = obj.getClass().getDeclaredField("varstatId").getAnnotation(Column.class).length();
+			this.created_byLen = obj.getClass().getDeclaredField("createdBy").getAnnotation(Column.class).length();
+			this.updated_byLen = obj.getClass().getDeclaredField("updatedBy").getAnnotation(Column.class).length();
+			this.varstat_descLen = obj.getClass().getDeclaredField("varstatDesc").getAnnotation(Column.class).length();
+			this.varstat_nameLen = obj.getClass().getDeclaredField("varstatName").getAnnotation(Column.class).length();
+			this.varstat_groupLen = obj.getClass().getDeclaredField("varstatGroup").getAnnotation(Column.class).length();
+			this.varstat_parentidLen = obj.getClass().getDeclaredField("varstatParentid").getAnnotation(Column.class).length();
+			this.varstat_iconLen = obj.getClass().getDeclaredField("varstatIcon").getAnnotation(Column.class).length();
+		} catch (NoSuchFieldException e) {	
+			//
+		} catch (SecurityException e) {
+			//
+		}*/
 	}
 
 	/********** Setter Getter **********/
@@ -154,6 +170,31 @@ public class CoreMVarstaticDTO implements Serializable {
 	}
 	public void setVarstat_expiredate(Date varstat_expiredate) {
 		this.varstat_expiredate = varstat_expiredate;
+	}
+
+	public int getVarstat_idLen() {
+		return varstat_idLen;
+	}
+	public int getCreated_byLen() {
+		return created_byLen;
+	}
+	public int getUpdated_byLen() {
+		return updated_byLen;
+	}
+	public int getVarstat_descLen() {
+		return varstat_descLen;
+	}
+	public int getVarstat_nameLen() {
+		return varstat_nameLen;
+	}
+	public int getVarstat_groupLen() {
+		return varstat_groupLen;
+	}
+	public int getVarstat_parentidLen() {
+		return varstat_parentidLen;
+	}
+	public int getVarstat_iconLen() {
+		return varstat_iconLen;
 	}
 
 }
