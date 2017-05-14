@@ -3,14 +3,13 @@ package com.wd.andalas.client.frontend.models.core;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-
 import com.wd.andalas.server.backend.models.core.CoreMVarstatic;
 
 public class CoreMVarstaticDTO implements Serializable {
 
 	/********** Inisiasi **********/
 	private static final long serialVersionUID = 1L;
+	
 	private String varstat_id;
 	private Date created_at;
 	private String created_by;

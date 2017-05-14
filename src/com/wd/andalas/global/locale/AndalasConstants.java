@@ -14,5 +14,6 @@ public interface AndalasConstants extends Constants {
 	Map<String, String> msgboxMap();
 	Map<String, String> licenseMap();
 	Map<String, String> errorUiMap();
+	Map<String, String> confirmUiMap();
 
 }

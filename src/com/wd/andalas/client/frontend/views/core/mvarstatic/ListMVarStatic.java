@@ -461,7 +461,7 @@ public class ListMVarStatic implements IsWidget {
 		return new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
-				ConfirmMessageBox messageBox = new ConfirmMessageBox("Pencarian", "Apakah Anda akan mematikan mode pencarian?");
+				ConfirmMessageBox messageBox = new ConfirmMessageBox(andalasText.confirmUiMap().get("confirm.ui.search.title01"), andalasText.confirmUiMap().get("confirm.ui.search.text01"));
 				messageBox.setPredefinedButtons(PredefinedButton.YES, PredefinedButton.NO);
 				messageBox.setIcon(MessageBox.ICONS.question());
 				messageBox.addDialogHideHandler(new DialogHideHandler() {

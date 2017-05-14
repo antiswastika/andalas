@@ -16,6 +16,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.wd.andalas.client.frontend.models.core.CoreMUserDTO;
+
 /**
  * The persistent class for the core_m_varstatic database table.
  *
@@ -32,23 +34,26 @@ public class CoreMUser implements Serializable {
 	public CoreMUser() { }
 
 	// Just copy the fields from CoreMVarstaticDTO (client side) to this server side class
-	/*public CoreMUser(CoreMUserDTO obj) {
-		this.varstatId = obj.getVarstat_id();
+	public CoreMUser(CoreMUserDTO obj) {
+		this.userId = obj.getUser_id();
 		this.createdAt = obj.getCreated_at();
 		this.createdBy = obj.getCreated_by();
 		this.updatedAt = obj.getUpdated_at();
 		this.updatedBy = obj.getUpdated_by();
-		this.varstatActivedate = obj.getVarstat_activedate();
-		this.varstatDeleteable = obj.getVarstat_deleteable();
-		this.varstatDesc = obj.getVarstat_desc();
-		this.varstatExpiredate = obj.getVarstat_expiredate();
-		this.varstatGroup = obj.getVarstat_group();
-		this.varstatIcon = obj.getVarstat_icon();
-		this.varstatLock = obj.getVarstat_lock();
-		this.varstatName = obj.getVarstat_name();
-		this.varstatParentid = obj.getVarstat_parentid();
-		this.varstatSeq = obj.getVarstat_seq();
-	}*/
+		this.userActivedate = obj.getUser_activedate();
+		this.userAvatar = obj.getUser_avatar();
+		this.userDeleteable = obj.getUser_deleteable();
+		this.userDesc = obj.getUser_desc();
+		this.userEmail = obj.getUser_email();
+		this.userExpiredate = obj.getUser_expiredate();
+		this.userFAnswer = obj.getUser_f_answer();
+		this.userFQuestion = obj.getUser_f_question();
+		this.userLock = obj.getUser_lock();
+		this.userName = obj.getUser_name();
+		this.userPassword = obj.getUser_password();
+		this.varstatId = obj.getVarstat_id();
+		this.coreMUserRoles = obj.getCoreMUserRoles();
+	}
 
 	@Id
 	@GenericGenerator(name="custom_id_generator_muser", strategy="com.wd.andalas.server.backend.models.core.CoreMUserIdGenerator")

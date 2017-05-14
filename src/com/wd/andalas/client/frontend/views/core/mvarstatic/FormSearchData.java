@@ -272,7 +272,7 @@ public class FormSearchData extends VBoxLayoutContainer implements IsWidget {
 
 			cbk1.setEnabled(true);
 		} else {
-			MessageBox msgbox = new MessageBox(andalasText.errorUiMap().get("error.ui.search.title"), andalasText.errorUiMap().get("error.ui.search.text"));
+			MessageBox msgbox = new MessageBox(andalasText.errorUiMap().get("error.ui.search.title01"), andalasText.errorUiMap().get("error.ui.search.text01"));
 			msgbox.show();
 		}
 	}
