@@ -16,6 +16,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.wd.andalas.client.frontend.models.core.CoreMUserRoleDTO;
+
 /**
  * The persistent class for the core_m_varstatic database table.
  *
@@ -32,23 +34,15 @@ public class CoreMUserRole implements Serializable {
 	public CoreMUserRole() { }
 
 	// Just copy the fields from CoreMVarstaticDTO (client side) to this server side class
-	/*public CoreMUser(CoreMUserDTO obj) {
-		this.varstatId = obj.getVarstat_id();
+	public CoreMUserRole(CoreMUserRoleDTO obj) {		
+		this.uroleId = obj.getUrole_id();
 		this.createdAt = obj.getCreated_at();
 		this.createdBy = obj.getCreated_by();
 		this.updatedAt = obj.getUpdated_at();
 		this.updatedBy = obj.getUpdated_by();
-		this.varstatActivedate = obj.getVarstat_activedate();
-		this.varstatDeleteable = obj.getVarstat_deleteable();
-		this.varstatDesc = obj.getVarstat_desc();
-		this.varstatExpiredate = obj.getVarstat_expiredate();
-		this.varstatGroup = obj.getVarstat_group();
-		this.varstatIcon = obj.getVarstat_icon();
-		this.varstatLock = obj.getVarstat_lock();
-		this.varstatName = obj.getVarstat_name();
-		this.varstatParentid = obj.getVarstat_parentid();
-		this.varstatSeq = obj.getVarstat_seq();
-	}*/
+		this.varstatId = obj.getVarstat_id();
+		this.coreMUser = obj.getCoreMUser();
+	}
 
 	@Id
 	@GenericGenerator(name="custom_id_generator_muserrole", strategy="com.wd.andalas.server.backend.models.core.CoreMUserRoleIdGenerator")
@@ -81,7 +75,6 @@ public class CoreMUserRole implements Serializable {
 	public String getUroleId() {
 		return this.uroleId;
 	}
-
 	public void setUroleId(String uroleId) {
 		this.uroleId = uroleId;
 	}
@@ -89,7 +82,6 @@ public class CoreMUserRole implements Serializable {
 	public Date getCreatedAt() {
 		return this.createdAt;
 	}
-
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
@@ -97,7 +89,6 @@ public class CoreMUserRole implements Serializable {
 	public String getCreatedBy() {
 		return this.createdBy;
 	}
-
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
@@ -105,7 +96,6 @@ public class CoreMUserRole implements Serializable {
 	public Date getUpdatedAt() {
 		return this.updatedAt;
 	}
-
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
@@ -113,7 +103,6 @@ public class CoreMUserRole implements Serializable {
 	public String getUpdatedBy() {
 		return this.updatedBy;
 	}
-
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
@@ -121,7 +110,6 @@ public class CoreMUserRole implements Serializable {
 	public String getVarstatId() {
 		return this.varstatId;
 	}
-
 	public void setVarstatId(String varstatId) {
 		this.varstatId = varstatId;
 	}
@@ -129,7 +117,6 @@ public class CoreMUserRole implements Serializable {
 	public CoreMUser getCoreMUser() {
 		return this.coreMUser;
 	}
-
 	public void setCoreMUser(CoreMUser coreMUser) {
 		this.coreMUser = coreMUser;
 	}

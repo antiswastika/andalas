@@ -120,7 +120,6 @@ public class CoreMUser implements Serializable {
 	public String getUserId() {
 		return this.userId;
 	}
-
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
@@ -128,7 +127,6 @@ public class CoreMUser implements Serializable {
 	public Date getCreatedAt() {
 		return this.createdAt;
 	}
-
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
@@ -136,7 +134,6 @@ public class CoreMUser implements Serializable {
 	public String getCreatedBy() {
 		return this.createdBy;
 	}
-
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
@@ -144,7 +141,6 @@ public class CoreMUser implements Serializable {
 	public Date getUpdatedAt() {
 		return this.updatedAt;
 	}
-
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
@@ -152,7 +148,6 @@ public class CoreMUser implements Serializable {
 	public String getUpdatedBy() {
 		return this.updatedBy;
 	}
-
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
@@ -160,7 +155,6 @@ public class CoreMUser implements Serializable {
 	public Date getUserActivedate() {
 		return this.userActivedate;
 	}
-
 	public void setUserActivedate(Date userActivedate) {
 		this.userActivedate = userActivedate;
 	}
@@ -168,7 +162,6 @@ public class CoreMUser implements Serializable {
 	public String getUserAvatar() {
 		return this.userAvatar;
 	}
-
 	public void setUserAvatar(String userAvatar) {
 		this.userAvatar = userAvatar;
 	}
@@ -176,7 +169,6 @@ public class CoreMUser implements Serializable {
 	public byte getUserDeleteable() {
 		return this.userDeleteable;
 	}
-
 	public void setUserDeleteable(byte userDeleteable) {
 		this.userDeleteable = userDeleteable;
 	}
@@ -184,7 +176,6 @@ public class CoreMUser implements Serializable {
 	public String getUserDesc() {
 		return this.userDesc;
 	}
-
 	public void setUserDesc(String userDesc) {
 		this.userDesc = userDesc;
 	}
@@ -192,7 +183,6 @@ public class CoreMUser implements Serializable {
 	public String getUserEmail() {
 		return this.userEmail;
 	}
-
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
@@ -200,7 +190,6 @@ public class CoreMUser implements Serializable {
 	public Date getUserExpiredate() {
 		return this.userExpiredate;
 	}
-
 	public void setUserExpiredate(Date userExpiredate) {
 		this.userExpiredate = userExpiredate;
 	}
@@ -208,7 +197,6 @@ public class CoreMUser implements Serializable {
 	public String getUserFAnswer() {
 		return this.userFAnswer;
 	}
-
 	public void setUserFAnswer(String userFAnswer) {
 		this.userFAnswer = userFAnswer;
 	}
@@ -216,7 +204,6 @@ public class CoreMUser implements Serializable {
 	public String getUserFQuestion() {
 		return this.userFQuestion;
 	}
-
 	public void setUserFQuestion(String userFQuestion) {
 		this.userFQuestion = userFQuestion;
 	}
@@ -224,7 +211,6 @@ public class CoreMUser implements Serializable {
 	public byte getUserLock() {
 		return this.userLock;
 	}
-
 	public void setUserLock(byte userLock) {
 		this.userLock = userLock;
 	}
@@ -232,7 +218,6 @@ public class CoreMUser implements Serializable {
 	public String getUserName() {
 		return this.userName;
 	}
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
@@ -240,7 +225,6 @@ public class CoreMUser implements Serializable {
 	public String getUserPassword() {
 		return this.userPassword;
 	}
-
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
@@ -248,7 +232,6 @@ public class CoreMUser implements Serializable {
 	public String getVarstatId() {
 		return this.varstatId;
 	}
-
 	public void setVarstatId(String varstatId) {
 		this.varstatId = varstatId;
 	}
@@ -256,7 +239,6 @@ public class CoreMUser implements Serializable {
 	public List<CoreMUserRole> getCoreMUserRoles() {
 		return this.coreMUserRoles;
 	}
-
 	public void setCoreMUserRoles(List<CoreMUserRole> coreMUserRoles) {
 		this.coreMUserRoles = coreMUserRoles;
 	}
@@ -267,7 +249,6 @@ public class CoreMUser implements Serializable {
 
 		return coreMUserRole;
 	}
-
 	public CoreMUserRole removeCoreMUserRole(CoreMUserRole coreMUserRole) {
 		getCoreMUserRoles().remove(coreMUserRole);
 		coreMUserRole.setCoreMUser(null);
